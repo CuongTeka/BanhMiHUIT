@@ -1,5 +1,5 @@
-# BanhMiHUIT
-Website selling Banh Mi for study purpose
+# Website Bán Bánh Mì HUIT
+Website for study purpose
 
 ## HƯỚNG DẪN
 
@@ -13,9 +13,9 @@ Branches hiện tại là "main" dùng để show readme.md
 
 Chuột phải tại folder có folder .git
 
-chọn **Git Bash Here** 
+chọn "**Git Bash Here**" 
 
-gõ **rm -rf .git** rồi enter
+gõ "**rm -rf .git**" rồi enter
 
 ***
 
@@ -35,7 +35,10 @@ gõ **rm -rf .git** rồi enter
 
 ### git push -u origin master
 > Dùng để đưa project lên github ở branches "master"
+
 > **Note**: chạy 1 lần, những lần kế tiếp chỉ cần **git push** là xong
 
 ### git pull
 > Dùng để lấy project trên github về (update source code)
+
+## Link hướng dẫn sử dụng Git: [GIT căn bản](https://youtube.com/playlist?list=PLodO7Gi1F7R0t9SyEZF5mwfKevCULLjgG&si=CqL1stH63P_rNytX)
