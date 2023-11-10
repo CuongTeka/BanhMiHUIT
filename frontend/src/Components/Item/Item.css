@@ -1,0 +1,20 @@
+.item{
+    width: 350px;
+}
+.item img{
+    width: 150px;
+    height: 150px;
+}
+.item p{
+    margin: 6px, 0px;
+}
+.item-new-price{
+    color: #c52020;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 6px 0px;
+}
+.item :hover{
+    transform: scale(1.05);
+    transition: 0.6s;
+}
