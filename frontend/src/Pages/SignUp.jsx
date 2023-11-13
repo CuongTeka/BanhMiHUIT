@@ -6,14 +6,15 @@ const SignUp = () => {
     <div className="loginsignup">
       <div className="loginsignup-container">
         <h1>Đăng Ký</h1>
-        <div className="loginsignup-fields">
-          <input type="email" placeholder="Email"></input>
-          <input type="password" placeholder="Mật khẩu"></input>
-          <input type="name" placeholder="Họ Tên"></input>
-          <input type="mssv" placeholder="Mã số sinh viên"></input>
-          <input type="phone" placeholder="Số điện thoại"></input>
-        </div>
-        <button>Tiếp Tục</button>
+        <form className="loginsignup-fields" action="../../validate_register" method="post">
+          <input type="email" placeholder="Email" name="email"></input>
+          <input type="password" placeholder="Mật khẩu" name="pass"></input>
+          <input type="name" placeholder="Họ Tên" name="name"></input>
+          <input type="mssv" placeholder="Mã số sinh viên" name="mssv"></input>
+          <input type="phone" placeholder="Số điện thoại" name="phone"></input>
+          <button type="submit">Tiếp Tục</button>
+        </form>
+        
         <p className="loginsignup-login">
           Đã có tài khoản ?{" "}
           <Link to="/signin">
