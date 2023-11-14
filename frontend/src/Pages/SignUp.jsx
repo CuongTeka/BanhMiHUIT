@@ -6,7 +6,7 @@ const SignUp = () => {
     <div className="loginsignup">
       <div className="loginsignup-container">
         <h1>Đăng Ký</h1>
-        <form className="loginsignup-fields" action="../../validate_register" method="post">
+        <form className="loginsignup-fields" action="/register" method="post">
           <input type="email" placeholder="Email" name="email"></input>
           <input type="password" placeholder="Mật khẩu" name="pass"></input>
           <input type="name" placeholder="Họ Tên" name="name"></input>

@@ -7,7 +7,7 @@ const SignIn = () => {
     <div className="signin">
       <div className="signin-container">
         <h1>Đăng Nhập</h1>
-        <form className="signin-fields" action="../../validate_login" method="post">
+        <form className="signin-fields" action="/signin" method="post">
           <input type="email" placeholder="Email" name="email"></input>
           <input type="password" placeholder="Mật khẩu" name="pass"></input>
           <button type="submit">Tiếp Tục</button>
