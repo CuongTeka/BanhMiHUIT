@@ -1,10 +1,8 @@
-import React from 'react';
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom';
-import { ShopContext } from '../Context/ShopContext'
 import Breadcrums from '../Components/Breadcrums/Breadcrums';
 import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
-
+import { ShopContext } from '../Context/ShopContext'
 
 const Product = () => {
   const{all_product}=useContext(ShopContext);
@@ -16,6 +14,6 @@ const Product = () => {
       <ProductDisplay product={product}/>
     </div>
   )
-  }
+}
 
 export default Product

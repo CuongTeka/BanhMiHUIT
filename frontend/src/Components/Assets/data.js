@@ -11,19 +11,22 @@ let data_product = [
     new_price:"15.000 VND",
     
   },
-  {id:2,
+  {
+    id:2,
     name:"Bánh mì Thịt Chả",
     image:p2_img,
     new_price:"15.000 VND",
     
   },
-  {id:3,
+  {
+    id:3,
     name:"Trà Chanh",
     image:p3_img,
     new_price:"10.000 VND",
     
   },
-  {id:4,
+  {
+    id:4,
     name:"Sjora Xoài Đào",
     image:p4_img,
     new_price:"10.000 VND",

@@ -10,11 +10,9 @@ const Popular = (props) => {
         <hr/>
         <div className="popular-item">
             {data_product.map((item,i)=>
-              props.Popular===item.Popular ? (
+                props.Popular===item.Popular ? (
                 <Item key={i} id={item.id} name={item.name} image={item.image} price={item.new_price} />
-              
                 ) : null
-                
             )}
         </div>
        

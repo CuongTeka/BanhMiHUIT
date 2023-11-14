@@ -13,6 +13,8 @@ import ProductBanner from './Components/Assets/Product_Banner.png';
 import ProductBanner1 from './Components/Assets/Product_Banner1.png';
 import ProductBanner2 from './Components/Assets/Product_Banner2.png';
 import { BrowserRouter } from "react-router-dom";
+
+
 function App() {
   return (
     <div className="App">
@@ -39,4 +41,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
