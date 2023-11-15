@@ -7,7 +7,7 @@ const session = require('express-session');
 //login + logout + register =================================
 router.post('/signin' , authController.checkLogin)
 router.get('/logout', authController.logout)
-router.post('/register', authController.registerFunction)
+router.post('/signup', authController.registerFunction)
 //===========================================================
 router.get('/test', homeController.checkSession)
 // router.post('/dadada', (req, res, next) => {

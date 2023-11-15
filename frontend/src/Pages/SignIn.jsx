@@ -7,11 +7,11 @@ const SignIn = () => {
     <div className="signin">
       <div className="signin-container">
         <h1>Đăng Nhập</h1>
-        <div className="signin-fields">
-          <input type="email" placeholder="Email"></input>
-          <input type="password" placeholder="Mật khẩu"></input>
-        </div>
-        <button>Tiếp Tục</button>
+        <form className="signin-fields" action="/signin" method="post">
+          <input type="email" placeholder="Email" name="email"></input>
+          <input type="password" placeholder="Mật khẩu" name="pass"></input>
+        <button type="submit">Tiếp Tục</button>
+        </form>
         <p className="signin-login">
           Chưa có tài khoản ?{" "}
           <Link to="/login">
