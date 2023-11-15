@@ -15,12 +15,10 @@ const Navbar = () => {
         <p >BÁNH MÌ HUIT</p>
       </div>
       <ul className='nav-menu'>
-        <li onClick={()=> {SetMenu("shop")}}><Link style={{textDecoration:'none'  }} to='/'>TRANG CHỦ</Link>{menu==="shop"?<hr/>:<></>}</li>
-        {/* <li onClick={()=> {SetMenu("product")}}><Link style={{textDecoration:'none' }} to ='/product'>SẢN PHẨM</Link>{menu==="product"?<hr/>:<></>}</li>  */}
+        <li onClick={()=> {SetMenu("shop")}}><Link style={{textDecoration:'none'}} to='/'>TRANG CHỦ</Link>{menu==="shop"?<hr/>:<></>}</li>
         <div className="dropdown">
         <button className="dropbtn" onClick={()=> {SetMenu("category")}}>
-
-        <Link style={{textDecoration:'none' }} to ='/category' >SẢN PHẨM</Link>{menu==="category"?<hr/>:<></>}
+        <Link style={{textDecoration:'none'}} to ='/category' >SẢN PHẨM</Link>{menu==="category"?<hr/>:<></>}
         </button> 
           <div className="dropdown-content">
           <ul className="sub-menu">
@@ -31,7 +29,7 @@ const Navbar = () => {
           </div>
        
         </div>
-        {/* <li onClick={()=> {SetMenu("feedback")}}><Link style={{textDecoration:'none' }} to ='/feedback'>PHẢN HỒI</Link>{menu==="feedback"?<hr/>:<></>}</li>  */}
+        
       </ul>
       <div className='nav-login-cart'>
         <Link to = '/signin'><button>Đăng Nhập</button></Link>

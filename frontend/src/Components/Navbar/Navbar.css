@@ -183,12 +183,13 @@
   border-radius: 75px;
   color: #515151;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   background: rgb(248, 248, 248);
   cursor: pointer;
 }
 .nav-login-cart button:hover{
-  background-color: rgb(97, 206, 151) ;
+  background-color: #ff4141 ;
+  color: white;
 }
 
 .nav-login-cart button:active {
