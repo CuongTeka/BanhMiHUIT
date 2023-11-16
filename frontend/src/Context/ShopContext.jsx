@@ -55,8 +55,8 @@ const ShopContextProvider = (props) => {
            let itemInfo = all_product.find((product)=>product.id===Number(item))
            totalAmount += itemInfo.new_price * cartItems[item];
         }
-        return totalAmount;
     }
+    return totalAmount;
   }
   const getTotalCartItems = () =>{
     let totalItem = 0;
@@ -66,8 +66,8 @@ const ShopContextProvider = (props) => {
       {
         totalItem += cartItems[item];
       }
-      return totalItem;
     }
+    return totalItem;
   }
   const contextValue = {
     getTotalCartAmount,

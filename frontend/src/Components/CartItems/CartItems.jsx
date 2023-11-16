@@ -4,7 +4,8 @@ import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
 
 const CartItems = () => {
-  const { all_product, cartItems, removeFromCart, getTotalCartAmount } = useContext(ShopContext);
+  const { getTotalCartAmount, all_product, cartItems, removeToCart } =
+    useContext(ShopContext);
 
   return (
     <div className="cartitems">
@@ -29,7 +30,12 @@ const CartItems = () => {
                   {cartItems[e.id]}
                 </button>
                 <p>{e.new_price * cartItems[e.id]}</p>
-                <img onClick={() => removeFromCart(e.id)} className="cartitems-remove-icon" src={remove_icon} alt=""/>
+                <img
+                  onClick={() => removeToCart(e.id)}
+                  className="cartitems-remove-icon"
+                  src={remove_icon}
+                  alt=""
+                />
               </div>
               <hr />
             </div>
@@ -43,25 +49,25 @@ const CartItems = () => {
               <p>Tổng số tiền hàng</p>
               <p>{getTotalCartAmount()}</p>
             </div>
-            <hr/>
+            <hr />
             <div className="cartitems-total-item">
-                <p>Phí giao hàng</p>
-                <p>Free</p>
+              <p>Phí giao hàng</p>
+              <p>Free</p>
             </div>
-            <hr/>
+            <hr />
             <div className="cartitems-total-item">
-                <h3>Tổng </h3>
-                <h3>{getTotalCartAmount()}</h3>
+              <h3>Tổng </h3>
+              <h3>{getTotalCartAmount()}</h3>
             </div>
           </div>
           <button>TIẾN HÀNH THANH TOÁN</button>
         </div>
         <div className="cartitems-promocode">
-            <p>Nếu bạn có mã giảm giá, Điền tại đây !</p>
-            <div className="cartitems-promobox">
-                <input type=" " placeholder="Nhập mã giảm giá" />
-                <button>Gửi Mã</button>
-            </div>
+          <p>Nếu bạn có mã giảm giá, Điền tại đây !</p>
+          <div className="cartitems-promobox">
+            <input type=" " placeholder="Nhập mã giảm giá" />
+            <button>Gửi Mã</button>
+          </div>
         </div>
       </div>
     </div>
