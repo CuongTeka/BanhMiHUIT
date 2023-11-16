@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ShopContext } from "../../Context/ShopContext";
 import "./ProductDisplay.css";
 
 const ProductDisplay = (props) => {
   const { product } = props;
+  const {addToCart} =useContext(ShopContext);
 
   return (
     <div className="productdisplay">
@@ -18,7 +20,7 @@ const ProductDisplay = (props) => {
             {product.new_price}
           </div>
         </div>
-        <button>THÊM VÀO GIỎ HÀNG</button>
+        <button onClick={()=>addToCart(product.id)}>THÊM VÀO GIỎ HÀNG</button>
         <div className="productdisplay-right-description">
           <p>
             Thức Uống Trái Cây SJORA VỊ XOÀI ĐÀO được làm từ 100% trái cây tươi
