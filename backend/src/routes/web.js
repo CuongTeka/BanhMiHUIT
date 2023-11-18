@@ -9,6 +9,7 @@ const authController = require('../controllers/authController');
 
 // router.get('/logout', authController.logout)
 
+
 //===========================================================
 // router.get('/test', homeController.checkSession)
 

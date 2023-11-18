@@ -5,13 +5,6 @@ import { handleRegisterApi } from "../services/userServices";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  // const [formData, setFormData] = useState({
-  //   email: '',
-  //   pass: '',
-  //   name: '',
-  //   mssv: '',
-  //   phone: ''
-  // });
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [name, setName] = useState('')
