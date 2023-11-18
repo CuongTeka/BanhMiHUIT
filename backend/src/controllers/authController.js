@@ -1,13 +1,9 @@
 const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const userService = require('../services/authService')
 
 const registerFunction = (req, res, next) => {
-    // var email = req.body.email;
-    // var pass = req.body.pass;
-    // var name = req.body.name;
-    // var mssv = req.body.mssv;
-    // var phone = req.body.phone;
     const encryptPass = bcrypt.hashSync(req.body.pass, bcrypt.genSaltSync(5));
     userModel.findOne({
         email: req.body.email
@@ -34,82 +30,48 @@ const registerFunction = (req, res, next) => {
     })
 }
 
-const checkLogin = (req, res, next) => {
-    // var email = req.body.email;
-    // var pass = req.body.pass;
+const checkLogin = async(req, res) => {
     var ses = req.session;
-    if(!ses.userid){
-        userModel.findOne({
-        email: req.body.email
-    })
-    .then(data => {
-        if(data){
-            if(bcrypt.compareSync(req.body.pass, data.password))
-            {
-                console.log('Đăng nhập thành công')
-                ses.userid=data._id;
-                ses.username=data.name;
-                ses.role=data.role;
-                console.log(ses.userid)
-                console.log(ses.username)
-                if(checkRole(data._id) == 1){
-                    res.redirect('/new') //redirect tới trang admin (hoặc '/' nhưng có chức năng của admin)
-                    console.log('role: ' + data.role)
-                }else{
-                    res.redirect('/') //redirect tới trang user
-                    console.log('role: ' + data.role)
-                }
-            }else{
-                console.log('Sai email hoặc mật khẩu')
-            }
-        }else{
-            console.log('Sai email hoặc mật khẩu')
-        }
-    })
-    .catch(err=>{
-        console.log('Lỗi server')
-        console.log(err)
-    })
-    }else{
-        console.log('Đã đăng nhập')
-        res.redirect('/')
-    }
-    
-}
+    // console.log(session.user)
 
-const checkRole = (uid) => {
-    userModel.findOne({
-        _id: uid
-    })
-    .then(data => {
-        if(data.role == 0){
-            return 0;
-        }
-        else{
-            return 1;
-        }
-    })
-    .catch(err=>{
-        console.log('Lỗi server')
-    })
-}
-
-const logout = (req, res) => {
-    var ses = req.session;
-    if(ses.userid)
+    if(!req.body.email || !req.body.pass)
     {
-        // req.session.cookie.expires = new Date().getTime()
-        // req.session=null;
-        req.sessionStore.destroy(req.session.id)
-        // session.userid=null
-        // session.username=null
-        // session.role=null
-        console.log('session cleared')  
-        res.redirect('/')
+        return res.status(500).json({
+            errCode: 1,
+            message: 'Vui lòng nhập thông tin đăng nhập'
+        })
     }
-    res.redirect('/')
+    let userData = await userService.handleLogin(req.body.email, req.body.pass)
+
+    if(userData.errCode != 0){
+        return res.status(200).json({
+            errCode: userData.errCode,
+            message: userData.message,
+        })
+    }else{
+        return res.status(200).json({
+            errCode: userData.errCode,
+            message: userData.message,
+            user: userData.user ? userData.user : {}
+        })
+    }
 }
+
+
+
+// const logout = (req, res) => {
+//     var acc = req.session.account;
+//     // var ses = req.session;
+//     if(acc)
+//     {
+//         // req.session.cookie.expires = new Date().getTime()
+//         req.sessionStore.destroy(req.session.id)
+//         console.log('session cleared')  
+//         res.redirect('/')
+//     }
+//     res.redirect('/')
+// }
 
 module.exports = {
-    registerFunction, checkLogin, checkRole, logout
+    registerFunction, checkLogin, logout
 }

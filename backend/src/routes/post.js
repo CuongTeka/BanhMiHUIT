@@ -3,13 +3,7 @@ const router = express.Router();
 const homeController = require('../controllers/homeController');
 const authController = require('../controllers/authController');
 
-
-
-//login + logout + register =================================
-
-router.get('/logout', authController.logout)
-
-//===========================================================
-router.get('/test', homeController.checkSession)
+router.post('/signin' , authController.checkLogin)
+router.post('/signup', authController.registerFunction)
 
 module.exports = router;

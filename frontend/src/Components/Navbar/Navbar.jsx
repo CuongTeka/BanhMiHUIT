@@ -1,15 +1,24 @@
-import React, {useContext, useState} from "react";    
+import React, {useContext, useState } from "react";    
 import './Navbar.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logobm from '../Assets/logo.png'
 import cart_icon from '../Assets/cart_icon.png'
 import { ShopContext } from "../../Context/ShopContext";
+import { useAuth } from '../../authContext';
+import Cookies from "js-cookie";
 
 
 const Navbar = () => {
-  
+  const navigate = useNavigate();
+  const { isLoggedIn, logout } = useAuth();
   const [menu,SetMenu] = useState("shop");
   const {getTotalCartItems} = useContext(ShopContext);
+
+  const handleLogout = async() => {
+    logout()
+    navigate('/')
+  }
+
   return (
     <div className='navbar'> 
       <div className='nav-logo'>
@@ -34,7 +43,12 @@ const Navbar = () => {
         
       </ul>
       <div className='nav-login-cart'>
-        <Link to = '/signin'><button>Đăng Nhập</button></Link>
+        {isLoggedIn ? (
+            <><p>Xin chào: {Cookies.get('name')}</p><button onClick={()=>{handleLogout()}}>Log Out</button></>
+        ) : (
+          <Link to = '/signin'><button>Đăng Nhập</button></Link>
+        )}
+        {/* <Link to = '/signin'><button>Đăng Nhập</button></Link> */}
         <Link to = '/cart'><img src={cart_icon} alt=""/></Link>
       <div className='nav-cart-count'>{getTotalCartItems()}</div>
       </div>

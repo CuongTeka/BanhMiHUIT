@@ -15,7 +15,7 @@ const users = new Schema({
     date_create: {type: Date, default: Date.now},
     date_update: {type: Date, default: Date.now},
     role: {type: String, default:0}
-}, {collection: 'User'});
+}, {collection: 'User', versionKey: false});
 
 // const UserModel = mongoose.model('User', users);
 
