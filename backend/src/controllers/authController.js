@@ -73,5 +73,5 @@ const checkLogin = async(req, res) => {
 // }
 
 module.exports = {
-    registerFunction, checkLogin, logout
+    registerFunction, checkLogin
 }

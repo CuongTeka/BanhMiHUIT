@@ -40,7 +40,7 @@ const Navbar = () => {
           </div>
        
         </div>
-        
+        <li onClick={()=> {SetMenu("aboutus")}}><Link style={{textDecoration:'none'}} to='/aboutus'>VỀ CHÚNG TÔI</Link>{menu==="aboutus"?<hr/>:<></>}</li>
       </ul>
       <div className='nav-login-cart'>
         {isLoggedIn ? (

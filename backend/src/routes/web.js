@@ -7,7 +7,7 @@ const authController = require('../controllers/authController');
 
 //login + logout + register =================================
 
-router.get('/logout', authController.logout)
+
 
 //===========================================================
 router.get('/test', homeController.checkSession)

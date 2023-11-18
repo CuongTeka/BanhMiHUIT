@@ -13,6 +13,7 @@ import ProductBanner from './Components/Assets/Product_Banner.png';
 import ProductBanner1 from './Components/Assets/Product_Banner1.png';
 import ProductBanner2 from './Components/Assets/Product_Banner2.png';
 import { BrowserRouter } from "react-router-dom";
+import AboutUs from './Pages/AboutUs';
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
             <Route path='/monanthem' element={<ShopCategory banner={ProductBanner2} category="monanthem"/>}/>
             <Route path='/product' element={<Product/>}>
               <Route path=':productId' element={<Product/>}/>
-              </Route>
+            </Route>
+            <Route path='/aboutus' element={<AboutUs/>}/>
             <Route path='/cart' element={<Cart/>}/>
             <Route path='/login' element={<SignUp/>}/>
             <Route path='/signin' element={<SignIn/>}/>
