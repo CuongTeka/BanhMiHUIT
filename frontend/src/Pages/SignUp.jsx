@@ -76,13 +76,6 @@ const SignUp = () => {
             <span>Đăng Nhập</span>
           </Link>
         </p>
-        <div className="loginsignup-agree">
-          <input type="checkbox" name="" id=""></input>
-          <p>
-            Bằng cách tiếp tục, tôi đồng ý với mọi điều khoản & chính sách bảo
-            mật.
-          </p>
-        </div>
       </div>
     </div>
   );

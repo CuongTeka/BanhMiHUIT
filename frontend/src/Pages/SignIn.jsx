@@ -33,7 +33,7 @@ const SignIn = () => {
         Cookies.set('name', data.user.name)
         if(data.user.role === '1'){
           grantAdmin()
-          navigate('/system')
+          navigate('/system/admin')
         }else{
           setUser()
           navigate('/')
@@ -65,13 +65,6 @@ const SignIn = () => {
             <span>Đăng Ký</span>
           </Link>
         </p>
-        <div className="signin-agree">
-          <input type="checkbox" name="" id=""></input>
-          <p>
-            Bằng cách tiếp tục, tôi đồng ý với mọi điều khoản & chính sách bảo
-            mật.
-          </p>
-        </div>
       </div>
     </div>
   );
