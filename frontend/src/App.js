@@ -14,6 +14,8 @@ import ProductBanner1 from './Components/Assets/Product_Banner1.png';
 import ProductBanner2 from './Components/Assets/Product_Banner2.png';
 import { BrowserRouter } from "react-router-dom";
 import AboutUs from './Pages/AboutUs';
+import AdminPage from './Pages/AdminPage';
+import FailPage from './Pages/FailPage';
 
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
             <Route path='/cart' element={<Cart/>}/>
             <Route path='/signin' element={<SignIn/>}/>
             <Route path='/signup' element={<SignUp/>}/>
+            <Route path='/system/admin' element={<AdminPage/>}/>
+            <Route path='/404page' element={<FailPage/>}/>
         </Routes>
         <Footer/>
         </BrowserRouter>

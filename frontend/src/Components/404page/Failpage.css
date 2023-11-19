@@ -1,0 +1,11 @@
+.failpage {
+    position: relative;
+    display: inline-block;
+  }
+
+
+  .failpage img {
+    display: block;
+    max-width: 500px;
+    height: 500px;
+  }
