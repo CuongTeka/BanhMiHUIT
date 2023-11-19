@@ -50,7 +50,7 @@ const AdminPage = () => {
 
     // If not an admin, redirect to the login page or another location
     if (!isAdmin) {
-      navigate("/"); // Replace '/login' with your desired redirect location
+      navigate("/404page"); // Replace '/login' with your desired redirect location
     }
   }, [navigate]);
 
