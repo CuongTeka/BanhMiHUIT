@@ -1,15 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
-import productData from "../Components/Assets/all_product"; // Rename the imported variable
-
+// import productData from "../Components/Assets/all_product"; // Rename the imported variable
+import { handleGetAllProduct } from "../services/adminServices";
 export const ShopContext = createContext(null);
 
-const getDefaultCart = () => {
-  let cart = {};
-  for (let index = 0; index < productData.length + 1; index++) {
-    cart[index] = 0;
-  }
-  return cart;
-};
+
 
 const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
@@ -20,7 +14,7 @@ const ShopContextProvider = (props) => {
     const fetchData = async () => {
       try {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        setProducts(productData);
+        productData()
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -30,6 +24,32 @@ const ShopContextProvider = (props) => {
 
     fetchData();
   }, []);
+
+  const productData = async() => {
+    try {
+      let data = await handleGetAllProduct()
+      // console.log(data.message)
+      // console.log(data.data)
+      if(data && data.errCode === 0){
+        setProducts(data.data)
+      }
+    } catch (error) {
+      if(error.response){
+        if(error.response.data){
+          console.log(error.response.data.message)
+        }
+      }
+    }
+  }
+
+
+  const getDefaultCart = () => {
+    let cart = {};
+    for (let index = 0; index < products.length + 1; index++) {
+      cart[index] = 0;
+    }
+    return cart;
+  };
 
   const [cartItems, setCartItems] = useState(getDefaultCart());
 
@@ -49,7 +69,7 @@ const ShopContextProvider = (props) => {
       for (const item in cartItems) {
         if (cartItems[item] > 0) {
           let itemInfo = products.find((product) => product.id === Number(item));
-          totalAmount += itemInfo.new_price * cartItems[item];
+          totalAmount += itemInfo.price * cartItems[item];
         }
       }
       return totalAmount;

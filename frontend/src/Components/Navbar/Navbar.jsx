@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout , isAdmin} = useAuth();
   const [menu,SetMenu] = useState("shop");
   const {getTotalCartItems} = useContext(ShopContext);
 
@@ -48,7 +48,6 @@ const Navbar = () => {
         ) : (
           <Link to = '/signin'><button>Đăng Nhập</button></Link>
         )}
-        {/* <Link to = '/signin'><button>Đăng Nhập</button></Link> */}
         <Link to = '/cart'><img src={cart_icon} alt=""/></Link>
       <div className='nav-cart-count'>{getTotalCartItems()}</div>
       </div>

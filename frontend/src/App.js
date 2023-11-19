@@ -26,9 +26,9 @@ function App() {
         <Routes>
             <Route path='/' element={<Shop/>}/>
             <Route path='/category' element={<ShopCategory banner={ProductBanner} category={null}  />}/>
-            <Route path='/banhmi' element={<ShopCategory banner={ProductBanner} category="banhmi"/>}/>
-            <Route path='/nuocuong' element={<ShopCategory banner={ProductBanner1} category="nuocuong"/>}/>
-            <Route path='/monanthem' element={<ShopCategory banner={ProductBanner2} category="monanthem"/>}/>
+            <Route path='/banhmi' element={<ShopCategory banner={ProductBanner} category="653c5f91eee1ad0711267a15"/>}/>
+            <Route path='/nuocuong' element={<ShopCategory banner={ProductBanner1} category="653c5f91eee1ad0711267a16"/>}/>
+            <Route path='/monanthem' element={<ShopCategory banner={ProductBanner2} category="653c5f91eee1ad0711267a17"/>}/>
             <Route path='/product' element={<Product/>}>
               <Route path=':productId' element={<Product/>}/>
             </Route>

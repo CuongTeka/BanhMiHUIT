@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const cateModel = require('../models/categoryModel');
 const bcrypt = require('bcrypt');
 
 let handleRegisterData = (email, pass, name, mssv, phone) => {
@@ -77,6 +78,26 @@ let checkMSSV = (mssv) => {
     })
 }
 
+let getCategory = (Id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let cate = '';
+            if(Id === '*'){
+                cate = await cateModel.find({})
+            }
+            if(Id && Id !== '*'){
+                cate = await cateModel.findOne({
+                    _id: Id
+                })
+            }
+            resolve(cate)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
-    handleRegisterData
+    handleRegisterData,
+    getCategory,
 }

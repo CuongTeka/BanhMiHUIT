@@ -25,7 +25,7 @@ const CartItems = () => {
               <div className="cartitems-format cartitems-fomart-main">
                 <img className="carticon-product-icon"  src={e.image} alt="" />
                 <p>{e.name}</p>
-                <p>{e.new_price}</p>
+                <p>{e.price}</p>
                 <input onClick={() => addToCart(e.id)} >
                   {cartItems[e.id]}
                 </input>
