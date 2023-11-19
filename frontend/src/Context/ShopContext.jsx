@@ -77,7 +77,7 @@ const ShopContextProvider = (props) => {
   
     getTotalCartAmount,
     getTotalCartItems,
-    all_product: products,
+
     loading,
     error,
     cartItems,
