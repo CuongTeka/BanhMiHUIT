@@ -3,32 +3,32 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const userService = require('../services/authService')
 
-const registerFunction = (req, res, next) => {
-    const encryptPass = bcrypt.hashSync(req.body.pass, bcrypt.genSaltSync(5));
-    userModel.findOne({
-        email: req.body.email
-    })
-    .then(data=>{
-        if(data){
-            console.log('Email da ton tai')
-        }else{
-            return userModel.create({
-                email: req.body.email,
-                password: encryptPass,
-                name: req.body.name,
-                mssv: req.body.mssv,
-                phone: req.body.phone
-            })
-        }
-    })
-    .then(data=>{
-        console.log('Tao thanh cong')
-        res.redirect('/signin')
-    })
-    .catch(err=>{
-        console.log('Tao that bai')
-    })
-}
+// const registerFunction = (req, res, next) => {
+//     const encryptPass = bcrypt.hashSync(req.body.pass, bcrypt.genSaltSync(5));
+//     userModel.findOne({
+//         email: req.body.email
+//     })
+//     .then(data=>{
+//         if(data){
+//             console.log('Email da ton tai')
+//         }else{
+//             return userModel.create({
+//                 email: req.body.email,
+//                 password: encryptPass,
+//                 name: req.body.name,
+//                 mssv: req.body.mssv,
+//                 phone: req.body.phone
+//             })
+//         }
+//     })
+//     .then(data=>{
+//         console.log('Tao thanh cong')
+//         res.redirect('/signin')
+//     })
+//     .catch(err=>{
+//         console.log('Tao that bai')
+//     })
+// }
 
 const checkLogin = async(req, res) => {
     var ses = req.session;
@@ -73,5 +73,7 @@ const checkLogin = async(req, res) => {
 // }
 
 module.exports = {
-    registerFunction, checkLogin
+    // registerFunction, 
+    checkLogin, 
+    // logout
 }
