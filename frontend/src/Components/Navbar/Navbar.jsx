@@ -44,7 +44,7 @@ const Navbar = () => {
       </ul>
       <div className='nav-login-cart'>
         {isLoggedIn ? (
-            <><p>Xin chào: {Cookies.get('name')}</p><button onClick={()=>{handleLogout()}}>Log Out</button></>
+            <><p>Xin chào: {Cookies.get('name')}</p><button onClick={()=>{handleLogout()}}>Đăng xuất</button></>
         ) : (
           <Link to = '/signin'><button>Đăng Nhập</button></Link>
         )}

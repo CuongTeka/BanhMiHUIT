@@ -5,13 +5,32 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setAdmin] = useState(false);
+  // const [name, setName] = useState('');
 
   useEffect(() => {
     const storedLoggedIn = Cookies.get('isLoggedIn');
+    const storedAdmin = Cookies.get('isAdmin');
     if (storedLoggedIn === 'true') {
       setLoggedIn(true);
     }
+    if(storedAdmin === 'true'){
+      setAdmin(true)
+    }else{
+      setAdmin(false)
+    }
   }, []);
+
+
+  const grantAdmin = () => {
+      setAdmin(true)
+      Cookies.set('isAdmin', 'true');
+  }
+
+  const setUser = () => {
+      setAdmin(false)
+      Cookies.set('isAdmin', 'false');
+  }
 
   const login = () => {
     setLoggedIn(true);
@@ -26,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, isAdmin, login, logout, grantAdmin, setUser }}>
       {children}
     </AuthContext.Provider>
   );

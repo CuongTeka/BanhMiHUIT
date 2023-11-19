@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import { useAuth } from '../authContext';
 
 const SignIn = () => {
-  const { login } = useAuth();
+  const { login, grantAdmin, setUser } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
@@ -27,14 +27,14 @@ const SignIn = () => {
         setMessage(data.message)
       }
       if(data && data.errCode === 0){
-        // setMessage(data.user.role)
+        setMessage(data.user.role)
         login()
         Cookies.set('name', data.user.name)
-        if(data.user.role === 1){
-          Cookies.set('isAdmin', 'true');
+        if(data.user.role === '1'){
+          grantAdmin()
           navigate('/system')
         }else{
-          Cookies.set('isAdmin', 'false');
+          setUser()
           navigate('/')
         }
         console.log('login success')

@@ -61,30 +61,27 @@ const registerFunction = async(req, res) => {
             message: 'Mã số sinh viên đã tồn tại'
         })
     }else{
-        console.log('Đã tạo tài khoản')
-        res.status(200).json({
-            errCode: 0,
-            message: 'Tạo tài khoản thành công'
-        })
-        return userModel.create({
+            console.log('Đã tạo tài khoản')
+            res.status(200).json({
+                    errCode: 0,
+                    message: 'Tạo tài khoản thành công'
+                })
+            return userModel.create({
                 email: email,
                 password: encryptPass,
                 name: name,
                 mssv: mssv,
                 phone: phone,
-            })
+            }) 
         //thêm role: 1 nếu cần tạo acc admin
+        }
+        
     }
             
-}
-
 const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-// const validateStringLength = (value, minLength, maxLength) => {
-//   return value.length >= minLength && value.length <= maxLength;
-// }; 
 const validateVietnamesePhoneNumber = (phoneNumber) => {
     // 09 03 01
     const vietnamesePhoneNumberRegex = /^(0[1-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[0-9]|9[0-9])\d{8}$/;
