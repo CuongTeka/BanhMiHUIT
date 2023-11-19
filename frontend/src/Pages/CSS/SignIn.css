@@ -1,12 +1,12 @@
 .signin{
     width: 100%;
-    height: 200vh;
+    height: 100vh;
     background: #fce3fe;
     padding-top: 100px;
 }
 .signin-container{
     width: 580px;
-    height: 700px;
+    height: auto;
     background: white;
     margin: auto;
     padding: 40px 60px;

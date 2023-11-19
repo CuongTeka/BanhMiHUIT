@@ -5,6 +5,7 @@ import { handleLoginApi } from "../services/userServices";
 import Cookies from 'js-cookie';
 import { useAuth } from '../authContext';
 
+
 const SignIn = () => {
   const { login, grantAdmin, setUser } = useAuth();
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const SignIn = () => {
         </div>
         <p className="signin-login">
           Chưa có tài khoản ?{" "}
-          <Link to="/login">
+          <Link to="/signup">
             <span>Đăng Ký</span>
           </Link>
         </p>
@@ -74,15 +75,5 @@ const SignIn = () => {
       </div>
     </div>
   );
-};
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     navigate: (path) => dispatch(push(path)),
-//     adminLoginSuccess: (adminInfo) => dispatch(actions.userLoginSuccess(adminInfo)),
-//     adminLoginFail: () => dispatch(actions.userLoginFail()),
-//     userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
-//   }
-// }
-
+}
 export default SignIn;

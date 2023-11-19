@@ -3,7 +3,13 @@ import "./CSS/Loginsignup.css";
 import { Link, useNavigate } from "react-router-dom";
 import { handleRegisterApi } from "../services/userServices";
 
+
+
 const SignUp = () => {
+
+
+  
+  ////////////////////////////////////////////////////
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
@@ -81,6 +87,16 @@ const SignUp = () => {
     </div>
   );
 };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     navigate: (path) => dispatch(push(path)),
+//     adminLoginSuccess: (adminInfo) => dispatch(actions.userLoginSuccess(adminInfo)),
+//     adminLoginFail: () => dispatch(actions.userLoginFail()),
+//     userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
+//   }
+// }
+
 
 export default SignUp;
 

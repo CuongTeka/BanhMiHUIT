@@ -1,17 +1,15 @@
 import React, { createContext, useState, useEffect } from "react";
-import all_product from "../Components/Assets/all_product";
-
+import productData from "../Components/Assets/all_product"; // Rename the imported variable
 
 export const ShopContext = createContext(null);
 
-
-const getDefaultCart= ()=>{
-  let cart ={};
-  for (let index = 0; index <all_product.length+1; index++){
-      cart[index] = 0;
+const getDefaultCart = () => {
+  let cart = {};
+  for (let index = 0; index < productData.length + 1; index++) {
+    cart[index] = 0;
   }
   return cart;
-}
+};
 
 const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
@@ -19,12 +17,10 @@ const ShopContextProvider = (props) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulating asynchronous data fetching (replace this with your actual data fetching logic)
     const fetchData = async () => {
       try {
-        // Simulating a delay
         await new Promise(resolve => setTimeout(resolve, 1000));
-        setProducts(all_product);
+        setProducts(productData);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -35,55 +31,38 @@ const ShopContextProvider = (props) => {
     fetchData();
   }, []);
 
-  const [cartItems, setCartItems] = useState(getDefaultCart())
-
-  
-  const addToCart = (itemId) =>{
-    setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
-    console.log(cartItems)
-  } 
-  const removeToCart = (itemId) =>{
-    setCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}))
-  } 
-
-  const getTotalCartAmount = () => {
-    let totalAmount = 0
-    for(const item in cartItems)
-    {
-        if(cartItems[item] > 0)
-        {
-           let itemInfo = all_product.find((product)=>product.id===Number(item))
-           totalAmount += itemInfo.new_price * cartItems[item];
-        }
-    }
-    return totalAmount;
-  }
-  const getTotalCartItems = () =>{
-    let totalItem = 0;
-    for(const item in cartItems)
-    {
-      if(cartItems[item] > 0)
-      {
-        totalItem += cartItems[item];
-      }
-    }
-    return totalItem;
-  }
-  
- 
-
+  const [cartItems, setCartItems] = useState(getDefaultCart());
 
   const contextValue = {
-  
-    getTotalCartAmount,
-    getTotalCartItems,
-    all_product: products,
     loading,
     error,
+    all_product: products, // Rename to match the variable in your ShopCategory component
     cartItems,
-    addToCart,
-    removeToCart,
-    
+    addToCart: (itemId) => {
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    },
+    removeToCart: (itemId) => {
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    },
+    getTotalCartAmount: () => {
+      let totalAmount = 0;
+      for (const item in cartItems) {
+        if (cartItems[item] > 0) {
+          let itemInfo = products.find((product) => product.id === Number(item));
+          totalAmount += itemInfo.new_price * cartItems[item];
+        }
+      }
+      return totalAmount;
+    },
+    getTotalCartItems: () => {
+      let totalItem = 0;
+      for (const item in cartItems) {
+        if (cartItems[item] > 0) {
+          totalItem += cartItems[item];
+        }
+      }
+      return totalItem;
+    },
   };
 
   return (
@@ -93,4 +72,4 @@ const ShopContextProvider = (props) => {
   );
 };
 
-export default ShopContextProvider
+export default ShopContextProvider;
