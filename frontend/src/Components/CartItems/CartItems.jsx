@@ -4,7 +4,7 @@ import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
 
 const CartItems = () => {
-  const { getTotalCartAmount, all_product, cartItems, removeToCart } =
+  const { getTotalCartAmount, all_product, cartItems, removeToCart, addToCart } =
     useContext(ShopContext);
 
   return (
@@ -23,12 +23,12 @@ const CartItems = () => {
           cartItems[e.id] > 0 && (
             <div key={e.id}>
               <div className="cartitems-format cartitems-fomart-main">
-                <img src={e.image} alt="" className="carticon-product-icon" />
+                <img className="carticon-product-icon"  src={e.image} alt="" />
                 <p>{e.name}</p>
                 <p>{e.new_price}</p>
-                <button className="cartitems-quantity">
+                <input onClick={() => addToCart(e.id)} >
                   {cartItems[e.id]}
-                </button>
+                </input>
                 <p>{e.new_price * cartItems[e.id]}</p>
                 <img
                   onClick={() => removeToCart(e.id)}

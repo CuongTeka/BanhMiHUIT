@@ -8,7 +8,7 @@
 }
 .cartitems-fomart-main{
     display: grid;
-    grid-template-columns: 0.3fr 0.5fr 0.5fr 0.2fr 0.5fr 0.2fr;
+    grid-template-columns: 0.2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.3fr;
     align-items: center;
     gap: 75px;
     padding: 20px 0px;
@@ -19,12 +19,14 @@
 .cartitems-format{
     font-size: 17px;
     font-weight: 500;
+    justify-items: center;
 }
 .cartitems-format p{
     font-size: 20px;
     font-weight: 600;
     color: #706d6d;
 }
+
 .carticon-product-icon{
     height: 62px;
 }
@@ -34,11 +36,11 @@
     cursor: pointer;
  
 }
-.cartitems-quantity{
+.cartitems-format button{
     height: 50px;
-    width: 65px;
-    border: 2px solid #ebebeb;
-    background: #fff;
+    width: 60px;
+    border: 2px solid rgb(55, 56, 54);
+    background: rgb(252, 211, 211);
     
 }
 .cartitems-down{
@@ -57,7 +59,7 @@
     justify-content: space-between;
     padding: 15px 0px;  
 }
-.cartitems-total button{
+.cartitems-total input{
     width: 262px;
     height: 58px;
     outline: none;
