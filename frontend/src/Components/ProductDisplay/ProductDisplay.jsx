@@ -23,10 +23,7 @@ const ProductDisplay = (props) => {
         <button onClick={()=>addToCart(product.id)}>THÊM VÀO GIỎ HÀNG</button>
         <div className="productdisplay-right-description">
           <p>
-            Thức Uống Trái Cây SJORA VỊ XOÀI ĐÀO được làm từ 100% trái cây tươi
-            và được bán theo dạng thức uống chiết từ máy rót để đảm bảo trải
-            nghiệm hương vị tuyệt vời nhất. Thức uống này là 1 sản phẩm của Công
-            ty Nestlé Vietnam.
+            {product.detail}
           </p>
         </div>
       </div>

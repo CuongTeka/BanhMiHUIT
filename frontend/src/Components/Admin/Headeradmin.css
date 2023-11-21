@@ -1,0 +1,60 @@
+.headeradmin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+  position: sticky;
+  top: 0px;
+  background-color: ghostwhite;
+  width: 100%;
+  z-index: 100;
+  height: 100px;
+}
+
+.head-logo img {
+  border-radius: 50px;
+  width: 80px;
+  height: 80px;
+  background-color: #f3f3f3;
+}
+
+.head-logo {
+  margin-left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.head-logo p {
+  color: #171717;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.head-login-cart {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  margin-right: 80px;
+}
+
+.head-login-cart button {
+  width: 130px;
+  height: 58px;
+  outline: none;
+  border: 1px solid #7a7a7a;
+  border-radius: 75px;
+  color: #515151;
+  font-size: 20px;
+  font-weight: 500;
+  background: rgb(248, 248, 248);
+  cursor: pointer;
+}
+.head-login-cart button:hover {
+  background-color: #ff4141;
+  color: white;
+}
+
+.head-login-cart button:active {
+  background: #f3f3f3;
+}

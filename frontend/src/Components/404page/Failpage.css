@@ -1,11 +1,19 @@
 .failpage {
-    position: relative;
-    display: inline-block;
-  }
+  box-sizing: border-box;
+  display: flex;
+ 
+  justify-content: center;
+}
 
+.failpage img {
+  display: block;
+  max-width: auto;
+  height: 500px;
+}
 
-  .failpage img {
-    display: block;
-    max-width: 500px;
-    height: 500px;
-  }
+.failpage h1{
+  color: rgb(204, 7, 7);
+  position: absolute;
+  margin-top: 200px;
+  margin-right: 500px;
+}

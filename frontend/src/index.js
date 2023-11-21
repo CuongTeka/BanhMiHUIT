@@ -1,26 +1,24 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import AdminP from "./AdminP";
 import reportWebVitals from "./reportWebVitals";
 import ShopContextProvider from "./Context/ShopContext";
-import { AuthProvider } from './authContext';
+import { AuthProvider } from "./authContext";
+import Cookies from "js-cookie";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const isAdmin = Cookies.get("isAdmin") === "true";
+console.log("isAdmin:", isAdmin);
 root.render(
   <React.StrictMode>
     <AuthProvider>
       <ShopContextProvider>
-        <App />
-      </ShopContextProvider>  
+      {isAdmin ? <AdminP /> : <App />}
+      </ShopContextProvider>
     </AuthProvider>
   </React.StrictMode>
-
-
-    
-
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
