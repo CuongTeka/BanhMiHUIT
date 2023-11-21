@@ -21,17 +21,6 @@ import Failpage from "./Components/404page/Failpage";
 
 
 function App() {
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // Check if the "isAdmin" cookie is set to "true"
-  //   const isAdmin = Cookies.get("isAdmin") === "true";
-
-  //   // If not an admin, redirect to the login page or another location
-  //   if (!isAdmin) {
-  //     navigate("/404page"); // Replace '/login' with your desired redirect location
-  //   }
-  // }, [navigate]);
 
   return (
     <div className="App">

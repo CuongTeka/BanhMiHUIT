@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, logout , isAdmin} = useAuth();
+  const { isLoggedIn, logout} = useAuth();
   const [menu,SetMenu] = useState("shop");
   const {getTotalCartItems} = useContext(ShopContext);
   const isAdmin = Cookies.get("isAdmin") === "true";

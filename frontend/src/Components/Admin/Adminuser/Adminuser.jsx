@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal } from "antd";
 import PlusSquareTwoTone from "@ant-design/icons";
 import React, { useState } from "react";
-import Tableadmin from "../../Tableadmin/Tableadmin";
+import Tableadmin from "../Tableadmin/Tableadmin";
 
 
 const Adminuser = () => {
