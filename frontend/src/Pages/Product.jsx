@@ -17,9 +17,9 @@ const Product = () => {
   if (error) {
     return <div>Error loading product data</div>;
   }
-
-  const product = all_product.find((e) => e.id === Number(productId));
-
+  // console.log('onepro: ' )
+  // console.log('proid: ' )
+  const product = all_product.find((e) => e._id === productId);
   // Handle case when the product is not found
   if (!product) {
     return <div>Product not found</div>;

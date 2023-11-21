@@ -15,6 +15,14 @@ const ShopCategory = (props) => {
     return <p>Error fetching products: {error.message}</p>; // Display a meaningful error message
   }
 
+  //format tiền thành vnđ
+  const numberFormat = (value) =>
+  new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  }).format(value);
+
+  console.log('props.category: ' + props.category)
   return (
     <div className="shop-category">
       <img className="shopcategory-banner" src={props.banner} alt="" />
@@ -29,8 +37,8 @@ const ShopCategory = (props) => {
       
       <div className="shopcategory-products">
         {all_product.map((item, i) => 
-          props.category === null || props.category === item.category ? (
-            <Item key={i} id={item.id} name={item.name} image={item.image} price={item.new_price}/>
+          props.category === null || props.category === item.category_id ? (
+            <Item key={i} id={item._id} name={item.name} image={item.image} price={numberFormat(item.price)}/>
           ) : null
         )}
       </div>

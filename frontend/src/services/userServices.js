@@ -8,4 +8,8 @@ const handleRegisterApi = (email, pass, name, mssv, phone) => {
     return axios.post('/api/signup', {email, pass, name, mssv, phone})
 }
 
-export {handleLoginApi, handleRegisterApi}
+const handleGetAllCategory = () => {
+    return axios.get('/api/get-all-category')
+}
+
+export {handleLoginApi, handleRegisterApi, handleGetAllCategory}

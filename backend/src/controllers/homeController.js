@@ -89,7 +89,18 @@ const validateVietnamesePhoneNumber = (phoneNumber) => {
     return vietnamesePhoneNumberRegex.test(phoneNumber);
   }; 
 
+  let handleGetAllCategory = async(req, res) => {
+    let id = '*'
+    let category = await userService.getCategory(id)
+    return res.status(200).json({
+        errCode: 0,
+        message: 'get all',
+        data: category
+    })
+}
+
 module.exports = {
     // checkSession,
-    registerFunction
+    registerFunction,
+    handleGetAllCategory,
 }

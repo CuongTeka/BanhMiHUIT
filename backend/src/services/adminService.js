@@ -1,8 +1,8 @@
 const userModel = require('../models/userModel');
 const proModel = require('../models/productModel');
-const e = require('express');
 
-let getAllUser = (Id) => {
+//get all and byID
+let getUser = (Id) => {
     return new Promise(async (resolve, reject) => {
         try {
             let users = '';
@@ -21,9 +21,30 @@ let getAllUser = (Id) => {
     })
 }
 
+let getProduct = (Id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let product = '';
+            if(Id === '*'){
+                product = await proModel.find({})
+            }
+            if(Id && Id !== '*'){
+                product = await proModel.findOne({
+                    _id: Id
+                })
+            }
+            resolve(product)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 
 
 
 module.exports = {
-    
+    getUser,
+    getProduct,
+
 }

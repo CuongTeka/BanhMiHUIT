@@ -35,7 +35,7 @@ app.use(session({
     }));
 
     
-app.use('/', webRoutes);
+app.use('/api', webRoutes);
 app.use('/api', postRoutes)
 // app.use(flash());
 // app.use(passport.initialize());

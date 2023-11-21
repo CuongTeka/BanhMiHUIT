@@ -5,6 +5,14 @@ import "./ProductDisplay.css";
 const ProductDisplay = (props) => {
   const { product } = props;
   const {addToCart} =useContext(ShopContext);
+  // console.log('new' + product)
+  // console.log(product._id)
+
+  const numberFormat = (value) =>
+  new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  }).format(value);
 
   return (
     <div className="productdisplay">
@@ -17,10 +25,10 @@ const ProductDisplay = (props) => {
         <h1>{product.name}</h1>
         <div className="productdisplay-right-prices">
           <div className="productdisplay-right-newprice">
-            {product.new_price}
+            {numberFormat(product.price)}
           </div>
         </div>
-        <button onClick={()=>addToCart(product.id)}>THÊM VÀO GIỎ HÀNG</button>
+        <button onClick={()=>addToCart(product._id)}>THÊM VÀO GIỎ HÀNG</button>
         <div className="productdisplay-right-description">
           <p>
             {product.detail}
