@@ -5,6 +5,7 @@ import { getItem } from "../util";
 import Adminuser from "../Components/Admin/Adminuser/Adminuser";
 import Adminproduct from "../Components/Admin/Adminproduct/Adminproduct";
 
+
 const items = [
   getItem("Quản Lý Người Dùng", "user", <UserOutlined />,),
   getItem("Quản Lý Sản Phẩm", "product", <AppstoreOutlined />,),
@@ -34,6 +35,8 @@ const AdminPage = () => {
 
   return (
     <>
+      
+      
       <div style={{ display: "flex",  }}>
         <Menu
           mode="inline"

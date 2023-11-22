@@ -7,13 +7,12 @@ import { ShopContext } from "../../Context/ShopContext";
 import { useAuth } from '../../authContext';
 import Cookies from "js-cookie";
 
-
 const Navbar = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout} = useAuth();
   const [menu,SetMenu] = useState("shop");
   const {getTotalCartItems} = useContext(ShopContext);
-  const isAdmin = Cookies.get("isAdmin") === "true";
+ 
   const handleLogout = async() => {
     logout()
     navigate('/')
@@ -43,38 +42,24 @@ const Navbar = () => {
         <li onClick={()=> {SetMenu("aboutus")}}><Link style={{textDecoration:'none'}} to='/aboutus'>VỀ CHÚNG TÔI</Link>{menu==="aboutus"?<hr/>:<></>}</li>
       </ul>
       <div className='nav-login-cart'>
-  {isLoggedIn ? (
-    isAdmin ? (
-      <>
-        <Link style={{ textDecoration: 'none' }} to='/system/admin'>
-          <p>Xin chào: {Cookies.get('name')}</p>
+        {isLoggedIn ? (
+          <>
+            <p>Xin chào: {Cookies.get('name')}</p> 
+            <Link style={{ textDecoration: 'none' }} to='/'>
+              <button onClick={() => { handleLogout() }}>Đăng xuất</button>
+            </Link>
+          </> 
+        ): (
+        <Link style={{ textDecoration: 'none' }} to='/signin'>
+          <button>Đăng Nhập</button>
         </Link>
-        <Link style={{ textDecoration: 'none' }} to='/'>
-          <button onClick={() => { handleLogout() }}>Đăng xuất</button>
+        )}
+        <Link to='/cart'>
+          <img src={cart_icon} alt="" />
         </Link>
-      </>
-    ) : (
-      <>
-        <Link style={{ textDecoration: 'none' }} to='/'>
-          <p>Xin chào: {Cookies.get('name')}</p>
-        </Link>
-        <Link style={{ textDecoration: 'none' }} to='/'>
-          <button onClick={() => { handleLogout() }}>Đăng xuất</button>
-        </Link>
-      </>
-    )
-  ) : (
-    <Link style={{ textDecoration: 'none' }} to='/signin'>
-      <button>Đăng Nhập</button>
-    </Link>
-  )}
 
-  <Link to='/cart'>
-    <img src={cart_icon} alt="" />
-  </Link>
-
-  <div className='nav-cart-count'>{getTotalCartItems()}</div>
-</div>
+        <div className='nav-cart-count'>{getTotalCartItems()}</div>
+      </div>
     </div>
   )
 }
