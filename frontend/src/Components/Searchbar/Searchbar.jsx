@@ -21,7 +21,7 @@ const Searchbar = (props) => {
       <ButtonComponent
         size={size}
         styleButton={{ background: backgroundColorButton, border: border }}
-        icon={<SearchOutlined color={colorButton} style={{ color: '#fff' }} />}
+        icon={<SearchOutlined color={colorButton} style={{ color: '#fff' } } />}
         textbutton={textbutton}
         styleTextButton={{ color: colorButton }}
       />
