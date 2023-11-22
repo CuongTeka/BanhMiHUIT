@@ -44,7 +44,7 @@ const ShopCategory = (props) => {
         </p>
         <div className="searchbar-mid">
         <Searchbar size="large"
-              bordered={false}
+              bordered={true}
               textbutton="Tìm kiếm"
               placeholder="bánh mì, đồ uống, món ăn thêm,..."
               // onChange={onSearch}

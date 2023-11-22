@@ -3,7 +3,6 @@ import PlusSquareTwoTone from "@ant-design/icons";
 import React, { useState } from "react";
 import Tableadmin from "../Tableadmin/Tableadmin";
 
-
 const Adminuser = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
 
@@ -12,16 +11,16 @@ const Adminuser = () => {
   const handleCancel = () => {
     setisModalOpen(false);
   };
-  
+
   const onFinish = () => {
     console.log("finish");
   };
 
   return (
-    <div>
+    <div >
       <h3> QUẢN LÝ NGƯỜI DÙNG</h3>
       <Button
-        style={{ width: "150px", height: "150px", borderRadius: "5px" }}
+        style={{ width: "150px", height: "150px", borderRadius: "5px"}}
         onClick={() => setisModalOpen(true)}
       >
         <PlusSquareTwoTone />

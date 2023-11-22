@@ -39,9 +39,7 @@ function App() {
           <>
           <Navbar/>
           <Routes>  
-              
             <Route path="/" element={<Shop />} />
-            <Route path="/system/admin" element={<AdminPage />} />
             <Route path="/category" element={<ShopCategory banner={ProductBanner} category={null} />}/>
             <Route path="/banhmi" element={<ShopCategory banner={ProductBanner} category="653c5f91eee1ad0711267a15"/>}/>
             <Route path="/nuocuong" element={<ShopCategory banner={ProductBanner1} category="653c5f91eee1ad0711267a16"/>}/>
@@ -53,8 +51,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/404page" element={<Failpage />} />
-            
+            <Route path="/404page" element={<Failpage />} />    
           </Routes>
           <Footer />
           </>

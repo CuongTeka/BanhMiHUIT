@@ -35,8 +35,6 @@ const AdminPage = () => {
 
   return (
     <>
-      
-      
       <div style={{ display: "flex",  }}>
         <Menu
           mode="inline"
@@ -49,7 +47,7 @@ const AdminPage = () => {
           items={items}
           onClick={handleOnClick}
         />
-        <div style={{ flex :"1", padding: "15px" }}>
+        <div style={{ flex :"1", padding: "20px", textAlign:'left'}}>
           {renderPage(keyselected)}
         </div> 
       </div>
