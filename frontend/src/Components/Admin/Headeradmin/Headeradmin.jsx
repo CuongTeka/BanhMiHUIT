@@ -1,19 +1,21 @@
-import React from "react";
-import "./Headeradmin.css";
-import { Link, useNavigate } from "react-router-dom";
+import React, {} from 'react'
+import './Headeradmin.css'
+import { Link, } from "react-router-dom";
 import Logobm from "../../Assets/logo.png";
 import { useAuth } from "../../../authContext";
 import Cookies from "js-cookie";
 import {UserOutlined} from '@ant-design/icons';
 
 const Headeradmin = () => {
-  const navigate = useNavigate();
-  const { isLoggedIn, logout} = useAuth();
 
-  const handleLogout = async () => {
-    logout();
-    navigate("/signin");
-  };
+  const { isLoggedIn, logout,  } = useAuth();
+
+
+
+  const handleLogout = async() => {
+    logout()
+    window.location.href = '/';
+  }
 
   return (
     <div className="headeradmin">
@@ -22,6 +24,8 @@ const Headeradmin = () => {
         <p>BÁNH MÌ HUIT</p>
       </div>
       <div className="head-login-cart">
+        <p><Link style={{textDecoration:'none'}} to='/'>TRANG CHỦ</Link></p>
+        <p><Link style={{textDecoration:'none'}} to='/system/admin'>ADMIN INDEX</Link></p>
         {isLoggedIn ? (      
         <>    
           <Link style={{ textDecoration: "none" }} to="/system/admin"><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get("name")}</p></Link>
