@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from '../authContext';
 import Cookies from "js-cookie";
 
+
 const items = [
   getItem("Quản Lý Người Dùng", "user", <UserOutlined />,),
   getItem("Quản Lý Sản Phẩm", "product", <AppstoreOutlined />,),
@@ -20,7 +21,7 @@ const AdminPage = () => {
   const { isAdmin } = useAuth();
 
   useEffect(() => {
-    const isAdmin = Cookies.get('isAdmin') === 'true';
+    // const isAdmin = Cookies.get('isAdmin') === 'true';
     if (!isAdmin) {
       window.location.href = '/';
       // navigate('/');
@@ -60,7 +61,7 @@ const AdminPage = () => {
           items={items}
           onClick={handleOnClick}
         />
-        <div style={{ flex :"1", padding: "15px" }}>
+        <div style={{ flex :"1", padding: "20px", textAlign:'left'}}>
           {renderPage(keyselected)}
         </div> 
       </div>

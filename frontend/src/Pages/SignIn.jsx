@@ -33,7 +33,7 @@ const SignIn = () => {
         Cookies.set('name', data.user.name)
         if(data.user.role === '1'){
           grantAdmin()
-          navigate('/')
+          navigate('/system/admin')
         }else{
           setUser()
           navigate('/')
