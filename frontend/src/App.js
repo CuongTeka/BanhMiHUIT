@@ -2,8 +2,6 @@ import React from "react";
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
 import { Routes, Route } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-// import Cookies from "js-cookie";
 import Shop from "./Pages/Shop";
 import ShopCategory from "./Pages/ShopCategory";
 import Product from "./Pages/Product";

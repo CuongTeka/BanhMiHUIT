@@ -51,7 +51,7 @@ const Navbar = () => {
             </Link>
           </> 
         ): (
-        <Link style={{ textDecoration: 'none' }} to='/signin'>
+        <Link style={{ textDecoration: 'none' }} to='/'>
           <button>Đăng Nhập</button>
         </Link>
         )}

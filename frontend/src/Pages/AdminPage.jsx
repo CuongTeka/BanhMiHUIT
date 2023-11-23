@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AppstoreOutlined, UserOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { getItem } from "../util";
 import Adminuser from "../Components/Admin/Adminuser/Adminuser";
 import Adminproduct from "../Components/Admin/Adminproduct/Adminproduct";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from '../authContext';
-import Cookies from "js-cookie";
+
+
 
 
 const items = [
@@ -17,16 +16,6 @@ const items = [
 const AdminPage = () => {
   const [keyselected, setKeySelected] = useState("");
 
-  const navigate = useNavigate();
-  const { isAdmin } = useAuth();
-
-  useEffect(() => {
-    // const isAdmin = Cookies.get('isAdmin') === 'true';
-    if (!isAdmin) {
-      window.location.href = '/';
-      // navigate('/');
-    }
-  }, [navigate, isAdmin]);
 
   const renderPage = (key) => {
     switch (key) {

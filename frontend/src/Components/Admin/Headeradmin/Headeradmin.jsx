@@ -24,18 +24,17 @@ const Headeradmin = () => {
         <p>BÁNH MÌ HUIT</p>
       </div>
       <div className="head-login-cart">
-        <p><Link style={{textDecoration:'none'}} to='/'>TRANG CHỦ</Link></p>
-        <p><Link style={{textDecoration:'none'}} to='/system/admin'>ADMIN INDEX</Link></p>
+      
         {isLoggedIn ? (      
         <>    
           <Link style={{ textDecoration: "none" }} to="/system/admin"><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get("name")}</p></Link>
-          <Link style={{ textDecoration: "none" }} to="/signin">
+          <Link style={{ textDecoration: "none" }} to="/">
             <button onClick={() => { handleLogout();}}> Đăng xuất </button>
           </Link>
         </>
     
         ) : (
-          <Link style={{ textDecoration: "none" }} to="/signin">
+          <Link style={{ textDecoration: "none" }} to="/">
             <button>Đăng Nhập</button>
           </Link>
         )}
