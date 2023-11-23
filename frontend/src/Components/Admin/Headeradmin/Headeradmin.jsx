@@ -10,8 +10,6 @@ const Headeradmin = () => {
 
   const { isLoggedIn, logout,  } = useAuth();
 
-
-
   const handleLogout = async() => {
     logout()
     window.location.href = '/';

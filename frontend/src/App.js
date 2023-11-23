@@ -20,10 +20,10 @@ import Headeradmin from "./Components/Admin/Headeradmin/Headeradmin";
 
 function App() {
   const { isAdmin } = useAuth();
-
+ 
   return (
     <div className="App">
-      
+        
         {isAdmin ? (
           <>
           <Headeradmin/>
@@ -31,6 +31,7 @@ function App() {
             <Route path="/system/admin" element={<AdminPage />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<Failpage />} />   
+            <Route path="/" element={<Shop />} />
           </Routes>
           </>
         ) : (

@@ -11,7 +11,7 @@ import {UserOutlined} from '@ant-design/icons';
 const Navbar = () => {
 
   const { isLoggedIn, logout} = useAuth();
-  const [menu,SetMenu] = useState("shop");
+  const [menu,SetMenu] = useState();
   const {getTotalCartItems} = useContext(ShopContext);
  
   const handleLogout = async() => {
