@@ -24,7 +24,7 @@ const Product = () => {
   if (!product) {
     return <div>Product not found</div>;
   }
-  console.log(product)
+  // console.log(product)
   return (
     <div>
       <Breadcrums product={product}/>

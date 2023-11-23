@@ -20,18 +20,18 @@ const CartItems = () => {
       <hr />
       {all_product.map(
         (e) =>
-          cartItems[e.id] > 0 && (
-            <div key={e.id}>
+          cartItems[e._id] > 0 && (
+            <div key={e._id}>
               <div className="cartitems-format cartitems-fomart-main">
                 <img className="carticon-product-icon"  src={e.image} alt="" />
                 <p>{e.name}</p>
-                <p>{e.new_price}</p>
-                <button  onClick={() => addToCart(e.id)} >
-                  {cartItems[e.id]}
+                <p>{e.price}</p>
+                <button  onClick={() => addToCart(e._id)} >
+                  {cartItems[e._id]}
                 </button>
-                <p>{e.new_price * cartItems[e.id]}</p>
+                <p>{e.price * cartItems[e._id]}</p>
                 <img
-                  onClick={() => removeToCart(e.id)}
+                  onClick={() => removeToCart(e._id)}
                   className="cartitems-remove-icon"
                   src={remove_icon}
                   alt=""

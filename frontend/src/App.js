@@ -17,7 +17,7 @@ import ProductBanner2 from './Components/Assets/Product_Banner2.png';
 import { BrowserRouter } from "react-router-dom";
 import AboutUs from './Pages/AboutUs';
 import Failpage from "./Components/404page/Failpage";
-
+import AdminPage from "./Pages/AdminPage";
 
 
 function App() {
@@ -42,6 +42,8 @@ function App() {
             <Route path='/signin' element={<SignIn/>}/>
             <Route path='/signup' element={<SignUp/>}/>
             <Route path="/404page" element={<Failpage />} />
+
+            <Route path="/system/admin" element={<AdminPage />} />
         </Routes>
         <Footer/>
         </BrowserRouter>

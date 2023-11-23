@@ -10,10 +10,10 @@ import Cookies from "js-cookie";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, logout} = useAuth();
+  const { isLoggedIn, logout, isAdmin} = useAuth();
   const [menu,SetMenu] = useState("shop");
   const {getTotalCartItems} = useContext(ShopContext);
-  const isAdmin = Cookies.get("isAdmin") === "true";
+  // const isAdmin = Cookies.get("isAdmin") === "true";
   const handleLogout = async() => {
     logout()
     navigate('/')
@@ -41,9 +41,12 @@ const Navbar = () => {
        
         </div>
         <li onClick={()=> {SetMenu("aboutus")}}><Link style={{textDecoration:'none'}} to='/aboutus'>VỀ CHÚNG TÔI</Link>{menu==="aboutus"?<hr/>:<></>}</li>
+        {isAdmin ? (
+            <><li onClick={() => { window.location.href = '/system/admin'; }}>ADMIN INDEX</li></>
+        ):(<></>)}
       </ul>
       <div className='nav-login-cart'>
-  {isLoggedIn ? (
+  {/* {isLoggedIn ? (
     isAdmin ? (
       <>
         <Link style={{ textDecoration: 'none' }} to='/system/admin'>
@@ -67,7 +70,19 @@ const Navbar = () => {
     <Link style={{ textDecoration: 'none' }} to='/signin'>
       <button>Đăng Nhập</button>
     </Link>
-  )}
+  )} */}
+        {isLoggedIn ? (
+            <>
+              <Link style={{ textDecoration: 'none' }} to='/profile'>
+                <p>Xin chào: {Cookies.get('name')}</p>
+              </Link>
+              <Link style={{ textDecoration: 'none' }} to='/'>
+                <button onClick={() => { handleLogout() }}>Đăng xuất</button>
+              </Link>
+            </>
+        ) : (
+          <Link to = '/signin'><button>Đăng Nhập</button></Link>
+        )}
 
   <Link to='/cart'>
     <img src={cart_icon} alt="" />
