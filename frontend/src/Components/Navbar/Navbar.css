@@ -191,7 +191,9 @@
   background-color: #ff4141 ;
   color: white;
 }
-
+.nav-login-cart p{
+  font-size: 18px;
+}
 .nav-login-cart button:active {
   background: #f3f3f3;
 }

@@ -4,7 +4,6 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
-
 const dotenv = require('dotenv')
 const webRoutes = require('./src/routes/web');
 const postRoutes = require('./src/routes/post');

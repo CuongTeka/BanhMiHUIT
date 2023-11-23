@@ -6,6 +6,7 @@ import cart_icon from '../Assets/cart_icon.png'
 import { ShopContext } from "../../Context/ShopContext";
 import { useAuth } from '../../authContext';
 import Cookies from "js-cookie";
+import {UserOutlined} from '@ant-design/icons';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Navbar = () => {
       <div className='nav-login-cart'>
         {isLoggedIn ? (
           <>
-            <p>Xin chào: {Cookies.get('name')}</p> 
+            <Link style={{ textDecoration: 'none' }} to='/'><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get('name')}</p></Link> 
             <Link style={{ textDecoration: 'none' }} to='/'>
               <button onClick={() => { handleLogout() }}>Đăng xuất</button>
             </Link>

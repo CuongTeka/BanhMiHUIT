@@ -18,7 +18,7 @@ import AboutUs from "./Pages/AboutUs";
 import Failpage from "./Components/404page/Failpage";
 import AdminPage from "./Pages/AdminPage";
 import { useAuth } from "./authContext";
-import Headeradmin from "./Components/Admin/Headeradmin";
+import Headeradmin from "./Components/Admin/Headeradmin/Headeradmin";
 
 function App() {
   const { isAdmin } = useAuth();
@@ -31,8 +31,8 @@ function App() {
           <Headeradmin/>
           <Routes>
             <Route path="/system/admin" element={<AdminPage />} />
-            <Route path="/" element={<Shop />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="*" element={<Failpage />} />   
           </Routes>
           </>
         ) : (
@@ -51,7 +51,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/404page" element={<Failpage />} />    
+            <Route path="*" element={<Failpage />} />    
           </Routes>
           <Footer />
           </>

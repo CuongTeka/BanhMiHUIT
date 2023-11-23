@@ -37,7 +37,9 @@
   gap: 45px;
   margin-right: 80px;
 }
-
+.head-login-cart p{
+  font-size: 18px;
+}
 .head-login-cart button {
   width: 130px;
   height: 58px;

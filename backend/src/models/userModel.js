@@ -13,9 +13,6 @@ const users = new mongoose.Schema({
     date_update: {type: Date, default: Date.now},
     role: {type: String, default:0}
 }, {collection: 'User', versionKey: false});
-{
-    timestamps: true
-}
 
 
 const User = mongoose.model('User', users)
