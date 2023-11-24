@@ -29,7 +29,7 @@ const ShopContextProvider = (props) => {
     try {
       let data = await handleGetAllProduct()
       // console.log(data.message)
-      // console.log(data.data)
+      console.log(data.data)
       if(data && data.errCode === 0){
         setProducts(data.data)
       }
@@ -56,19 +56,19 @@ const ShopContextProvider = (props) => {
   const contextValue = {
     loading,
     error,
-    all_product: products, // Rename to match the variable in your ShopCategory component
+    all_product: products,
     cartItems,
     addToCart: (itemId) => {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+      setCartItems((prev) => ({ ...prev, [itemId]: itemId}));
     },
     removeToCart: (itemId) => {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] }));
     },
     getTotalCartAmount: () => {
       let totalAmount = 0;
       for (const item in cartItems) {
         if (cartItems[item] > 0) {
-          let itemInfo = products.find((product) => product._id === Number(item));
+          let itemInfo = products.find((product) => product._id === item);
           totalAmount += itemInfo.price * cartItems[item];
         }
       }
