@@ -3,8 +3,6 @@ import React, { createContext, useState, useEffect } from "react";
 import { handleGetAllProduct } from "../services/adminServices";
 export const ShopContext = createContext(null);
 
-
-
 const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,8 +11,8 @@ const ShopContextProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        productData()
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        productData();
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -25,23 +23,22 @@ const ShopContextProvider = (props) => {
     fetchData();
   }, []);
 
-  const productData = async() => {
+  const productData = async () => {
     try {
-      let data = await handleGetAllProduct()
+      let data = await handleGetAllProduct();
       // console.log(data.message)
-      console.log(data.data)
-      if(data && data.errCode === 0){
-        setProducts(data.data)
+      // console.log(data.data)
+      if (data && data.errCode === 0) {
+        setProducts(data.data);
       }
     } catch (error) {
-      if(error.response){
-        if(error.response.data){
-          console.log(error.response.data.message)
+      if (error.response) {
+        if (error.response.data) {
+          console.log(error.response.data.message);
         }
       }
     }
-  }
-
+  };
 
   const getDefaultCart = () => {
     let cart = {};
@@ -62,13 +59,15 @@ const ShopContextProvider = (props) => {
       setCartItems((prev) => ({ ...prev, [itemId]: itemId}));
     },
     removeToCart: (itemId) => {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] }));
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId]}));
     },
     getTotalCartAmount: () => {
       let totalAmount = 0;
       for (const item in cartItems) {
         if (cartItems[item] > 0) {
-          let itemInfo = products.find((product) => product._id === item);
+          let itemInfo = products.find(
+            (product) => product._id === Number(item)
+          );
           totalAmount += itemInfo.price * cartItems[item];
         }
       }

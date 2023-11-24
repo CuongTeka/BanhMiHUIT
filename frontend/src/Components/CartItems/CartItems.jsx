@@ -20,8 +20,8 @@ const CartItems = () => {
       <hr />
       {all_product.map(
         (e) =>
-          cartItems[e.id] != null && (
-            <div key={e.id}>
+          cartItems[e._id]  && (
+            <div key={e._id}>
               <div className="cartitems-format cartitems-fomart-main">
                 <img className="carticon-product-icon"  src={e.image} alt="" />
                 <p>{e.name}</p>
@@ -41,6 +41,7 @@ const CartItems = () => {
             </div>
           )
       )}
+      {console.log(cartItems)}
       <div className="cartitems-down">
         <div className="cartitems-total">
           <h1>Tổng Tiền Giỏ Hàng</h1>
