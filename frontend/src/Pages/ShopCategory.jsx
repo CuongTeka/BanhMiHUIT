@@ -6,6 +6,7 @@ import Item from "../Components/Item/Item";
 
 const ShopCategory = (props) => {
   const { all_product, loading, error } = useContext(ShopContext);
+  
 
   if (loading) {
     return <p>Loading...</p>; // You can replace this with a loading spinner or a more sophisticated loading component

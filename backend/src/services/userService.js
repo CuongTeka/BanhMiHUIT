@@ -1,5 +1,6 @@
 const userModel = require('../models/userModel');
 const cateModel = require('../models/categoryModel');
+const productModel = require('../models/productModel');
 const bcrypt = require('bcrypt');
 
 let handleRegisterData = (email, pass, name, mssv, phone) => {
@@ -97,7 +98,9 @@ let getCategory = (Id) => {
     })
 }
 
+
 module.exports = {
     handleRegisterData,
     getCategory,
+    
 }

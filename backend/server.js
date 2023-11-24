@@ -8,10 +8,10 @@ const cors = require('cors');
 const app = express();
 const webRoutes = require('./src/routes/web');
 const postRoutes = require('./src/routes/post');
-const auth = require('./src/controllers/authController');
 // const { body } = require("express-validator");
 const checkAtlasConnection = require('./src/models/mongoose')
 require('dotenv').config();
+
 
 const oneYear = 1000 * 60 * 60 * 3600;
 checkAtlasConnection;
@@ -37,9 +37,6 @@ app.use(session({
     
 app.use('/api', webRoutes);
 app.use('/api', postRoutes)
-// app.use(flash());
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 // const setCors = () => {
 //     let corsOptions = {

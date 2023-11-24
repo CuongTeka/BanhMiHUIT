@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ShopContextProvider from "./Context/ShopContext";
 import { AuthProvider } from './authContext';
+// require('dotenv').config();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
