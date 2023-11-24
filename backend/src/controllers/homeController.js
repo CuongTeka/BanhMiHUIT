@@ -47,30 +47,18 @@ const registerFunction = async(req, res) => {
     }
     let check = await userService.handleRegisterData(email, pass, name, mssv, phone)
     const encryptPass = bcrypt.hashSync(pass, bcrypt.genSaltSync(5));
-    if(check.errCode == 1)
+    if(check.errCode != 0)
     {
         return res.status(500).json({
-            errCode: 2,
-            message: 'Email đã tồn tại'
-        })
-    }
-    else if(check.errCode == 2){
-        return res.status(500).json({
-            errCode: 5,
-            message: 'Số điện thoại đã tồn tại'
-        })
-    }
-    else if(check.errCode == 3){
-        return res.status(500).json({
-            errCode: 4,
-            message: 'Mã số sinh viên đã tồn tại'
+            errCode: check.errCode,
+            message: check.message
         })
     }else{
-            console.log('Đã tạo tài khoản')
-            res.status(200).json({
-                    errCode: 0,
-                    message: 'Tạo tài khoản thành công'
-                })
+        console.log('Đã tạo tài khoản')
+        res.status(200).json({
+                errCode: 0,
+                message: 'Tạo tài khoản thành công'
+            })
             return userModel.create({
                 email: email,
                 password: encryptPass,

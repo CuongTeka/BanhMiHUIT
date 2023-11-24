@@ -43,10 +43,6 @@ console.log('image data: '+ imageData)
         <div className="productdisplay-right-description">
           <p>
             {product.detail}
-            {/* Thức Uống Trái Cây SJORA VỊ XOÀI ĐÀO được làm từ 100% trái cây tươi
-            và được bán theo dạng thức uống chiết từ máy rót để đảm bảo trải
-            nghiệm hương vị tuyệt vời nhất. Thức uống này là 1 sản phẩm của Công
-            ty Nestlé Vietnam. */}
           </p>
         </div>
       </div>

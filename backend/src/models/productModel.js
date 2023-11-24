@@ -1,19 +1,19 @@
-const url = process.env.DBURL || 'mongodb+srv://admin:123@qlbanmi.qonjmak.mongodb.net/QLBM/?retryWrites=true&w=majority';
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-mongoose.connect(url ,{dbName: 'QLBM'});
 
-const products = new Schema({
-    name: {type: String, required:true},
+const products = new mongoose.Schema({
+    id: {type: Number, required: true},
+    name: {type: String, required:true, unique: true},
     category_id: {type: String, required: true},
     price: {type: Number, required:true},
     discount: {type: Number, required: true, default:0},
-    detail: {type: String},
+    detail: {type: String, required:true},
     image: {type: String, required:true},
     date_create: {type: Date, default: Date.now},
     date_edit: {type: Date, default: Date.now},
     is_active: {type: Boolean, default:true}
-}, {collection: 'Product'});
+}, { collection: 'Product' });
 
-module.exports = mongoose.model('Product', products);
+const Product = mongoose.model('Product', products);
+
+module.exports = Product;

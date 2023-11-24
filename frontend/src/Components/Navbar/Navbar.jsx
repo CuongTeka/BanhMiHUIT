@@ -1,24 +1,19 @@
 import React, {useContext, useState } from "react";    
 import './Navbar.css'
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import Logobm from '../Assets/logo.png'
 import cart_icon from '../Assets/cart_icon.png'
 import { ShopContext } from "../../Context/ShopContext";
 import { useAuth } from '../../authContext';
 import Cookies from "js-cookie";
-
+import {UserOutlined} from '@ant-design/icons';
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const { isLoggedIn, logout , isAdmin} = useAuth();
-  const [menu,SetMenu] = useState("shop");
+
+  const { isLoggedIn, logout} = useAuth();
+  const [menu,SetMenu] = useState();
   const {getTotalCartItems} = useContext(ShopContext);
-
-  const handleLogout = async() => {
-    logout()
-    navigate('/')
-  }
-
+  
   return (
     <div className='navbar'> 
       <div className='nav-logo'>
@@ -44,13 +39,23 @@ const Navbar = () => {
       </ul>
       <div className='nav-login-cart'>
         {isLoggedIn ? (
-            <><p>Xin chào: {Cookies.get('name')}</p><button onClick={()=>{handleLogout()}}>Đăng xuất</button></>
-        ) : (
-          <Link to = '/signin'><button>Đăng Nhập</button></Link>
+          <>
+            <Link style={{ textDecoration: 'none' }} to='/'><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get('name')}</p></Link> 
+            <Link style={{ textDecoration: 'none' }} to='/'>
+              <button onClick={() => { logout() }}>Đăng xuất</button>
+            </Link>
+          </> 
+        ): (
+        <Link style={{ textDecoration: 'none' }} to='/signin'>
+          <button>Đăng Nhập</button>
+        </Link>
         )}
-        
-        <Link to = '/cart'><img src={cart_icon} alt=""/></Link>
-      <div className='nav-cart-count'>{getTotalCartItems()}</div>
+
+  <Link to='/cart'>
+    <img src={cart_icon} alt="" />
+  </Link>
+
+        <div className='nav-cart-count'>{getTotalCartItems()}</div>
       </div>
     </div>
   )

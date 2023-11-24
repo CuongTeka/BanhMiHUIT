@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove('isLoggedIn');
     Cookies.remove('isAdmin');
     Cookies.remove('name')
+    window.location.href = '/';
   };
 
   return (

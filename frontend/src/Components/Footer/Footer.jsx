@@ -18,7 +18,7 @@ const Footer = () => {
           </p>
           <p className="icon-contact">
             <img src={phone_icon} alt="" />
-            <a href="?">0346009095</a>
+            <a href="callto:0346009095">0346009095</a>
           </p>
           <p className="icon-contact">
             <img src={mail_icon} alt="" />
@@ -26,7 +26,7 @@ const Footer = () => {
           </p>
           <p className="icon-contact">
             <img src={fb_icon} alt="" />
-            <a href="https://www.facebook.com/thai.phong.4754">https://www.facebook.com/thai.phong.4754</a>
+            <a href="https://www.facebook.com/thai.phong.4754">FB: Bánh Mì SV HUIT</a>
           </p>
         </div>
         <div className="footer-copyright">

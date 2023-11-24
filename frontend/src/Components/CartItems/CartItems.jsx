@@ -20,16 +20,16 @@ const CartItems = () => {
       <hr />
       {all_product.map(
         (e) =>
-          cartItems[e.id] > 0 && (
-            <div key={e.id}>
+          cartItems[e._id]  && (
+            <div key={e._id}>
               <div className="cartitems-format cartitems-fomart-main">
                 <img className="carticon-product-icon"  src={e.image} alt="" />
                 <p>{e.name}</p>
                 <p>{e.price}</p>
-                <input onClick={() => addToCart(e.id)} >
+                <button  onClick={() => addToCart(e._id)} >
                   {cartItems[e.id]}
-                </input>
-                <p>{e.new_price * cartItems[e.id]}</p>
+                </button>
+                <p>{e.price * cartItems[e.id]}</p>
                 <img
                   onClick={() => removeToCart(e.id)}
                   className="cartitems-remove-icon"
@@ -41,6 +41,7 @@ const CartItems = () => {
             </div>
           )
       )}
+      {console.log(cartItems)}
       <div className="cartitems-down">
         <div className="cartitems-total">
           <h1>Tổng Tiền Giỏ Hàng</h1>
