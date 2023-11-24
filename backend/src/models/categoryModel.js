@@ -7,6 +7,7 @@ mongoose.connect(url ,{dbName: 'QLBM'});
 
 const cate = new Schema({
     name: {type: String, required:true},
+    price: {type: Number, required: true},
     is_active: {type: Boolean, default:true}
 }, {collection: 'Category'});
 

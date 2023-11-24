@@ -5,7 +5,7 @@ import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
 import { ShopContext } from '../Context/ShopContext';
 
 const Product = () => {
-  const { all_product, loading, error } = useContext(ShopContext);
+  const { products, loading, error } = useContext(ShopContext);
   const { productId } = useParams();
 
   // Handle loading state
@@ -19,7 +19,7 @@ const Product = () => {
   }
   // console.log('onepro: ' )
   // console.log('proid: ' )
-  const product = all_product.find((e) => e._id === productId);
+  const product = products.find((e) => e._id === productId);
   // Handle case when the product is not found
   if (!product) {
     return <div>Product not found</div>;

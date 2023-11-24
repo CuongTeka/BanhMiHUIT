@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-// import productData from "../Components/Assets/all_product"; // Rename the imported variable
 import { handleGetAllProduct } from "../services/adminServices";
 export const ShopContext = createContext(null);
 
@@ -21,19 +20,20 @@ const ShopContextProvider = (props) => {
     };
 
     fetchData();
+  
   }, []);
 
   const productData = async () => {
     try {
       let data = await handleGetAllProduct();
-      // console.log(data.message)
-      // console.log(data.data)
+      console.log('Data:', data);
       if (data && data.errCode === 0) {
         setProducts(data.data);
       }
     } catch (error) {
       if (error.response) {
         if (error.response.data) {
+          console.error(error);
           console.log(error.response.data.message);
         }
       }
@@ -53,27 +53,37 @@ const ShopContextProvider = (props) => {
   const contextValue = {
     loading,
     error,
-    all_product: products, // Rename to match the variable in your ShopCategory component
+    products, // Rename to match the variable in your ShopCategory component
     cartItems,
     addToCart: (itemId) => {
-      setCartItems((prev) => ({ ...prev, [itemId]: itemId}));
-      console.log(cartItems);
+      setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1}));
     },
     removeToCart: (itemId) => {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId]}));
+      setCartItems((prev) => {
+        const updatedCart = { ...prev };
+        if (updatedCart[itemId] > 0) {
+          updatedCart[itemId] -= 1;
+        }
+        return updatedCart;
+      });
     },
     getTotalCartAmount: () => {
       let totalAmount = 0;
       for (const item in cartItems) {
         if (cartItems[item] > 0) {
           let itemInfo = products.find(
-            (product) => product._id === Number(item)
+            (product) => product._id === item
           );
-          totalAmount += itemInfo.price * cartItems[item];
+          console.log('iteminfo',itemInfo)
+          if (itemInfo && itemInfo.price !== undefined) {
+            totalAmount += itemInfo.price * cartItems[item];
+          }
+            
         }
       }
       return totalAmount;
     },
+
     getTotalCartItems: () => {
       let totalItem = 0;
       for (const item in cartItems) {

@@ -4,8 +4,15 @@ import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
 
 const CartItems = () => {
-  const { getTotalCartAmount, all_product, cartItems, removeToCart, addToCart } =
+  const { getTotalCartAmount, products, cartItems, removeToCart, addToCart } =
     useContext(ShopContext);
+
+  const numberFormat = (value) =>
+    new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value);
+
 
   return (
     <div className="cartitems">
@@ -18,18 +25,18 @@ const CartItems = () => {
         <p>Xoá</p>
       </div>
       <hr />
-      {all_product.map(
+      {products.map(
         (e) =>
-          cartItems[e._id]  && (
+          cartItems[e._id] > 0 && (
             <div key={e._id}>
               <div className="cartitems-format cartitems-fomart-main">
-                <img className="carticon-product-icon"  src={e.image} alt="" />
+                <img className="carticon-product-icon" src={e.image} alt="" />
                 <p>{e.name}</p>
-                <p>{e.price}</p>
-                <button  onClick={() => addToCart(e._id)} >
+                <p>{numberFormat(e.price)}</p>
+                <button onClick={() => addToCart(e._id)}>
                   {cartItems[e._id]}
                 </button>
-                <p>{e.price * cartItems[e._id]}</p>
+                <p>{numberFormat(e.price * cartItems[e._id])}</p>
                 <img
                   onClick={() => removeToCart(e._id)}
                   className="cartitems-remove-icon"
@@ -48,7 +55,7 @@ const CartItems = () => {
           <div>
             <div className="cartitems-total-item">
               <p>Tổng số tiền hàng</p>
-              <p>{getTotalCartAmount()}</p>
+              <p>{numberFormat(getTotalCartAmount())}</p>
             </div>
             <hr />
             <div className="cartitems-total-item">
@@ -58,7 +65,7 @@ const CartItems = () => {
             <hr />
             <div className="cartitems-total-item">
               <h3>Tổng </h3>
-              <h3>{getTotalCartAmount()}</h3>
+              <h3>{numberFormat(getTotalCartAmount())}</h3>
             </div>
           </div>
           <button>TIẾN HÀNH THANH TOÁN</button>

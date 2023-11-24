@@ -9,7 +9,7 @@ import Searchbar from '../Components/Searchbar/Searchbar';
 const ShopCategory = (props) => {
 
   // const [search,setSearch] = useState('')
-  const { all_product, loading, error } = useContext(ShopContext);
+  const { products, loading, error } = useContext(ShopContext);
   // const dispatch = useDispatch()
   if (loading) {
     return <p>Loading...</p>; 
@@ -26,7 +26,7 @@ const ShopCategory = (props) => {
     currency: 'VND'
   }).format(value);
 
-  console.log('props.category: ' + props.category)
+
 
   // const onSearch = (e) => {
   //   setSearch(e.target.value)
@@ -40,7 +40,7 @@ const ShopCategory = (props) => {
       <img className="shopcategory-banner" src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
         <p>
-          <span>Showing 1-12</span> out of {all_product.length} products
+          <span>Showing 1-12</span> out of {products.length} products
         </p>
         <div className="searchbar-mid">
         <Searchbar size="large"
@@ -58,12 +58,13 @@ const ShopCategory = (props) => {
       </div>
       
       <div className="shopcategory-products">
-        {all_product.map((item, i) => 
+        {products.map((item, i) => 
           props.category === null || props.category === item.category_id ? (
             <Item key={i} id={item._id} name={item.name} image={item.image} price={numberFormat(item.price)}/>
           ) : null
         )}
       </div>
+      
       <div className="shopcategory-loadmore"><p>Xem Thêm</p></div>
     </div>
   );
