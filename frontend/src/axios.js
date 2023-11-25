@@ -7,7 +7,7 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
     (response) => {
-        const {} = response;
+        // const {data} = response;
         return response.data
     }
 )

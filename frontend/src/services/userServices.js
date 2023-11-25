@@ -12,4 +12,9 @@ const handleGetAllCategory = () => {
     return axios.get('/api/get-all-category')
 }
 
-export {handleLoginApi, handleRegisterApi, handleGetAllCategory}
+const handleGetImage = (imageName) => {
+    // return axios.get(`/api/images?imageName=${imageName}`, {responseType: 'arraybuffer'})
+    return axios.get(`/api/images?imageName=${encodeURIComponent(imageName)}`, {responseType: 'arraybuffer'})
+}
+
+export {handleLoginApi, handleRegisterApi, handleGetAllCategory,handleGetImage}

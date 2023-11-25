@@ -13,11 +13,6 @@ const Navbar = () => {
   const { isLoggedIn, logout} = useAuth();
   const [menu,SetMenu] = useState();
   const {getTotalCartItems} = useContext(ShopContext);
- 
-  const handleLogout = async() => {
-    logout()
-    window.location.href = '/';
-  }
   
   return (
     <div className='navbar'> 
@@ -47,7 +42,7 @@ const Navbar = () => {
           <>
             <Link style={{ textDecoration: 'none' }} to='/'><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get('name')}</p></Link> 
             <Link style={{ textDecoration: 'none' }} to='/'>
-              <button onClick={() => { handleLogout() }}>Đăng xuất</button>
+              <button onClick={() => { logout() }}>Đăng xuất</button>
             </Link>
           </> 
         ): (

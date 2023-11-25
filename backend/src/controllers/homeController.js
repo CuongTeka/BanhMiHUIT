@@ -1,6 +1,11 @@
 const userService = require('../services/userService')
 const bcrypt = require('bcrypt');
 const userModel = require('../models/userModel');
+const express = require('express');
+const path = require('path');
+
+const app = express();
+
 // const checkSession = (req, res) => {
 //     var acc = req.session.account;
 //     res.json('ID: ' + acc._id + ' | User: ' + acc.name + ' | Role: ' + acc.role);
@@ -42,30 +47,18 @@ const registerFunction = async(req, res) => {
     }
     let check = await userService.handleRegisterData(email, pass, name, mssv, phone)
     const encryptPass = bcrypt.hashSync(pass, bcrypt.genSaltSync(5));
-    if(check.errCode == 1)
+    if(check.errCode != 0)
     {
         return res.status(500).json({
-            errCode: 2,
-            message: 'Email đã tồn tại'
-        })
-    }
-    else if(check.errCode == 2){
-        return res.status(500).json({
-            errCode: 5,
-            message: 'Số điện thoại đã tồn tại'
-        })
-    }
-    else if(check.errCode == 3){
-        return res.status(500).json({
-            errCode: 4,
-            message: 'Mã số sinh viên đã tồn tại'
+            errCode: check.errCode,
+            message: check.message
         })
     }else{
-            console.log('Đã tạo tài khoản')
-            res.status(200).json({
-                    errCode: 0,
-                    message: 'Tạo tài khoản thành công'
-                })
+        console.log('Đã tạo tài khoản')
+        res.status(200).json({
+                errCode: 0,
+                message: 'Tạo tài khoản thành công'
+            })
             return userModel.create({
                 email: email,
                 password: encryptPass,
@@ -89,7 +82,7 @@ const validateVietnamesePhoneNumber = (phoneNumber) => {
     return vietnamesePhoneNumberRegex.test(phoneNumber);
   }; 
 
-  let handleGetAllCategory = async(req, res) => {
+let handleGetAllCategory = async(req, res) => {
     let id = '*'
     let category = await userService.getCategory(id)
     return res.status(200).json({
@@ -99,8 +92,20 @@ const validateVietnamesePhoneNumber = (phoneNumber) => {
     })
 }
 
+let handleGetProductImage = async(req, res) => {
+    // const imageName = req.body.imageName
+    // app.use('/api/images', express.static(path.join(__dirname, 'public/images')));
+    const imageName = req.query.imageName;
+    if (!imageName) {
+        return res.status(400).json({ error: 'Image name is required.' });
+    }
+    res.sendFile(path.join(__dirname, '../../public/images', imageName));
+}
+
+
 module.exports = {
     // checkSession,
     registerFunction,
     handleGetAllCategory,
+    handleGetProductImage,
 }

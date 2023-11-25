@@ -11,9 +11,8 @@ const products = new mongoose.Schema({
     date_create: {type: Date, default: Date.now},
     date_edit: {type: Date, default: Date.now},
     is_active: {type: Boolean, default:true}
-}, {collection: 'Product'}
+}, { collection: 'Product' });
 
-);
 const Product = mongoose.model('Product', products);
 
 module.exports = Product;
