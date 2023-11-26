@@ -1,21 +1,57 @@
 import { Table } from "antd";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { handleGetAllUser } from "../../../services/adminServices";
 
 const columns = [
   {
-    title: "Name",
+    title: "Id",
+    dataIndex: "_id",
+  },
+  {
+    title: "Tên",
     dataIndex: "name",
-    render: (text) => <a>{text}</a>,
+    // render: (text) => <a>{text}</a>,
   },
   {
-    title: "Age",
-    dataIndex: "age",
+    title: "Email",
+    dataIndex: "email",
+    render: (text) => <a>{text}</a>
   },
   {
-    title: "Address",
-    dataIndex: "address",
+    title: "MSSV",
+    dataIndex: "mssv",
+  },
+  {
+    title: "Số điện thoại",
+    dataIndex: "phone",
+  },
+  {
+    title: "Vai trò",
+    dataIndex: "role",
+    render: (role) => <span>{roleText(role)}</span>,
+  },
+  {
+    title: "Ngày tạo",
+    dataIndex: "date_create",
+    render: (text) => new Date(text).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }),
+  },
+  {
+    title: "Ngày chỉnh sửa",
+    dataIndex: "date_update",
+    render: (text) => new Date(text).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }),
   },
 ];
+
+
+
 const data = [
   {
     key: "1",
@@ -58,8 +94,43 @@ const rowSelection = {
   }),
 };
 
+const roleText = (role) => {
+  if (role === '0') {
+    return 'Khách hàng';
+  } else if (role === '1') {
+    return 'Admin';
+  } else {
+    return '???';
+  }
+};
+
 const Tableadmin = (props) => {
   const { selectionType = "checkbox" } = props;
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      userData()
+    };
+    fetchData();
+  }, []);
+  
+  const userData = async () => {
+    try {
+      let data = await handleGetAllUser();
+      // console.log('Data:', data);
+      if (data && data.errCode === 0) {
+        setUsers(data.data)
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.data) {
+          console.error(error);
+          console.log(error.response.data.message);
+        }
+      }
+    }
+  };
 
   return (
     <div>
@@ -69,7 +140,7 @@ const Tableadmin = (props) => {
           ...rowSelection,
         }}
         columns={columns}
-        dataSource={data}
+        dataSource={users}
       />
     </div>
   );

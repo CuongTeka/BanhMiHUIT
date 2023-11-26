@@ -1,8 +1,9 @@
-import { Button, Form, Modal } from "antd";
+import { Button, Form, Modal, Upload } from "antd";
 import PlusSquareTwoTone from "@ant-design/icons";
 import React, { useState } from "react";
 import Tableadmin from "../Tableadmin/Tableadmin";
 import InputComponent from "../../InputComponent/InputComponent";
+import { UploadOutlined } from '@ant-design/icons';
 
 const Adminproduct = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
@@ -112,18 +113,25 @@ const Adminproduct = () => {
           <Form.Item
             label="Image"
             name="image"
+            valuePropName="fileList"
             rules={[
               {
                 required: true,
                 message: "Please input image product!",
               },
             ]}
+            getValueFromEvent={(e) => e && e.fileList}
           >
-            <InputComponent
-              value={stateProduct.image}
-              onChange={handleonChange}
-              image="image"
-            />
+            <Upload
+              name="image"
+              // value={stateProduct.image}
+              listType="picture"
+              // customRequest={customRequest}
+              // onChange={handleonChange}
+              // image="image"
+            >
+              <Button icon={<UploadOutlined />}>Click to upload</Button>
+            </Upload>
           </Form.Item>
           <Form.Item
             label="New_price"
