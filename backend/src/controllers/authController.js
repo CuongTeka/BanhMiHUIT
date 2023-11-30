@@ -72,8 +72,7 @@ const checkLogin = async(req, res) => {
 //     res.redirect('/')
 // }
 
-module.exports = {
-    // registerFunction, 
+module.exports = { 
     checkLogin, 
     // logout
 }

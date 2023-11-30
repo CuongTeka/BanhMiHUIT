@@ -11,6 +11,7 @@ const Breadcrums = (props) => {
         try {
           let data = await handleGetAllCategory()
           if(data && data.errCode === 0){
+            //có thể sửa api thành lấy product by id thay vì lấy all r so sánh
             // const foundCategory = data.data.find(data => data._id === product.category_id);
             const foundCategory = data.data.find((e) => e._id === product.category_id);
             console.log(foundCategory)

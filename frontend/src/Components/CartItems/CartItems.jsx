@@ -2,16 +2,11 @@ import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
+import {numberFormat} from '../../util'
 
 const CartItems = () => {
   const { getTotalCartAmount, products, cartItems, removeToCart, addToCart } =
     useContext(ShopContext);
-
-  const numberFormat = (value) =>
-    new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(value);
 
 
   return (
@@ -30,7 +25,7 @@ const CartItems = () => {
           cartItems[e._id] > 0 && (
             <div key={e._id}>
               <div className="cartitems-format cartitems-fomart-main">
-                <img className="carticon-product-icon" src={e.image} alt="" />
+                <img className="carticon-product-icon" src={`http://localhost:8080/api/images?imageName=${encodeURIComponent(e.image)}`} alt="" />
                 <p>{e.name}</p>
                 <p>{numberFormat(e.price)}</p>
                 <button onClick={() => addToCart(e._id)}>
@@ -38,7 +33,7 @@ const CartItems = () => {
                 </button>
                 <p>{numberFormat(e.price * cartItems[e._id])}</p>
                 <img
-                  onClick={() => removeToCart(e.id)}
+                  onClick={() => removeToCart(e._id)}
                   className="cartitems-remove-icon"
                   src={remove_icon}
                   alt=""
