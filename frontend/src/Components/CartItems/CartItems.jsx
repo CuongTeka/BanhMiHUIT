@@ -38,7 +38,7 @@ const CartItems = () => {
                 </button>
                 <p>{numberFormat(e.price * cartItems[e._id])}</p>
                 <img
-                  onClick={() => removeToCart(e.id)}
+                  onClick={() => removeToCart(e._id)}
                   className="cartitems-remove-icon"
                   src={remove_icon}
                   alt=""

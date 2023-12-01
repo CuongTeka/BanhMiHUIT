@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useEffect } from "react";
 import { handleGetAllProduct } from "../services/adminServices";
 export const ShopContext = createContext(null);
@@ -67,6 +68,7 @@ const ShopContextProvider = (props) => {
         return updatedCart;
       });
     },
+    
     getTotalCartAmount: () => {
       let totalAmount = 0;
       for (const item in cartItems) {

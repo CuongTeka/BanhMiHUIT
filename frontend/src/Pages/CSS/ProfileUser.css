@@ -1,0 +1,10 @@
+.profileUser{
+    width: 1270px;
+    margin: 0 auto;
+}
+.profileUser-header{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    width: 100%;
+}

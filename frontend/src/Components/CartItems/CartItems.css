@@ -8,7 +8,7 @@
 }
 .cartitems-fomart-main{
     display: grid;
-    grid-template-columns: 0.2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.3fr;
+    grid-template-columns: 0.4fr 0.5fr 0.5fr 0.5fr 0.5fr 0.3fr;
     align-items: center;
     gap: 75px;
     padding: 20px 0px;
