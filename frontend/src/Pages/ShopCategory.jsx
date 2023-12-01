@@ -4,6 +4,7 @@ import "./CSS/ShopCategory.css";
 import dropdown_icon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/Item/Item";
 import Searchbar from '../Components/Searchbar/Searchbar';
+import {numberFormat} from '../util'
 // import { useDispatch } from 'react-redux';
 
 const ShopCategory = (props) => {
@@ -18,15 +19,6 @@ const ShopCategory = (props) => {
   if (error) {
     return <p>Error fetching products: {error.message}</p>; 
   }
-
-  //format tiền thành vnđ
-  const numberFormat = (value) =>
-  new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  }).format(value);
-
-
 
   // const onSearch = (e) => {
   //   setSearch(e.target.value)

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import "./ProductDisplay.css";
+import {numberFormat} from '../../util'
 
 const ProductDisplay = (props) => {
   const { product } = props;
@@ -18,17 +19,12 @@ const ProductDisplay = (props) => {
     fetchImage();
   }, [product.image]);
 
-  const numberFormat = (value) =>
-  new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND'
-  }).format(value);
-console.log('image data: '+ imageData)
+// console.log('image data: '+ imageData)
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
         <div className="productdisplay-img">
-            <img className="productdisplay-main-img" src={imageData} alt="" />
+            <img className="productdisplay-main-img" src={imageData} alt={product.image} />
           {/* <img className="productdisplay-main-img" src={imageData} alt="" /> */}
         </div>
       </div>

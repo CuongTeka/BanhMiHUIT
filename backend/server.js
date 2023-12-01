@@ -6,8 +6,6 @@ const cookieParser = require("cookie-parser");
 const cors = require('cors');
 const dotenv = require('dotenv')
 const webRoutes = require('./src/routes/web');
-const postRoutes = require('./src/routes/post');
-const auth = require('./src/controllers/authController');
 
 
 
@@ -22,7 +20,7 @@ const oneYear = 1000 * 60 * 60 * 3600;
 
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: process.env.FEURL,
     credentials: true,
   };
 app.use(cors(corsOptions));
@@ -38,7 +36,6 @@ app.use(session({
     }));
  
 app.use('/api', webRoutes);
-app.use('/api', postRoutes)
 
 
 mongoose.connect(`${process.env.MONGO_DB}`)

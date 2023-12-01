@@ -30,8 +30,7 @@ const SignUp = () => {
     setPhone(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async() => {
     setErrors('')
     try {
       let data = await handleRegisterApi(email, pass, name, mssv, phone)

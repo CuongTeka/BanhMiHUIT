@@ -3,32 +3,30 @@ const cateModel = require('../models/categoryModel');
 const productModel = require('../models/productModel');
 const bcrypt = require('bcrypt');
 
-let handleRegisterData = (email, pass, name, mssv, phone) => {
+let Register = (newUser) => {
     return new Promise(async(resolve, reject) => {
+        const { email, pass, name, mssv, phone } = newUser
         try {
-            let message = {}
-
-            let isEmailExist = await checkEmail(email);
-            let isPhoneExist = await checkPhone(phone);
-            let isMSSVExist = await checkMSSV(mssv);
-            if (isEmailExist) {
-                    message.errCode = 1,
-                    message.message = 'Email đã tồn tại'
-                }
-            if (isPhoneExist) {
-                message.errCode = 2,
-                message.message = 'Số điện thoại đã tồn tại'
+            const encryptPass = bcrypt.hashSync(pass, bcrypt.genSaltSync(5));
+            const createUser = await userModel.create({
+                email,
+                password: encryptPass,
+                name,
+                mssv,
+                phone
+            })
+            if(createUser){
+                resolve({
+                    errCode: 0,
+                    message: 'Tạo tài khoản thành công',
+                })
             }
-            if (isMSSVExist) {
-                message.errCode = 3,
-                message.message = 'Mã số sinh viên đã tồn tại'
-            }
-            resolve(message)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
+            reject(error);
         }
     })
-}
+}//thêm user
 
 let checkEmail = (email) => {
     return new Promise(async (resolve, reject) => {
@@ -79,28 +77,92 @@ let checkMSSV = (mssv) => {
     })
 }
 
-let getCategory = (Id) => {
+let getUser = (Id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let cate = '';
+            let users = '';
             if(Id === '*'){
-                cate = await cateModel.find({})
+                users = await userModel.find({}).select({ password: 0 })
             }
             if(Id && Id !== '*'){
-                cate = await cateModel.findOne({
+                users = await userModel.findOne({
                     _id: Id
-                })
+                }).select({ password: 0 })
             }
-            resolve(cate)
+            resolve(users)
         } catch (error) {
             reject(error)
         }
     })
-}
+}//lấy user
 
+const updateUser = (id, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUser = await userModel.findOne({
+                _id: id
+            })
+            if (checkUser === null) {
+                resolve({
+                    errCode: '500',
+                    message: 'Không tìm thấy id user'
+                })
+            }
+
+            await userModel.findByIdAndUpdate(id, data, { new: true })
+            resolve({
+                status: 'OK',
+                message: 'SUCCESS',
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}//update user
+
+const deleteUser = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const checkUser = await userModel.findOne({
+                _id: id
+            })
+            if (checkUser === null) {
+                resolve({
+                    errCode: '500',
+                    message: 'Không tìm thấy user'
+                })
+            }
+
+            await userModel.findByIdAndDelete(id)
+            resolve({
+                errCode: '0',
+                message: 'Xóa thành công',
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}//xóa 1
+
+const deleteManyUser = (ids) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            await userModel.deleteMany({ _id: ids })
+            resolve({
+                errCode: '0',
+                message: 'Xóa thành công',
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}//xóa nhiều
 
 module.exports = {
-    handleRegisterData,
-    getCategory,
-    
+    Register, checkEmail, checkPhone, checkMSSV,
+    getUser,
+    deleteUser,
+    deleteManyUser,
+    updateUser,
 }
