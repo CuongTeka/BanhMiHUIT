@@ -15,19 +15,19 @@ const authController = require('../controllers/authController')
 //user
 router.get('/get-all-user', userController.handleGetAllUser)
 router.get('/get-user-byid', userController.handleFindUserById)
-router.put('/update-user/:id', userController.updateUser)
-router.delete('/delete-user/:id', userController.deleteUser)
+router.post('/update-user/', userController.updateUser)
+router.get('/delete-user/', userController.deleteUser)
 router.post('/delete-many-user', userController.deleteMany)
 //product
 router.get('/get-all-product', productController.handleGetAllProduct)
-router.post('/get-product-by-name/:name', productController.handleGetProductByName)
-router.post('/create-product')
-router.put('/update-product/:id')
-router.delete('/delete-product/:id')
+router.get('/get-product-by-name/:name', productController.handleGetProductByName)
+router.post('/create-product', productController.createProduct)
+router.post('/update-product/', productController.updateProduct)
+router.get('/delete-product/', productController.deleteProduct)
 router.post('/delete-many-product')
 //category
 router.get('/get-all-category', cateController.handleGetAllCategory)
-router.post('/get-category-by-id', cateController.handleGetCategoryById)
+router.get('/get-category-by-id', cateController.handleGetCategoryById)
 
 //order
 

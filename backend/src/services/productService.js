@@ -6,11 +6,14 @@ let getProduct = (Id) => {
         try {
             let product = '';
             if(Id === '*'){
-                product = await proModel.find({})
+                product = await proModel.find({
+                    is_active: true
+                })
             }
             if(Id && Id !== '*'){
                 product = await proModel.findOne({
-                    _id: Id
+                    _id: Id,
+                    is_active: true
                 })
             }
             resolve(product)
@@ -18,7 +21,7 @@ let getProduct = (Id) => {
             reject(error)
         }
     })
-}
+}//which is always get active product
 let getProductByName = (name) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -51,7 +54,7 @@ const createProduct = (newProduct) => {
             })
             if (newProduct) {
                 resolve({
-                    errCode: '0',
+                    errCode: 0,
                     message: 'Insert Successed'
                 })
             }
@@ -59,30 +62,33 @@ const createProduct = (newProduct) => {
             reject(e)
         }
     })
-}
-const updateProduct = (id, data) => {
+}//done
+const updateProduct = (data) => {
     return new Promise(async (resolve, reject) => {
+        const { id, name, category_id, detail, price, discount, image, is_active } = data
         try {
             const checkProduct = await proModel.findOne({
                 _id: id
             })
             if (checkProduct === null) {
                 resolve({
-                    errCode: '1',
+                    errCode: 1,
                     message: 'Không tìm thấy product'
                 })
             }
 
-            const updatedProduct = await proModel.findByIdAndUpdate(id, data)
-            resolve({
-                errCode: '0',
-                message: 'Update successed',
-            })
+            const updatedProduct = await proModel.findByIdAndUpdate(id, {name, category_id, detail, price, discount, image, date_edit: Date.now(), is_active})
+            if(updatedProduct){
+                resolve({
+                    errCode: 0,
+                    message: 'Update successed',
+                })
+            }
         } catch (e) {
             reject(e)
         }
     })
-}
+}//done
 const deleteProduct = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -91,21 +97,21 @@ const deleteProduct = (id) => {
             })
             if (checkProduct === null) {
                 resolve({
-                    errCode: '1',
+                    errCode: 1,
                     message: 'Không tìm thấy product'
                 })
             }
 
             await proModel.findByIdAndDelete(id)
             resolve({
-                errCode: '0',
+                errCode: 0,
                 message: 'Delete product successed',
             })
         } catch (e) {
             reject(e)
         }
     })
-}
+}//done
 const deleteManyProduct = (ids) => {
     return new Promise(async (resolve, reject) => {
         try {

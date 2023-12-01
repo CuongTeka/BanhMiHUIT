@@ -31,7 +31,7 @@ const userService = require('../services/authService')
 // }
 
 const checkLogin = async(req, res) => {
-    var ses = req.session;
+    // var ses = req.session;
     // console.log(session.user)
 
     if(!req.body.email || !req.body.pass)

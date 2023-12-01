@@ -18,6 +18,6 @@ const orders = new Schema({
     status: {type:Number, default:0},
     shipping: {type:String, required:true},
     note: {type:String}
-}, {collection: 'Order'});
+}, {collection: 'Order', versionKey: false});
 
 module.exports = mongoose.model('Order', orders);

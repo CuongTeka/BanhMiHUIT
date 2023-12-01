@@ -1,7 +1,4 @@
 const userService = require('../services/userService')
-const cateService = require('../services/categoryService')
-const bcrypt = require('bcrypt');
-const userModel = require('../models/userModel');
 const path = require('path');
 
 

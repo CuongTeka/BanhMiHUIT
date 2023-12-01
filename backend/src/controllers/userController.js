@@ -1,5 +1,5 @@
 const userService = require('../services/userService')
-
+//tạm thời đầy đủ
 
 let handleGetAllUser = async(req, res) => {
     let id = '*'
@@ -22,32 +22,37 @@ let handleFindUserById = async(req, res) => {
 }
 
 const updateUser = async (req, res) => {
+    const { id, email, pass, name, mssv, phone, role } = req.body;
+    const data = req.body;
     try {
-        const userId = req.params.id
-        const data = req.body
-        if (!userId) {
+        // const userId = req.params.id
+        // const data = req.body
+        if (!id) {
             return res.status(400).json({
                 errCode: '500',
                 message: 'userId not found'
             })
         }
-        await UserService.updateUser(userId, data)
-        return res.status(200).json({
-            errCode: '0',
-            message: 'Update thành công'
-        })
+        let check = await userService.updateUser(data)
+        if(check.errCode === 0){
+            return res.status(200).json({
+                errCode: '0',
+                message: 'Update thành công'
+            })
+        }
+        
     } catch (e) {
         return res.status(400).json({
             message: e
         })
     }
-}
+}//done
 const deleteUser = async (req, res) => {
     try {
-        const userId = req.params.id
+        const userId = req.body.id
         if (!userId) {
             return res.status(400).json({
-                status: '500',
+                errCode: '500',
                 message: 'The userId is required'
             })
         }
@@ -61,7 +66,7 @@ const deleteUser = async (req, res) => {
             message: e
         })
     }
-}
+}//done
 const deleteMany = async (req, res) => {
     try {
         const ids = req.body.ids
@@ -81,7 +86,7 @@ const deleteMany = async (req, res) => {
             message: e
         })
     }
-}
+}//WIP
 
 
 
