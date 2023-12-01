@@ -17,6 +17,7 @@ import Failpage from "./Components/404page/Failpage";
 import AdminPage from "./Pages/AdminPage";
 import { useAuth } from "./authContext";
 import Headeradmin from "./Components/Admin/Headeradmin/Headeradmin";
+import ProfileUser from "./Pages/ProfileUser";
 
 function App() {
   const { isAdmin } = useAuth();
@@ -48,6 +49,7 @@ function App() {
             </Route>
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/profile_user" element={<ProfileUser />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="*" element={<Failpage />} />    

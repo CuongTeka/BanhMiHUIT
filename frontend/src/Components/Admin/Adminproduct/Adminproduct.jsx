@@ -9,12 +9,13 @@ const Adminproduct = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
 
   const [stateProduct, setstateProduct] = useState({
-    id: "",
     name: "",
-    category: "",
+    category_id:"",
     image: "",
-    new_price: "",
+    price: "",
     detail: "",
+    date_create: "",
+    date_edit: "",
   });
 
   const handleCancel = () => {
@@ -63,22 +64,6 @@ const Adminproduct = () => {
           autoComplete="off"
         >
           <Form.Item
-            label="Id"
-            name="id"
-            rules={[
-              {
-                required: true,
-                message: "Please input id product!",
-              },
-            ]}
-          >
-            <InputComponent
-              value={stateProduct.id}
-              onChange={handleonChange}
-              id="id"
-            />
-          </Form.Item>
-          <Form.Item
             label="Name"
             name="name"
             rules={[
@@ -95,8 +80,8 @@ const Adminproduct = () => {
             />
           </Form.Item>
           <Form.Item
-            label="Category"
-            name="category"
+            label="Category_id"
+            name="category_id"
             rules={[
               {
                 required: true,
@@ -105,9 +90,9 @@ const Adminproduct = () => {
             ]}
           >
             <InputComponent
-              value={stateProduct.category}
+              value={stateProduct.category_id}
               onChange={handleonChange}
-              category="category"
+              category_id="category_id"
             />
           </Form.Item>
           <Form.Item
@@ -134,8 +119,8 @@ const Adminproduct = () => {
             </Upload>
           </Form.Item>
           <Form.Item
-            label="New_price"
-            name="new_price"
+            label="Price"
+            name="price"
             rules={[
               {
                 required: true,
@@ -144,9 +129,9 @@ const Adminproduct = () => {
             ]}
           >
             <InputComponent
-              value={stateProduct.new_price}
+              value={stateProduct.price}
               onChange={handleonChange}
-              new_price="new_prie"
+              price="price"
             />
           </Form.Item>
 
@@ -164,6 +149,38 @@ const Adminproduct = () => {
               value={stateProduct.detail}
               onChange={handleonChange}
               detail="detail"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Date_create"
+            name="date_create"
+            rules={[
+              {
+                required: true,
+                message: "Please input category product!",
+              },
+            ]}
+          >
+            <InputComponent
+              value={stateProduct.date_create}
+              onChange={handleonChange}
+              date_create="date_create"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Date_edit"
+            name="date_edit"
+            rules={[
+              {
+                required: true,
+                message: "Please input category product!",
+              },
+            ]}
+          >
+            <InputComponent
+              value={stateProduct.date_edit}
+              onChange={handleonChange}
+              date_edit="date_edit"
             />
           </Form.Item>
 

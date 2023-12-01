@@ -7,6 +7,19 @@ import { ShopContext } from "../../Context/ShopContext";
 import { useAuth } from '../../authContext';
 import Cookies from "js-cookie";
 import {UserOutlined} from '@ant-design/icons';
+import { Dropdown } from 'antd';
+
+
+const items = [
+  {
+    key: '1',
+    label: (
+      <Link style={{ textDecoration: 'none' }} to='/profile_user'>
+        Thông tin người dùng
+      </Link>
+    ),
+  },
+]
 
 const Navbar = () => {
 
@@ -40,7 +53,9 @@ const Navbar = () => {
       <div className='nav-login-cart'>
         {isLoggedIn ? (
           <>
-            <Link style={{ textDecoration: 'none' }} to='/'><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get('name')}</p></Link> 
+            <Dropdown menu={{ items,}} placement="bottom" arrow >
+              <Link style={{ textDecoration: 'none' }} to='/'><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get('name')}</p></Link>
+            </Dropdown>
             <Link style={{ textDecoration: 'none' }} to='/'>
               <button onClick={() => { logout() }}>Đăng xuất</button>
             </Link>

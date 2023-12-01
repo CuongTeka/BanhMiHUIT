@@ -7,9 +7,6 @@ new Intl.NumberFormat('vi-VN', {
 
 
 
-
-
-
 export function getItem(label, key, icon, children, type) {
     return {
       key,
