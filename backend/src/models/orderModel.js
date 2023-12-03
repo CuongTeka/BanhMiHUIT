@@ -1,7 +1,8 @@
-
+const url = process.env.DBURL || 'mongodb+srv://admin:123@qlbanmi.qonjmak.mongodb.net/QLBM/?retryWrites=true&w=majority';
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+mongoose.connect(url ,{dbName: 'QLBM'});
 
 const contents = new Schema({
     pro_id: {type: String, required:true},

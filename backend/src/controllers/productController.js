@@ -1,4 +1,16 @@
 const proService = require('../services/productService')
+const multer = require('multer')
+const path = require('path')
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../../public/images'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 
 //get product
 let handleGetAllProduct = async(req, res) => {
@@ -39,6 +51,7 @@ const createProduct = async (req, res) => {
                 message: 'Vui lòng nhập dữ liệu'
             })
         }
+        upload.single('image')
         const check = await proService.createProduct(req.body)
         if(check.errCode == 0)
         {
@@ -55,15 +68,16 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const { id, name, category_id, detail, price, discount, image } = req.body
+        // const { id, name, category_id, detail, price, discount, image } = req.body
+        const id = req.params.id
         const data = req.body;
         if (!id) {
             return res.status(400).json({
-                errCode: 0,
+                errCode: 1,
                 message: 'Thiếu ID'
             })
         }
-        const check = await proService.updateProduct(data)
+        const check = await proService.updateProduct(id, data)
         if(check.errCode == 0)
         {
             return res.status(200).json(check)
@@ -79,7 +93,8 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     try {
-        const id = req.body.id
+        // const id = req.body.id
+        const id = req.params.id
         if (!id) {
             return res.status(400).json({
                 errCode: 1,

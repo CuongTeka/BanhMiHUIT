@@ -63,9 +63,9 @@ const createProduct = (newProduct) => {
         }
     })
 }//done
-const updateProduct = (data) => {
+const updateProduct = (id, data) => {
     return new Promise(async (resolve, reject) => {
-        const { id, name, category_id, detail, price, discount, image, is_active } = data
+        const { name, category_id, detail, price, discount, image, is_active } = data
         try {
             const checkProduct = await proModel.findOne({
                 _id: id
