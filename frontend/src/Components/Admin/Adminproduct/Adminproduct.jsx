@@ -3,14 +3,14 @@ import PlusSquareTwoTone from "@ant-design/icons";
 import React, { useState } from "react";
 import Tableadmin from "../Tableadmin/Tableadmin";
 import InputComponent from "../../InputComponent/InputComponent";
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from "@ant-design/icons";
 
 const Adminproduct = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
 
   const [stateProduct, setstateProduct] = useState({
     name: "",
-    category_id:"",
+    category_id: "",
     image: "",
     price: "",
     detail: "",
@@ -20,6 +20,7 @@ const Adminproduct = () => {
 
   const handleCancel = () => {
     setisModalOpen(false);
+    
   };
 
   const onFinish = () => {
@@ -29,8 +30,8 @@ const Adminproduct = () => {
   const handleonChange = (e) => {
     setstateProduct({
       ...stateProduct,
-      [e.target.name]: e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -45,21 +46,18 @@ const Adminproduct = () => {
       <div style={{ marginTop: "50px" }}>
         <Tableadmin />
       </div>
-      <Modal title="Tạo Sản Phẩm" open={isModalOpen} onCancel={handleCancel} okText="">
+      <Modal
+        title="Tạo Sản Phẩm"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        okText=""
+      >
         <Form
           name="basic"
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            maxWidth: 600,
-          }}
-          initialValues={{
-            remember: true,
-          }}
+          labelCol={{span: 8,}}
+          wrapperCol={{span: 16,}}
+          style={{maxWidth: 600,}}
+          initialValues={{remember: true,}}
           onFinish={onFinish}
           autoComplete="off"
         >

@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
-import {numberFormat} from '../../util'
+import {numberFormat} from '../../util';
+
 
 const CartItems = () => {
   const { getTotalCartAmount, products, cartItems, removeToCart, addToCart } =
@@ -63,7 +64,7 @@ const CartItems = () => {
               <h3>{numberFormat(getTotalCartAmount())}</h3>
             </div>
           </div>
-          <button>TIẾN HÀNH THANH TOÁN</button>
+          <button >TIẾN HÀNH THANH TOÁN</button>
         </div>
         <div className="cartitems-promocode">
           <p>Nếu bạn có mã giảm giá, Điền tại đây !</p>
