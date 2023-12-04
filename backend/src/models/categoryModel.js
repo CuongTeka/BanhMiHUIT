@@ -9,6 +9,6 @@ const cate = new Schema({
     name: {type: String, required:true},
     price: {type: Number, required: true},
     is_active: {type: Boolean, default:true}
-}, {collection: 'Category'});
+}, {collection: 'Category', versionKey: false});
 
 module.exports = mongoose.model('Category', cate);

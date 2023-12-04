@@ -96,8 +96,12 @@ let getUser = (Id) => {
     })
 }//lấy user
 
-const updateUser = (id, data) => {
+const updateUser = (data) => {
     return new Promise(async (resolve, reject) => {
+        const { id, email, pass, name, mssv, phone, role } = data
+        if(role==null){
+            role = 0;
+        }
         try {
             const checkUser = await userModel.findOne({
                 _id: id
@@ -109,9 +113,9 @@ const updateUser = (id, data) => {
                 })
             }
 
-            await userModel.findByIdAndUpdate(id, data, { new: true })
+            await userModel.findByIdAndUpdate(id, {email, password:pass, name, mssv, phone, role, date_update: Date.now()})
             resolve({
-                status: 'OK',
+                errCode: 0,
                 message: 'SUCCESS',
             })
         } catch (e) {
