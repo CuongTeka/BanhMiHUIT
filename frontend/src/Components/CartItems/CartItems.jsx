@@ -2,13 +2,26 @@ import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
-import {numberFormat} from '../../util';
-
+import { numberFormat } from "../../util";
+import { useAuth } from "../../authContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartItems = () => {
   const { getTotalCartAmount, products, cartItems, removeToCart, addToCart } =
     useContext(ShopContext);
 
+  const { isLoggedIn, login } = useAuth();
+  const navigate = useNavigate();
+
+  const handlePaymentClick = () => {
+    if (isLoggedIn) {
+      // User is logged in, navigate to the payment page
+      navigate("/payment");
+    } else {
+      // User is not logged in, navigate to the login page
+      login(() => navigate("/payment"));
+    }
+  };
 
   return (
     <div className="cartitems">
@@ -26,7 +39,13 @@ const CartItems = () => {
           cartItems[e._id] > 0 && (
             <div key={e._id}>
               <div className="cartitems-format cartitems-fomart-main">
-                <img className="carticon-product-icon" src={`http://localhost:8080/api/images?imageName=${encodeURIComponent(e.image)}`} alt="" />
+                <img
+                  className="carticon-product-icon"
+                  src={`http://localhost:8080/api/images?imageName=${encodeURIComponent(
+                    e.image
+                  )}`}
+                  alt=""
+                />
                 <p>{e.name}</p>
                 <p>{numberFormat(e.price)}</p>
                 <button onClick={() => addToCart(e._id)}>
@@ -64,7 +83,13 @@ const CartItems = () => {
               <h3>{numberFormat(getTotalCartAmount())}</h3>
             </div>
           </div>
-          <button >TIẾN HÀNH THANH TOÁN</button>
+          {isLoggedIn ? (
+            <button onClick={handlePaymentClick}>TIẾN HÀNH THANH TOÁN</button>
+          ) : (
+            <Link style={{ textDecoration: "none" }} to="/signin">
+              <button>ĐĂNG NHẬP ĐỂ THANH TOÁN</button>
+            </Link>
+          )}
         </div>
         <div className="cartitems-promocode">
           <p>Nếu bạn có mã giảm giá, Điền tại đây !</p>

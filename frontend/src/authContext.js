@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
@@ -9,44 +9,48 @@ export const AuthProvider = ({ children }) => {
   // const [name, setName] = useState('');
 
   useEffect(() => {
-    const storedLoggedIn = Cookies.get('isLoggedIn');
-    const storedAdmin = Cookies.get('isAdmin');
-    if (storedLoggedIn === 'true') {
+    const storedLoggedIn = Cookies.get("isLoggedIn");
+    const storedAdmin = Cookies.get("isAdmin");
+    if (storedLoggedIn === "true") {
       setLoggedIn(true);
     }
-    if(storedAdmin === 'true'){
-      setAdmin(true)
-    }else{
-      setAdmin(false)
+    if (storedAdmin === "true") {
+      setAdmin(true);
+    } else {
+      setAdmin(false);
     }
   }, []);
 
-
   const grantAdmin = () => {
-      setAdmin(true)
-      Cookies.set('isAdmin', 'true');
-  }
+    setAdmin(true);
+    Cookies.set("isAdmin", "true");
+  };
 
   const setUser = () => {
-      setAdmin(false)
-      Cookies.set('isAdmin', 'false');
-  }
+    setAdmin(false);
+    Cookies.set("isAdmin", "false");
+  };
 
-  const login = () => {
+  const login = (callback) => {
     setLoggedIn(true);
-    Cookies.set('isLoggedIn', 'true');
-  }
+    Cookies.set("isLoggedIn", "true");
+    if (typeof callback === "function") {
+      callback();
+    }
+  };
 
   const logout = () => {
     setLoggedIn(false);
-    Cookies.remove('isLoggedIn');
-    Cookies.remove('isAdmin');
-    Cookies.remove('name')
-    window.location.href = '/';
+    Cookies.remove("isLoggedIn");
+    Cookies.remove("isAdmin");
+    Cookies.remove("name");
+    window.location.href = "/";
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, isAdmin, login, logout, grantAdmin, setUser }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, isAdmin, login, logout, grantAdmin, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

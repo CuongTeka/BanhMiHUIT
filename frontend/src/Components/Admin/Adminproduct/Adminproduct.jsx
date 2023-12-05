@@ -24,6 +24,7 @@ const Adminproduct = () => {
   };
 
   const onFinish = () => {
+    
     console.log("finish", stateProduct);
   };
 
@@ -193,6 +194,7 @@ const Adminproduct = () => {
             </Button>
           </Form.Item>
         </Form>
+        <Tableadmin/>
       </Modal>
     </div>
   );

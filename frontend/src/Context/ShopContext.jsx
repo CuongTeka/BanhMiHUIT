@@ -59,6 +59,8 @@ const ShopContextProvider = (props) => {
     addToCart: (itemId) => {
       setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1}));
     },
+    // them san pham  
+
     removeToCart: (itemId) => {
       setCartItems((prev) => {
         const updatedCart = { ...prev };
@@ -68,7 +70,9 @@ const ShopContextProvider = (props) => {
         return updatedCart;
       });
     },
-    
+    // bot san pham   
+
+
     getTotalCartAmount: () => {
       let totalAmount = 0;
       for (const item in cartItems) {
@@ -85,6 +89,7 @@ const ShopContextProvider = (props) => {
       }
       return totalAmount;
     },
+    // lay tong so luong san pham
 
     getTotalCartItems: () => {
       let totalItem = 0;
@@ -95,7 +100,14 @@ const ShopContextProvider = (props) => {
       }
       return totalItem;
     },
+    // lay tong san pham
+
+    resetCart: () => {
+      setCartItems(getDefaultCart());
+    },
+    //Đưa gio hang ve trang hai ban dau
   };
+
 
   return (
     <ShopContext.Provider value={contextValue}>

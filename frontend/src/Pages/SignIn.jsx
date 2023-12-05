@@ -36,7 +36,7 @@ const SignIn = () => {
           navigate('/system/admin')
         }else{
           setUser()
-          navigate('/')
+          navigate("/")
         }
         console.log('login success')
       }
