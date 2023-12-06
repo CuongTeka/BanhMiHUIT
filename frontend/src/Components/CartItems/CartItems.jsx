@@ -3,7 +3,7 @@ import { ShopContext } from "../../Context/ShopContext";
 import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
 import { numberFormat } from "../../util";
-import { useAuth } from "../../authContext";
+import { useAuth } from "../../Context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 
 const CartItems = () => {

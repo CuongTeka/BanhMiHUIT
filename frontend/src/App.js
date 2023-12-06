@@ -16,10 +16,12 @@ import AboutUs from "./Pages/AboutUs";
 import PaymentPage from "./Pages/PaymentPage"
 import Failpage from "./Components/404page/Failpage";
 import AdminPage from "./Pages/AdminPage";
-import { useAuth } from "./authContext";
+import { useAuth } from "./Context/authContext";
 import Headeradmin from "./Components/Admin/Headeradmin/Headeradmin";
 import ProfileUser from "./Pages/ProfileUser";
 // import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+
+
 function App() {
   const { isAdmin } = useAuth();
  

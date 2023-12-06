@@ -3,7 +3,7 @@ import "./CSS/SignIn.css";
 import { Link, useNavigate } from "react-router-dom";
 import { handleLoginApi } from "../services/userServices";
 import Cookies from 'js-cookie';
-import { useAuth } from '../authContext';
+import { useAuth } from '../Context/authContext';
 
 
 const SignIn = () => {

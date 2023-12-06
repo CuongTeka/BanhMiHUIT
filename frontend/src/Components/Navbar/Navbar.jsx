@@ -4,7 +4,7 @@ import { Link} from "react-router-dom";
 import Logobm from '../Assets/logo.png'
 import cart_icon from '../Assets/cart_icon.png'
 import { ShopContext } from "../../Context/ShopContext";
-import { useAuth } from '../../authContext';
+import { useAuth } from '../../Context/authContext';
 import Cookies from "js-cookie";
 import {UserOutlined} from '@ant-design/icons';
 import { Dropdown } from 'antd';

@@ -3,7 +3,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ShopContextProvider from "./Context/ShopContext";
-import { AuthProvider } from "./authContext";
+import { AuthProvider } from "./Context/authContext";
 import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { store, persistor } from "./Redux/Store.jsx";
