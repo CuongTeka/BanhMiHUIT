@@ -51,7 +51,7 @@ const createProduct = async (req, res) => {
                 message: 'Vui lòng nhập dữ liệu'
             })
         }
-        upload.single('image')
+        // upload.single('image')
         const check = await proService.createProduct(req.body)
         if(check.errCode == 0)
         {
@@ -136,5 +136,5 @@ const deleteMany = async (req, res) => {
 module.exports = {
     handleGetAllProduct,
     handleGetProductById, handleGetProductByName,
-    createProduct, updateProduct, deleteProduct, deleteMany,
+    createProduct, updateProduct, deleteProduct, deleteMany, upload,
 }

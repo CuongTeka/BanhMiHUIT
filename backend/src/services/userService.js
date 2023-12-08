@@ -96,9 +96,9 @@ let getUser = (Id) => {
     })
 }//lấy user
 
-const updateUser = (data) => {
+const updateUser = (id, data) => {
     return new Promise(async (resolve, reject) => {
-        const { id, email, pass, name, mssv, phone, role } = data
+        const { email, pass, name, mssv, phone, role } = data
         if(role==null){
             role = 0;
         }
@@ -112,8 +112,8 @@ const updateUser = (data) => {
                     message: 'Không tìm thấy id user'
                 })
             }
-
-            await userModel.findByIdAndUpdate(id, {email, password:pass, name, mssv, phone, role, date_update: Date.now()})
+            const encryptPass = bcrypt.hashSync(pass, bcrypt.genSaltSync(5));
+            await userModel.findByIdAndUpdate(id, {email, password:encryptPass, name, mssv, phone, role, date_update: Date.now()})
             resolve({
                 errCode: 0,
                 message: 'SUCCESS',
@@ -132,14 +132,14 @@ const deleteUser = (id) => {
             })
             if (checkUser === null) {
                 resolve({
-                    errCode: '500',
+                    errCode: 500,
                     message: 'Không tìm thấy user'
                 })
             }
 
             await userModel.findByIdAndDelete(id)
             resolve({
-                errCode: '0',
+                errCode: 0,
                 message: 'Xóa thành công',
             })
         } catch (e) {
@@ -161,7 +161,7 @@ const deleteManyUser = (ids) => {
             reject(e)
         }
     })
-}//xóa nhiều
+}//xóa nhiều WIP
 
 module.exports = {
     Register, checkEmail, checkPhone, checkMSSV,

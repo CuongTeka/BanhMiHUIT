@@ -1,4 +1,5 @@
 const orderModel = require('../models/orderModel');
+// const proModel = require('../models/productModel')
 
 //get order
 let getOrder = (Id) => {
@@ -19,110 +20,120 @@ let getOrder = (Id) => {
         }
     })
 }
-// let getProductByName = (name) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             let product = '';
-//             if(name){
-//                 const regex = new RegExp(name, 'i');
-//                 product = await proModel.find({
-//                     name: regex
-//                 })
-//             }
-//             resolve(product)
-//         } catch (error) {
-//             reject(error)
-//         }
-//     })
-// }
 
-//create - update - delete
-// const createProduct = (newProduct) => {
+let getOrderByCustomerName = (name) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let order = '';
+            if(name){
+                const regex = new RegExp(name, 'i');
+                order = await proModel.find({
+                    customer: regex
+                })
+            }
+            resolve(order)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}//tìm order theo tên khách hàng
+
+// create - update - delete
+const createOrder = (newOrder) => {
+    return new Promise(async (resolve, reject) => {
+        const { customer, item, total, payment, status, shipping, note } = newOrder
+        // const item = [pro_id, quantity, custom]
+        try {
+            const newOrder = await orderModel.create({
+                customer, 
+                item, 
+                total, 
+                payment, 
+                status, 
+                shipping,
+                note
+            })
+            if (newOrder) {
+                resolve({
+                    errCode: 0,
+                    message: 'Insert Successed'
+                })
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+const updateOrder = (id, data) => {
+    return new Promise(async (resolve, reject) => {
+        const { customer, item, total, payment, status, shipping, note } = data
+        try {
+            const existingOrder = await orderModel.findById(id)
+            if (existingOrder === null) {
+                resolve({
+                    errCode: 1,
+                    message: 'Không tìm thấy product'
+                })
+            }
+            existingOrder.customer = data.customer || existingOrder.customer;
+            existingOrder.item = data.item || existingOrder.item;
+            existingOrder.total = data.total || existingOrder.total;
+            existingOrder.payment = data.payment || existingOrder.payment;
+            existingOrder.status = data.status || existingOrder.status;
+            existingOrder.shipping = data.shipping || existingOrder.shipping;
+            existingOrder.note = data.note || existingOrder.note;
+            existingOrder.date_edit = Date.now();
+            await existingOrder.save();
+        
+            resolve({
+                errCode: 0,
+                message: 'Update successed',
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}//update
+
+// const deleteOrder = (id) => {
 //     return new Promise(async (resolve, reject) => {
-//         const { name, category_id, detail, price, discount, image } = newProduct
 //         try {
-//             const newProduct = await proModel.create({
-//                 name, 
-//                 category_id, 
-//                 price, 
-//                 discount, 
-//                 detail, 
-//                 image
-//             })
-//             if (newProduct) {
-//                 resolve({
-//                     errCode: 0,
-//                     message: 'Insert Successed'
-//                 })
-//             }
-//         } catch (e) {
-//             reject(e)
-//         }
-//     })
-// }//done
-// const updateProduct = (data) => {
-//     return new Promise(async (resolve, reject) => {
-//         const { id, name, category_id, detail, price, discount, image, is_active } = data
-//         try {
-//             const checkProduct = await proModel.findOne({
+//             const checkOrder = await orderModel.findOne({
 //                 _id: id
 //             })
-//             if (checkProduct === null) {
+//             if (checkOrder === null) {
 //                 resolve({
 //                     errCode: 1,
-//                     message: 'Không tìm thấy product'
+//                     message: 'Không tìm thấy order'
 //                 })
 //             }
 
-//             const updatedProduct = await proModel.findByIdAndUpdate(id, {name, category_id, detail, price, discount, image, date_edit: Date.now(), is_active})
-//             if(updatedProduct){
-//                 resolve({
-//                     errCode: 0,
-//                     message: 'Update successed',
-//                 })
-//             }
-//         } catch (e) {
-//             reject(e)
-//         }
-//     })
-// }//done
-// const deleteProduct = (id) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             const checkProduct = await proModel.findOne({
-//                 _id: id
-//             })
-//             if (checkProduct === null) {
-//                 resolve({
-//                     errCode: 1,
-//                     message: 'Không tìm thấy product'
-//                 })
-//             }
-
-//             await proModel.findByIdAndDelete(id)
+//             await orderModel.findByIdAndDelete(id)
 //             resolve({
 //                 errCode: 0,
-//                 message: 'Delete product successed',
+//                 message: 'Delete successed',
 //             })
 //         } catch (e) {
 //             reject(e)
 //         }
 //     })
-// }//done
-// const deleteManyProduct = (ids) => {
+// }//un-use
+// const deleteManyOrder = (ids) => {
 //     return new Promise(async (resolve, reject) => {
 //         try {
-//             await proModel.deleteMany({ _id: ids })
+//             await orderModel.deleteMany({ _id: ids })
 //             resolve({
-//                 errCode: '0',
-//                 message: 'Delete products successed',
+//                 errCode: 0,
+//                 message: 'Delete successed',
 //             })
 //         } catch (e) {
 //             reject(e)
 //         }
 //     })
-// }
+// }//un-use
 
 module.exports = {
     getOrder,
+    createOrder, updateOrder,
 }

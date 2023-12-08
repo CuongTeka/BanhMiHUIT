@@ -20,17 +20,17 @@ const handleCreateProduct = (name, category_id, detail, price, discount, image) 
   return axios.post('/api/create-product', {name, category_id, detail, price, discount, image})
 }//truyền vào dữ liệu
 
-const handleUpdateProduct = (id, name, category_id, detail, price, discount, image) => {
+const handleUpdateProduct = (name, category_id, detail, price, discount, image) => {
   return axios.put(`/api/update-product?id=${id}`, {name, category_id, detail, price, discount, image})
-}//truyền vào id trước, sau đó là dữ liệu
+}//truyền dữ liệu
 
 const handleDeleteProduct = (id) => {
   return axios.delete(`/api/delete-product?id=${id}`)
 }//truyền vào id
 
-const handleUpdateUser = (id, email, pass, name, mssv, phone, role) => {
+const handleUpdateUser = (email, pass, name, mssv, phone, role) => {
   return axios.put(`/api/update-user?id=${id}`, {email, pass, name, mssv, phone, role})
-}//truyền vào id, sau đó là dữ liệu
+}//truyền vào dữ liệu
 
 const handleDeleteUser = (id) => {
   return axios.delete(`api/delete-user?id=${id}`)
