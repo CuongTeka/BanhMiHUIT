@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import './Breadcrums.css'
 import arrow_icon from '../Assets/breadcrum_arrow.png'
-import { handleGetAllCategory } from '../../services/userServices'
+import { handleGetAllCategory } from '../../services/categoryService'
 
 const Breadcrums = (props) => {
     const {product} = props;
@@ -28,7 +28,7 @@ const Breadcrums = (props) => {
 
   return (
     <div className='breadcrums'>
-        TRANG CHỦ <img src={arrow_icon} alt=''/> SẢN PHẨM <img src={arrow_icon} alt=''/> {category.name} <img src={arrow_icon} alt=''/>{product.name}
+        Trang chủ <img src={arrow_icon} alt=''/> Sản phẩm <img src={arrow_icon} alt=''/> {category.name} <img src={arrow_icon} alt=''/>{product.name}
     </div>
   )
 }
