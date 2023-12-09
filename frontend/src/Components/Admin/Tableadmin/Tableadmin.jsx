@@ -9,6 +9,7 @@ const TableComponent = (props) => {
     handleDelteMany,
   } = props;
   const [rowSelectedKeys, setRowSelectedKeys] = useState([]);
+ 
 
   const rowSelection = {
     onChange: (selectedRowKeys) => {

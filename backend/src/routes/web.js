@@ -22,7 +22,7 @@ router.post('/delete-many-user', userController.deleteMany)
 //product
 router.get('/get-all-product', productController.handleGetAllProduct)
 router.get('/get-product-by-name/:name', productController.handleGetProductByName)
-router.post('/create-product', productController.createProduct)
+router.post('/create-product', productController.upload.single('image') , productController.createProduct)
 router.put('/update-product/:id', productController.updateProduct)
 router.delete('/delete-product/:id', productController.deleteProduct)
 router.post('/delete-many-product')

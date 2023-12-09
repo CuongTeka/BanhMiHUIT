@@ -1,161 +1,144 @@
-// import { Button, Form, Input, Modal } from "antd";
-// import PlusSquareTwoTone from "@ant-design/icons";
-// import React, { useState } from "react";
-// import Tableadmin from "../Tableadmin/Tableadmin";
-// import { useSelector } from 'react-redux'
-// import { useRef } from 'react'
-// import { useMutationHooks } from '../../../hooks/useMutationHook.js'
+import React, { useState, useRef, useEffect } from "react";
+import { Button, Form, Input, Modal, Space, Table, Popconfirm, message } from "antd";
+import PlusSquareTwoTone from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import * as userService from "../../../services/userServices.js";
 
-// const Adminuser = () => {
-//   const [rowSelected, setRowSelected] = useState('')
-//   const [isOpenDrawer, setIsOpenDrawer] = useState(false)
-//   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false)
-//   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false)
-//   const user = useSelector((state) => state?.user)
-//   const searchInput = useRef(null);
+const Adminuser = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const user = useSelector((state) => state?.user);
+  const searchInput = useRef(null);
 
-//   const [stateUser, setstateUser] = useState({
-//     name: "",
-//     email: "",
-//     password: "",
-//     mssv: "",
-//     phone: "",
-//     date_create: "",
-//     date_update: "",
-//     role: "",
-//   });
+  const columns = [
+    {
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <a href="#" onClick={() => handleDeleteUser(record._id)} disabled={isDeleting}>
+            Delete
+          </a>
+        </Space>
+      ),
+    },
+  ];
 
-//   const [form] = Form.useForm();
+  const [form] = Form.useForm();
 
-//   const mutationUpdate = useMutationHooks(
-//     (data) => {
-//       const { id,
-//         token,
-//         ...rests } = data
-//       const res = UserService.updateUser(
-//         id,
-//         { ...rests }, token)
-//       return res
-//     },
-//   )
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
-//   const mutationDeletedMany = useMutationHooks(
-//     (data) => {
-//       const { token, ...ids
-//       } = data
-//       const res = UserService.deleteManyUser(
-//         ids,
-//         token)
-//       return res
-//     },
-//   )
+  const fetchUserData = async () => {
+    try {
+      const users = await userService.getDetailsUser('*');
+      setUserData(users);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
-//   const handleDelteManyUsers = (ids) => {
-//     mutationDeletedMany.mutate({ ids: ids, token: user?.access_token }, {
-//       onSettled: () => {
-//         queryClient.invalidateQueries(['users'])
-//       }
-//     })
-//   }
+  const handleDeleteUser = async (userId) => {
+    setIsDeleting(true);
 
-//   const mutationDeleted = useMutationHooks(
-//     (data) => {
-//       const { id,
-//         token,
-//       } = data
-//       const res = UserService.deleteUser(
-//         id,
-//         token)
-//       return res
-//     },
-//   )
+    try {
+      await userService.handleDeleteUser(userId);
+      fetchUserData();
+      setSelectedRowKeys([]);
+      setIsDeleting(false);
+      message.success("User deleted successfully");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      setIsDeleting(false);
+      message.error("Failed to delete user");
+    }
+  };
 
+  const cancelDelete = () => {
+    setIsDeleting(false);
+  };
 
-//   const onFinish = () => {
-//     console.log("finish", stateUser);
-//   };
+  const onFinish = async (values) => {
+    try {
+      await userService.handleRegisterApi({
+        email: values.username,
+        pass: values.password,
+        name: values.name,
+        mssv: values.mssv,
+        phone: values.phone,
+      });
 
-//   return (
-//     <div >
-//       <h3> QUẢN LÝ NGƯỜI DÙNG</h3>
-//       <Button
-//         style={{ width: "150px", height: "150px", borderRadius: "5px"}}
-//         onClick={() => setisModalOpen(true)}
-//       >
-//         <PlusSquareTwoTone />
-//       </Button>
-//       {/* add image */}
+      message.success("User created successfully");
+      setIsModalOpen(false);
+      fetchUserData();
+    } catch (error) {
+      console.error("Error creating user:", error);
+      message.error("Failed to create user");
+    }
+  };
 
-//       <div style={{ marginTop: "50px" }}>
-//         <Tableadmin handleDelteMany={handleDelteManyUsers} columns={columns} isLoading={isFetchingUser} data={dataTable} onRow={(record, rowIndex) => {
-//           return {
-//             onClick: event => {
-//               setRowSelected(record._id)
-//             }
-//           };
-//         }} />
-//       </div>
-//       <Modal
-//         title="Tạo Người Dùng"
-    
-//       >
-//         <Form
-//           name="basic"
-//           labelCol={{
-//             span: 8,
-//           }}
-//           wrapperCol={{
-//             span: 16,
-//           }}
-//           style={{
-//             maxWidth: 600,
-//           }}
-//           initialValues={{
-//             remember: true,
-//           }}
-//           onFinish={onFinish}
-//           autoComplete="off"
-//         >
-//           <Form.Item
-//             label="Username"
-//             name="username"
-//             rules={[
-//               {
-//                 required: true,
-//                 message: "Please input your username!",
-//               },
-//             ]}
-//           >
-//             <Input />
-//           </Form.Item>
+  const handleDelteManyUsers = async () => {
+    if (selectedRowKeys.length > 0) {
+      try {
+        await userService.hanldedeleteManyUser({ ids: selectedRowKeys }, user?.access_token);
+        fetchUserData();
+        setSelectedRowKeys([]);
+        message.success("Users deleted successfully");
+      } catch (error) {
+        console.error("Error deleting users:", error);
+        message.error("Failed to delete users");
+      }
+    }
+  };
 
-//           <Form.Item
-//             label="Password"
-//             name="password"
-//             rules={[
-//               {
-//                 required: true,
-//                 message: "Please input your password!",
-//               },
-//             ]}
-//           >
-//             <Input.Password />
-//           </Form.Item>
+  return (
+    <div>
+      <h3>QUẢN LÝ NGƯỜI DÙNG</h3>
+      <Button style={{ width: "150px", height: "150px", borderRadius: "5px" }} onClick={() => setIsModalOpen(true)}>
+        <PlusSquareTwoTone />
+      </Button>
 
-//           <Form.Item
-//             wrapperCol={{
-//               offset: 8,
-//               span: 16,
-//             }}
-//           >
-//             <Button type="primary" htmlType="submit">
-//               Submit
-//             </Button>
-//           </Form.Item>
-//         </Form>
-//       </Modal>
-//     </div>
-//   );
-// };
+      <div style={{ marginTop: "50px" }}>
+        <Table
+          rowSelection={{
+            selectedRowKeys,
+            onChange: (keys) => setSelectedRowKeys(keys),
+          }}
+          columns={columns}
+          dataSource={userData}
+        />
+        {selectedRowKeys.length > 0 && (
+          <div
+            style={{
+              background: "#1d1ddd",
+              color: "#fff",
+              fontWeight: "bold",
+              padding: "10px",
+              cursor: "pointer",
+              marginTop: "10px",
+            }}
+            onClick={handleDelteManyUsers}
+          >
+            Xóa tất cả
+          </div>
+        )}
+      </div>
 
-// export default Adminuser;
+      <Modal title="Tạo Người Dùng" visible={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+        <Form form={form} name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} style={{ maxWidth: 600 }} onFinish={onFinish} autoComplete="off">
+          {/* Form items */}
+        </Form>
+      </Modal>
+    </div>
+  );
+};
+
+export default Adminuser;

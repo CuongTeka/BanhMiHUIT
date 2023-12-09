@@ -17,6 +17,15 @@ export const MyFormItem = ({ name, ...props }) => {
 };
 // Form 
 
+export const isJsonString = (data) => {
+  try {
+      JSON.parse(data)
+  } catch (error) {
+      return false
+  }
+  return true
+}
+
 
 export const getBase64 = (file) =>
   new Promise((resolve, reject) => {

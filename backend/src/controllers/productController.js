@@ -136,5 +136,5 @@ const deleteMany = async (req, res) => {
 module.exports = {
     handleGetAllProduct,
     handleGetProductById, handleGetProductByName,
-    createProduct, updateProduct, deleteProduct, deleteMany,
+    createProduct, updateProduct, deleteProduct, deleteMany, upload
 }

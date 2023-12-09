@@ -1,6 +1,6 @@
 
 import React, { createContext, useState, useEffect } from "react";
-import { handleGetAllProduct } from "../services/adminServices";
+import { handleGetAllProduct } from "../services/productService";
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {

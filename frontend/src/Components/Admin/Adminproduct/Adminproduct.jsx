@@ -1,12 +1,14 @@
 import { Button, Form, Modal, Upload } from "antd";
 import PlusSquareTwoTone from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tableadmin from "../Tableadmin/Tableadmin";
 import InputComponent from "../../InputComponent/InputComponent";
 import { UploadOutlined } from "@ant-design/icons";
+import { handleCreateProduct, handleDeleteProduct, handleUpdateProduct, handleGetProductById } from "../../../services/productService"
 
 const Adminproduct = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
+  const [editingProductId, setEditingProductId] = useState(null);
 
   const [stateProduct, setstateProduct] = useState({
     name: "",
@@ -18,14 +20,56 @@ const Adminproduct = () => {
     date_edit: "",
   });
 
+  // Function to fetch product data when editing
+  const fetchProductData = async (productId) => {
+    try {
+      const response = await handleGetProductById(productId);
+      const productData = response.data; // Assuming your API returns the product data
+      setstateProduct(productData);
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+      // Handle error, e.g., show a notification to the user
+    }
+  };
+  
+  useEffect(() => {
+    // Fetch product data when editingProductId changes
+    if (editingProductId) {
+      fetchProductData(editingProductId);
+    }
+  }, [editingProductId]);
+
   const handleCancel = () => {
     setisModalOpen(false);
-    
+    setEditingProductId(null);
   };
 
   const onFinish = () => {
-    
+    if (editingProductId) {
+      handleUpdateProduct(editingProductId, stateProduct.name, stateProduct.category_id, stateProduct.detail, stateProduct.price, stateProduct.image);
+    } else {
+      handleCreateProduct(stateProduct.name, stateProduct.category_id, stateProduct.detail, stateProduct.price, stateProduct.image);
+    }
+    setisModalOpen(false);
+    setEditingProductId(null); // Clear editing state after submit
     console.log("finish", stateProduct);
+  };
+
+  const handleDelete = (productId) => {
+    handleDeleteProduct(productId)
+      .then(() => {
+        // Optional: Fetch updated product list or update UI as needed
+      })
+      .catch((error) => {
+        console.error("Error deleting product:", error);
+        // Handle error, e.g., show a notification to the user
+      });
+  };
+
+  const handleEdit = (productId) => {
+    // Handle product editing
+    setEditingProductId(productId);
+    setisModalOpen(true);
   };
 
   const handleonChange = (e) => {
@@ -35,23 +79,38 @@ const Adminproduct = () => {
     });
   };
 
+  
+
   return (
     <div>
       <h3> QUẢN LÝ SẢN PHẨM</h3>
       <Button
         style={{ width: "150px", height: "150px", borderRadius: "5px" }}
-        onClick={() => setisModalOpen(true)}
+        onClick={() => {
+          setstateProduct({
+            name: "",
+            category_id: "",
+            image: "",
+            price: "",
+            detail: "",
+            date_create: "",
+            date_edit: "",
+          });
+          setEditingProductId(null); // Clear editing state when adding new product
+          setisModalOpen(true);
+        }}
       >
         <PlusSquareTwoTone />
       </Button>
       <div style={{ marginTop: "50px" }}>
-        <Tableadmin />
+        <Tableadmin onEdit={handleEdit} onDelete={handleDelete} />
       </div>
       <Modal
-        title="Tạo Sản Phẩm"
-        open={isModalOpen}
+       title={editingProductId ? "Sửa Sản Phẩm" : "Tạo Sản Phẩm"}
+       open={isModalOpen}
         onCancel={handleCancel}
-        okText=""
+        okText="Submit"
+        onOk={onFinish}
       >
         <Form
           name="basic"
