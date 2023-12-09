@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import './Breadcrums.css';
-import arrow_icon from '../Assets/breadcrum_arrow.png';
-import { handleGetAllCategory } from '../../services/productService';
+import React, {useEffect, useState} from 'react'
+import './Breadcrums.css'
+import arrow_icon from '../Assets/breadcrum_arrow.png'
+import { handleGetAllCategory } from '../../services/categoryService'
 
 const Breadcrumbs = (props) => {
   const { product } = props;
@@ -25,10 +25,8 @@ const Breadcrumbs = (props) => {
   }, [product.category_id]);
 
   return (
-    <div className='breadcrumbs'>
-      TRANG CHỦ <img src={arrow_icon} alt='' /> SẢN PHẨM <img src={arrow_icon} alt='' /> {category.name}{' '}
-      <img src={arrow_icon} alt='' />
-      {product.name}
+    <div className='breadcrums'>
+        Trang chủ <img src={arrow_icon} alt=''/> Sản phẩm <img src={arrow_icon} alt=''/> {category.name} <img src={arrow_icon} alt=''/>{product.name}
     </div>
   );
 };

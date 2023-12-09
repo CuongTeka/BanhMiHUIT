@@ -9,7 +9,6 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "react-query/devtools": "https://github.com/react-query/devtools.git",
     "antd": "^5.11.2",
     "axios": "^1.6.2",
     "js-cookie": "^3.0.5",

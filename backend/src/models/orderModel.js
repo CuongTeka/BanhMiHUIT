@@ -5,19 +5,20 @@ const Schema = mongoose.Schema;
 mongoose.connect(url ,{dbName: 'QLBM'});
 
 const contents = new Schema({
-    pro_id: {type: String, required:true},
+    pro_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Product', required:true},
     quantity: {type: Number, required:true},
     custom: {type: String}
-})
+}, { _id : false })
 
 const orders = new Schema({
-    customer: {type: String, required:true},
+    customer: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required:true},
     item: {type: [contents], default: undefined},
     total: {type: Number, required:true},
     date_create: {type: Date, default: Date.now},
+    date_edit: {type: Date, default: Date.now},
     payment: {type: String, required:true},
-    status: {type:Number, default:0},
-    shipping: {type:String, required:true},
+    status: {type: String, default:'Đang xử lý'},
+    shipping: {type: String, required:true},
     note: {type:String}
 }, {collection: 'Order', versionKey: false});
 

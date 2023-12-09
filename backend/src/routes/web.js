@@ -16,8 +16,8 @@ const orderController = require('../controllers/orderController')
 //user
 router.get('/get-all-user', userController.handleGetAllUser)
 router.get('/get-user-byid', userController.handleFindUserById)
-router.post('/update-user/', userController.updateUser)
-router.get('/delete-user/', userController.deleteUser)
+router.put('/update-user/:id', userController.updateUser)
+router.delete('/delete-user/:id', userController.deleteUser)
 router.post('/delete-many-user', userController.deleteMany)
 //product
 router.get('/get-all-product', productController.handleGetAllProduct)
@@ -32,9 +32,9 @@ router.get('/get-category-by-id', cateController.handleGetCategoryById)
 
 //order
 router.get('/get-all-order', orderController.handleGetAllOrder)
-router.get('/get-order-by-id/', orderController.handleGetOrderById)
-router.post('/create-order')
-router.put('/update-order')
+router.get('/get-order-by-id/:id', orderController.handleGetOrderById)
+router.post('/create-order', orderController.handleCreateOrder)
+router.put('/update-order/:id', orderController.handleUpdateOrder)
 //feedback
 router.get('/get-all-feedback')
 router.get('/get-feedback-by-product-id')

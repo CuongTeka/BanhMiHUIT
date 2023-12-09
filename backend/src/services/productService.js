@@ -29,7 +29,8 @@ let getProductByName = (name) => {
             if(name){
                 const regex = new RegExp(name, 'i');
                 product = await proModel.find({
-                    name: regex
+                    name: regex,
+                    is_active: true
                 })
             }
             resolve(product)

@@ -22,21 +22,22 @@ let handleFindUserById = async(req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    const { id, email, pass, name, mssv, phone, role } = req.body;
+    // const { email, pass, name, mssv, phone, role } = req.body;
+    const id = req.params.id
     const data = req.body;
     try {
         // const userId = req.params.id
         // const data = req.body
         if (!id) {
             return res.status(400).json({
-                errCode: '500',
+                errCode: 500,
                 message: 'userId not found'
             })
         }
-        let check = await userService.updateUser(data)
+        let check = await userService.updateUser(id, data)
         if(check.errCode === 0){
             return res.status(200).json({
-                errCode: '0',
+                errCode: 0,
                 message: 'Update thành công'
             })
         }
@@ -49,16 +50,16 @@ const updateUser = async (req, res) => {
 }//done
 const deleteUser = async (req, res) => {
     try {
-        const userId = req.body.id
+        const userId = req.params.id
         if (!userId) {
             return res.status(400).json({
-                errCode: '500',
+                errCode: 500,
                 message: 'The userId is required'
             })
         }
         await userService.deleteUser(userId)
         return res.status(200).json({
-            errCode: '0',
+            errCode: 0,
             message: 'Xóa thành công'
         })
     } catch (e) {
