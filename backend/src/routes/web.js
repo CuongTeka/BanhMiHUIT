@@ -15,8 +15,10 @@ const orderController = require('../controllers/orderController')
 
 //user
 router.get('/get-all-user', userController.handleGetAllUser)
-router.get('/get-user-byid', userController.handleFindUserById)
+router.get('/get-user-by-id/:id', userController.handleFindUserById)
 router.put('/update-user/:id', userController.updateUser)
+router.put('/change-user-password/:id', userController.hangleChangePassword)
+router.put('/change-user-info/:id', userController.handleChangeUserInfo)
 router.delete('/delete-user/:id', userController.deleteUser)
 router.post('/delete-many-user', userController.deleteMany)
 //product

@@ -79,7 +79,7 @@ const isValidEmail = (email) => {
   };//kiểm tra email
 const validateVietnamesePhoneNumber = (phoneNumber) => {
     // 09 03 01
-    const vietnamesePhoneNumberRegex = /^(0[1-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[0-9]|9[0-9])\d{8}$/;
+    const vietnamesePhoneNumberRegex = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
   
     return vietnamesePhoneNumberRegex.test(phoneNumber);
   };//kiểm tra sdt

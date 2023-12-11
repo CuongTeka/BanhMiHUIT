@@ -12,13 +12,71 @@ let handleGetAllUser = async(req, res) => {
 }
 
 let handleFindUserById = async(req, res) => {
-    let id = req.body.id
+    let id = req.params.id
     let user = await userService.getUser(id)
     return res.status(200).json({
         errCode: 0,
         message: 'get by id: ' + id,
         data: user
     })
+}
+
+const hangleChangePassword = async (req, res) => {
+    const id = req.params.id
+    try {
+        if (!id) {
+            return res.status(400).json({
+                errCode: 500,
+                message: 'userId not found'
+            })
+        }
+        let check = await userService.changePassword(id, req.body)
+        if(check.errCode === 0){
+            return res.status(200).json({
+                errCode: 0,
+                message: 'Đổi mật khẩu thành công'
+            })
+        }else{
+            return res.status(400).json({
+                errCode: check.errCode,
+                message: check.message
+            })
+        }
+    } catch (e) {
+        return res.status(400).json({
+            message: e
+        })
+    }
+}//done
+
+const handleChangeUserInfo = async (req, res) => {
+    // const { email, pass, name, mssv, phone, role } = req.body;
+    const id = req.params.id
+    const data = req.body;
+    try {
+        if (!id) {
+            return res.status(400).json({
+                errCode: 500,
+                message: 'userId not found'
+            })
+        }
+        let check = await userService.updateUserNoPass(id, data)
+        if(check.errCode === 0){
+            return res.status(200).json({
+                errCode: 0,
+                message: 'Update thành công'
+            })
+        } else {
+            return res.status(400).json({
+                errCode: check.errCode,
+                message: check.message
+            })
+        }
+    } catch (e) {
+        return res.status(400).json({
+            message: e
+        })
+    }
 }
 
 const updateUser = async (req, res) => {
@@ -73,13 +131,13 @@ const deleteMany = async (req, res) => {
         const ids = req.body.ids
         if (!ids) {
             return res.status(400).json({
-                status: '500',
+                errCode: 500,
                 message: 'The ids is required'
             })
         }
         await userService.deleteManyUser(ids)
         return res.status(200).json({
-            errCode: '0',
+            errCode: 0,
             message: 'Xóa thành công'
         })
     } catch (e) {
@@ -94,6 +152,6 @@ const deleteMany = async (req, res) => {
 
 module.exports = {
     handleGetAllUser, handleFindUserById,
-    updateUser,
+    updateUser, hangleChangePassword, handleChangeUserInfo,
     deleteUser,deleteMany,
 }

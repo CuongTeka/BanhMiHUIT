@@ -15,10 +15,11 @@ let handleLogin = (email, pass) => {
                 if (user) {
                     let checkPass = await bcrypt.compareSync(pass, user.password)
                     if (checkPass) {
+                        let dataWithNoPassword = await userModel.findOne({_id: user._id}).select({ password: 0 })
                         userData.errCode = 0 //đúng mật khẩu
                         userData.message = 'Logging...'
-                        userData.user = user
-                        session.user=user
+                        userData.user = dataWithNoPassword
+                        // session.user=user
                     } else {
                         userData.errCode = 3 //sai mật khẩu
                         userData.message = 'Email hoặc mật khẩu không hợp lệ' 

@@ -12,7 +12,7 @@ const ShopContextProvider = (props) => {
     const fetchData = async () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        productData();
+        await productData();
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -27,7 +27,7 @@ const ShopContextProvider = (props) => {
   const productData = async () => {
     try {
       let data = await handleGetAllProduct();
-      console.log('Data:', data);
+      // console.log('Data:', data);
       if (data && data.errCode === 0) {
         setProducts(data.data);
       }

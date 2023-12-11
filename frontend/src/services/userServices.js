@@ -14,21 +14,34 @@ const handleGetAllUser = () => {
 };
   
 const handleGetUserById = (id) => {
-    return axios.get(`/api/get-user-byid?id=${id}`);
+    return axios.get(`/api/get-user-by-id/${id}`);
 };// truyền id vào
   
 const handleUpdateUser = (id, email, pass, name, mssv, phone, role) => {
-    return axios.put(`/api/update-user?id=${id}`, {email, pass, name, mssv, phone, role})
+    return axios.put(`/api/update-user/${id}`, {email, pass, name, mssv, phone, role})
 }//truyền vào dữ liệu và id
+
+const handleChangeUserPass = (id, oldpass, newpass) => {
+    return axios.put(`/api/change-user-password/${id}`, {oldpass, newpass})
+}//truyền vào id, mk cũ và mk mới
+
+const handleChangeUserInfo = (userData) => {
+    const { id, email, name, mssv, phone, pass } = userData;
+    return axios.put(`/api/change-user-info/${id}`, {email, name, mssv, phone, pass})
+}
   
 const handleDeleteUser = (id) => {
-    return axios.delete(`api/delete-user?id=${id}`)
+    return axios.delete(`api/delete-user/${id}`)
 }//truyền id vào
 
-const handlegetDetailsUser = async (id) => {
-  const res = await axios.get(`/api/user/get-details/${id}`);
-  return res.data;
-};
+const handleDeleteManyUser = (ids) => {
+    return axios.post('api/delete-many-user', ids)
+}
+
+// const handlegetDetailsUser = async (id) => {
+//   const res = await axios.get(`/api/user/get-details/${id}`);
+//   return res.data;
+// };
 
 const handleGetImage = (imageName) => {
   return axios.get(`/api/images?imageName=${encodeURIComponent(imageName)}`, {
@@ -43,6 +56,7 @@ const handleGetImage = (imageName) => {
 export {
     handleLoginApi, handleRegisterApi, 
     handleGetAllUser, handleGetUserById,
-    handleUpdateUser, handleDeleteUser,
-    handleGetImage, handlegetDetailsUser
+    handleUpdateUser, handleDeleteUser, handleDeleteManyUser, 
+    handleChangeUserPass, handleChangeUserInfo,
+    handleGetImage
 }

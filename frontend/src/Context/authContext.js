@@ -6,13 +6,15 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
-  // const [name, setName] = useState('');
+  
 
   useEffect(() => {
     const storedLoggedIn = Cookies.get("isLoggedIn");
     const storedAdmin = Cookies.get("isAdmin");
     if (storedLoggedIn === "true") {
       setLoggedIn(true);
+    }else{
+      setLoggedIn(false);
     }
     if (storedAdmin === "true") {
       setAdmin(true);
@@ -44,6 +46,8 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("isLoggedIn");
     Cookies.remove("isAdmin");
     Cookies.remove("name");
+    Cookies.remove("userID");
+    Cookies.remove("userData");
     window.location.href = "/";
   };
 
