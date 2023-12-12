@@ -28,9 +28,9 @@ const SignIn = () => {
         setMessage(data.message)
       }
       if(data && data.errCode === 0){
-        setMessage(data.user.role)
+        // setMessage(data.user.role)
         login()
-        Cookies.set('name', data.user.name)
+        Cookies.set('id', data.user._id)
         if(data.user.role === '1'){
           grantAdmin()
           navigate('/system/admin')

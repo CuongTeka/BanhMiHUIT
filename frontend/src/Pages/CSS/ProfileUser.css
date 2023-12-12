@@ -3,9 +3,46 @@
     margin: 0 auto;
 }
 .profileUser-header{
+    padding-top: 30px;
     display: flex;
     flex-direction: column;
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     width: 100%;
     margin-bottom: 30px;
 }
+
+.button-group{
+    padding: 30px;
+    margin-bottom: 100px;
+}
+
+.change-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 120%;
+}
+
+.changepass-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 30px;
+    font-size: 120%;
+}
+
+.change-button:hover{
+  background-color: #007bffc2;
+}
+
+.changepass-button:hover{
+    background-color: #ff5500;
+  }

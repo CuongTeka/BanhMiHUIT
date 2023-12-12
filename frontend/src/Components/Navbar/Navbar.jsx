@@ -1,4 +1,4 @@
-import React, {useContext, useState } from "react";    
+import React, {useContext, useState, useEffect } from "react";    
 import './Navbar.css'
 import { Link} from "react-router-dom";
 import Logobm from '../Assets/logo.png'
@@ -8,6 +8,7 @@ import { useAuth } from '../../Context/authContext';
 import Cookies from "js-cookie";
 import {UserOutlined} from '@ant-design/icons';
 import { Dropdown } from 'antd';
+import { handleGetUserById } from "../../services/userServices";
 
 
 const items = [
@@ -22,11 +23,35 @@ const items = [
 ]
 
 const Navbar = () => {
-
   const { isLoggedIn, logout} = useAuth();
   const [menu,SetMenu] = useState();
+  const [userData, setuserData] = useState([]);
   const {getTotalCartItems} = useContext(ShopContext);
-  
+  const id = Cookies.get('id')
+  useEffect(() => {
+    const fetchData = async () => {
+        await getData()
+    };
+    fetchData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      let data = await handleGetUserById(id);
+      if (data && data.errCode === 0) {
+        setuserData(data.data);
+        console.log(data.data)
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.data) {
+          console.error(error);
+          console.log(error.response.data.message);
+        }
+      }
+    }
+  };
+
   return (
     <div className='navbar'> 
       <div className='nav-logo'>
@@ -54,7 +79,7 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <Dropdown menu={{ items,}} placement="bottom" arrow >
-              <Link style={{ textDecoration: 'none' }} to='/'><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {Cookies.get('name')}</p></Link>
+              <Link style={{ textDecoration: 'none' }} to='/'><p><UserOutlined style={{ fontSize: '26px', color: '#515151', marginRight:'10px' }} />Xin chào: {userData.name}</p></Link>
             </Dropdown>
             <Link style={{ textDecoration: 'none' }} to='/'>
               <button onClick={() => { logout() }}>Đăng xuất</button>

@@ -6,7 +6,7 @@ const handleGetAllProduct = () => {
 };
 
 const handleGetProductById = (id) => {
-  return axios.get(`/api/get-product-byid?id=${id}`);
+  return axios.get(`/api/get-product-by-id/${id}`);
 };
 
 const handleCreateProduct = (name, category_id, detail, price, discount, image) => {
@@ -14,11 +14,11 @@ const handleCreateProduct = (name, category_id, detail, price, discount, image) 
 };
 
 const handleUpdateProduct = (id, name, category_id, detail, price, discount, image) => {
-  return axios.put(`/api/update-product?id=${id}`, { name, category_id, detail, price, discount, image });
+  return axios.put(`/api/update-product/${id}`, { name, category_id, detail, price, discount, image });
 };
 
 const handleDeleteProduct = (id) => {
-  return axios.delete(`/api/delete-product?id=${id}`);
+  return axios.delete(`/api/delete-product/${id}`);
 };
 const handleGetAllCategory = () => {
   return axios.get('/api/get-all-category');
