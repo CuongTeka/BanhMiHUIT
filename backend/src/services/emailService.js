@@ -12,7 +12,7 @@ const testEmail = async () => {
   });
 
   const mailOptions = {
-    from: "Teka <taikhoanso12711@gmail.com>", // Sender email address
+    from: "BanhMiHUIT <taikhoanso12711@gmail.com>", // Sender email address
     to: "cuongdola2711@gmail.com", // Recipient email address
     subject: "Node.js Email Example",
     text: "Hello, this is a test email sent from Node.js!",
