@@ -19,7 +19,7 @@ const Popular = (props) => {
         </div>
        
     </div>
-  )
-}
+  );
+};
 
-export default Popular
+export default Popular;

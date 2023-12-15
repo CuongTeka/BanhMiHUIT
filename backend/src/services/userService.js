@@ -101,16 +101,13 @@ let getUser = (Id) => {
 const updateUser = (id, data) => {
   return new Promise(async (resolve, reject) => {
     const { email, pass, name, mssv, phone, role } = data;
-    if (role == null) {
-      role = 0;
-    }
     try {
       const checkUser = await userModel.findOne({
         _id: id,
       });
       if (checkUser === null) {
         resolve({
-          errCode: "500",
+          errCode: 500,
           message: "Không tìm thấy id user",
         });
       }

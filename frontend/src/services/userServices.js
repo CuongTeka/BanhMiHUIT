@@ -7,7 +7,12 @@ const handleLoginApi = (email, pass) => {
 
 const handleRegisterApi = (email, pass, name, mssv, phone) => {
   return axios.post("/api/signup", { email, pass, name, mssv, phone });
-}; //signin
+}; //signup
+
+const handleRegister = (data) => {
+  const { email, pass, name, mssv, phone } = data;
+  return axios.post("/api/signup", { email, pass, name, mssv, phone });
+}; //signup
 
 const handleGetAllUser = () => {
   return axios.get("/api/get-all-user");
@@ -17,7 +22,8 @@ const handleGetUserById = (id) => {
   return axios.get(`/api/get-user-by-id/${id}`);
 }; // truyền id vào
 
-const handleUpdateUser = (id, email, pass, name, mssv, phone, role) => {
+const handleUpdateUser = (data) => {
+  const { id, email, pass, name, mssv, phone, role } = data;
   return axios.put(`/api/update-user/${id}`, {
     email,
     pass,
@@ -70,6 +76,7 @@ const handleGetImage = (imageName) => {
 export {
   handleLoginApi,
   handleRegisterApi,
+  handleRegister,
   handleGetAllUser,
   handleGetUserById,
   handleUpdateUser,
