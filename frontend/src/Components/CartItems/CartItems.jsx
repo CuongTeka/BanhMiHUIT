@@ -14,15 +14,24 @@ const CartItems = () => {
   const navigate = useNavigate();
 
   const handlePaymentClick = () => {
+    if (isCartEmpty()) {
+      alert("Vui lòng thêm sản phẩm vào giỏ hàng!");
+
+      return;
+    }
+
     if (isLoggedIn) {
-      // User is logged in, navigate to the payment page
+      // User da dang nhap, chuyen huong ve trang thanh toan
       navigate("/payment");
     } else {
-      // User is not logged in, navigate to the login page
+      // User chua dang nhap, chuyen huong ve trang login
       login(() => navigate("/payment"));
     }
   };
 
+  const isCartEmpty = () =>
+    Object.values(cartItems).every((quantity) => quantity === 0);
+  // kiem tra gio hang
   return (
     <div className="cartitems">
       <div className="cartitems-fomart-main">
@@ -83,6 +92,7 @@ const CartItems = () => {
               <h3>{numberFormat(getTotalCartAmount())}</h3>
             </div>
           </div>
+
           {isLoggedIn ? (
             <button onClick={handlePaymentClick}>TIẾN HÀNH THANH TOÁN</button>
           ) : (

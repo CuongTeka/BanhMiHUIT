@@ -1,8 +1,13 @@
-.hero{
+.hero {
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgb(235, 239, 243);
-}
-
+    padding: 20px;
+    text-align: center;
+    width: 100%; /* Ensure full width */
+    max-width: 1200px; /* Set a maximum width if needed */
+    margin: 0 auto; /* Center the container */
+  }
+  
