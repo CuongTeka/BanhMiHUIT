@@ -35,7 +35,7 @@ const ShopCategory = (props) => {
             textbutton="Tìm kiếm"
             placeholder="bánh mì, đồ uống, món ăn thêm,..."
             onChange={onSearch}
-            width="500"
+            width="200"
           />
         </div>
         <div className="shopcategory-sort">

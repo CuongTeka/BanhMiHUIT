@@ -9,7 +9,7 @@ import banner4 from '../Components/Assets/BanhmiBG4.png'
 
 const Shop = () => {
   return (
-    <div>
+    <div style={{ maxWidth: '100%', overflowX: 'hidden' }}>
       <Hero arrImg={[banner1, banner2, banner3, banner4]}/>
       <Adver/>
       <Popular/>

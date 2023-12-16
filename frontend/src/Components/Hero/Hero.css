@@ -6,8 +6,6 @@
     background-color: rgb(235, 239, 243);
     padding: 20px;
     text-align: center;
-    width: 100%; /* Ensure full width */
-    max-width: 1200px; /* Set a maximum width if needed */
-    margin: 0 auto; /* Center the container */
+    margin: 0 auto; 
   }
   

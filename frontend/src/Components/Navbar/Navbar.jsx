@@ -40,7 +40,7 @@ const Navbar = () => {
       await getData();
     };
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getData = async () => {
@@ -62,129 +62,131 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <div className="nav-logo">
-        <img src={Logobm} alt="" />
-        <p>BÁNH MÌ HUIT</p>
-      </div>
-      <ul className="nav-menu">
-        <li
-          onClick={() => {
-            SetMenu("shop");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/">
-            TRANG CHỦ
-          </Link>
-          {menu === "shop" ? <hr /> : <></>}
-        </li>
-        <div className="dropdown">
-          <button
-            className="dropbtn"
+      <div className="navbar-container">
+        <div className="nav-logo">
+          <img src={Logobm} alt="" />
+          <p>BÁNH MÌ HUIT</p>
+        </div>
+        <ul className="nav-menu">
+          <li
             onClick={() => {
-              SetMenu("category");
+              SetMenu("shop");
             }}
           >
-            <Link style={{ textDecoration: "none" }} to="/category">
-              SẢN PHẨM
-            </Link>
-            {menu === "category" ? <hr /> : <></>}
-          </button>
-          <div className="dropdown-content">
-            <ul className="sub-menu">
-              <li
-                onClick={() => {
-                  SetMenu("banhmi");
-                }}
-              >
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to="/banhmi"
-                  className="a"
-                >
-                  Bánh mì
-                </Link>
-                {menu === "banhmi" ? <hr /> : <></>}
-              </li>
-              <li
-                onClick={() => {
-                  SetMenu("nuocuong");
-                }}
-              >
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to="/nuocuong"
-                  className="a"
-                >
-                  Nước uống
-                </Link>
-                {menu === "nuocuong" ? <hr /> : <></>}
-              </li>
-              <li
-                onClick={() => {
-                  SetMenu("monanthem");
-                }}
-              >
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to="/monanthem"
-                  className="a"
-                >
-                  Món ăn thêm
-                </Link>
-                {menu === "monanthem"}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <li
-          onClick={() => {
-            SetMenu("aboutus");
-          }}
-        >
-          <Link style={{ textDecoration: "none" }} to="/aboutus">
-            VỀ CHÚNG TÔI
-          </Link>
-          {menu === "aboutus" ? <hr /> : <></>}
-        </li>
-      </ul>
-      <div className="nav-login-cart">
-        {isLoggedIn ? (
-          <>
-            <Dropdown menu={{ items }} placement="bottom" arrow>
-              <Link style={{ textDecoration: "none" }}>
-                <p>
-                  <UserOutlined
-                    style={{
-                      fontSize: "26px",
-                      color: "#515151",
-                      marginRight: "10px",
-                    }}
-                  />
-                  Xin chào: {userData.name}
-                </p>
-              </Link>
-            </Dropdown>
             <Link style={{ textDecoration: "none" }} to="/">
-              <button
-                onClick={() => {
-                  logout();
-                }}
-              >
-                Đăng xuất
-              </button>
+              TRANG CHỦ
             </Link>
-          </>
-        ) : (
-          <Link style={{ textDecoration: "none" }} to="/signin">
-            <button>Đăng Nhập</button>
+            {menu === "shop" ? <hr /> : <></>}
+          </li>
+          <div className="dropdown">
+            <button
+              className="dropbtn"
+              onClick={() => {
+                SetMenu("category");
+              }}
+            >
+              <Link style={{ textDecoration: "none" }} to="/category">
+                SẢN PHẨM
+              </Link>
+              {menu === "category" ? <hr /> : <></>}
+            </button>
+            <div className="dropdown-content">
+              <ul className="sub-menu">
+                <li
+                  onClick={() => {
+                    SetMenu("banhmi");
+                  }}
+                >
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/banhmi"
+                    className="a"
+                  >
+                    Bánh mì
+                  </Link>
+                  {menu === "banhmi" ? <hr /> : <></>}
+                </li>
+                <li
+                  onClick={() => {
+                    SetMenu("nuocuong");
+                  }}
+                >
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/nuocuong"
+                    className="a"
+                  >
+                    Nước uống
+                  </Link>
+                  {menu === "nuocuong" ? <hr /> : <></>}
+                </li>
+                <li
+                  onClick={() => {
+                    SetMenu("monanthem");
+                  }}
+                >
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/monanthem"
+                    className="a"
+                  >
+                    Món ăn thêm
+                  </Link>
+                  {menu === "monanthem"}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <li
+            onClick={() => {
+              SetMenu("aboutus");
+            }}
+          >
+            <Link style={{ textDecoration: "none" }} to="/aboutus">
+              VỀ CHÚNG TÔI
+            </Link>
+            {menu === "aboutus" ? <hr /> : <></>}
+          </li>
+        </ul>
+        <div className="nav-login-cart">
+          {isLoggedIn ? (
+            <>
+              <Dropdown menu={{ items }} placement="bottom" arrow>
+                <Link style={{ textDecoration: "none" }}>
+                  <p>
+                    <UserOutlined
+                      style={{
+                        fontSize: "26px",
+                        color: "#515151",
+                        marginRight: "10px",
+                      }}
+                    />
+                    Xin chào: {userData.name}
+                  </p>
+                </Link>
+              </Dropdown>
+              <Link style={{ textDecoration: "none" }} to="/">
+                <button
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  Đăng xuất
+                </button>
+              </Link>
+            </>
+          ) : (
+            <Link style={{ textDecoration: "none" }} to="/signin">
+              <button>Đăng Nhập</button>
+            </Link>
+          )}
+
+          <Link to="/cart">
+            <img src={cart_icon} alt="" />
           </Link>
-        )}
 
-        <Link to="/cart">
-          <img src={cart_icon} alt="" />
-        </Link>
-
-        <div className="nav-cart-count">{getTotalCartItems()}</div>
+          <div className="nav-cart-count">{getTotalCartItems()}</div>
+        </div>
       </div>
     </div>
   );
