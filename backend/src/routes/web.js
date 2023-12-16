@@ -23,15 +23,12 @@ router.delete("/delete-user/:id", userController.deleteUser);
 router.post("/delete-many-user", userController.deleteMany);
 //product
 router.get("/get-all-product", productController.handleGetAllProduct);
+router.get("/get-product-by-id/:id", productController.handleGetProductById);
 router.get(
   "/get-product-by-name/:name",
   productController.handleGetProductByName
 );
-router.post(
-  "/create-product",
-  productController.upload.single("image"),
-  productController.createProduct
-);
+router.post("/create-product", productController.createProduct);
 router.put("/update-product/:id", productController.updateProduct);
 router.delete("/delete-product/:id", productController.deleteProduct);
 router.post("/delete-many-product");
@@ -56,6 +53,11 @@ router.get("/delete-feedback");
 router.post("/signin", authController.checkLogin);
 router.post("/signup", homeController.registerFunction);
 router.get("/images/", homeController.handleGetProductImage);
+router.post(
+  "/upload",
+  productController.upload.single("image"),
+  productController.handleResImageUpload
+);
 
 router.get("/send", homeController.handleTestEmail);
 

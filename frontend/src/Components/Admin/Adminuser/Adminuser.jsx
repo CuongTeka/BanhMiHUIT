@@ -21,8 +21,8 @@ const Adminuser = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [userData, setUserData] = useState([]);
-  const user = useSelector((state) => state?.user);
-  const searchInput = useRef(null);
+  // const user = useSelector((state) => state?.user);
+  // const searchInput = useRef(null);
 
   const columns = [
     {
@@ -82,19 +82,15 @@ const Adminuser = () => {
       render: (_, record) => (
         <Space size="middle">
           <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
-            onConfirm={con}
-            onCancel={can}
-            okText="Yes"
-            cancelText="No"
+            title="Xóa tài khoản"
+            description="Bạn có chắc muốn xóa tài khoản ?"
+            placement="right"
+            onConfirm={() => handleDeleteUser(record._id)}
+            onCancel={() => message.info("Đã hủy")}
+            okText="Xóa"
+            cancelText="Hủy"
           >
-            <a
-              href="#"
-              onClick={() => handleDeleteUser(record._id)}
-              disabled={isDeleting}
-              style={{ color: "red" }}
-            >
+            <a disabled={isDeleting} style={{ color: "red" }}>
               <i class="fa-solid fa-trash"></i> Xóa
             </a>
           </Popconfirm>
@@ -108,16 +104,6 @@ const Adminuser = () => {
 
   const [form] = Form.useForm();
   const [formU] = Form.useForm();
-
-  const con = (e) => {
-    console.log(e);
-    message.success("Click on Yes");
-  }; //confirm popconfirm trong column
-
-  const can = (e) => {
-    console.log(e);
-    message.error("Click on No");
-  }; //cancel popconfirm trong column
 
   useEffect(() => {
     fetchUserData();
@@ -138,15 +124,15 @@ const Adminuser = () => {
     setIsDeleting(true);
 
     try {
-      // await userService.handleDeleteUser(userId);
+      await userService.handleDeleteUser(userId);
       fetchUserData();
       setSelectedRowKeys([]);
       setIsDeleting(false);
-      message.success("User deleted successfully");
+      message.success("Xóa tài khoản thành công");
     } catch (error) {
       console.error("Error deleting user:", error);
       setIsDeleting(false);
-      message.error("Failed to delete user");
+      message.error("Xóa tài khoản thất bại: ", error);
     }
   }; //xóa (tạm thời tắt)
 
@@ -170,9 +156,9 @@ const Adminuser = () => {
     }
   }; //table render click
 
-  const cancelDelete = () => {
-    setIsDeleting(false);
-  };
+  // const cancelDelete = () => {
+  //   setIsDeleting(false);
+  // };
 
   const onFinish = async (value) => {
     try {

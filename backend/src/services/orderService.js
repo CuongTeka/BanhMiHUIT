@@ -1,5 +1,4 @@
 const orderModel = require("../models/orderModel");
-// const proModel = require('../models/productModel')
 
 //get order
 let getOrder = (Id) => {
@@ -7,12 +6,22 @@ let getOrder = (Id) => {
     try {
       let order = "";
       if (Id === "*") {
-        order = await orderModel.find({});
+        order = await orderModel
+          .find({})
+          .populate({
+            path: "item.pro_id",
+            select: "name price discount image",
+          });
       }
       if (Id && Id !== "*") {
-        order = await orderModel.findOne({
-          _id: Id,
-        });
+        order = await orderModel
+          .findOne({
+            _id: Id,
+          })
+          .populate({
+            path: "item.pro_id",
+            select: "name price discount image",
+          });
       }
       resolve(order);
     } catch (error) {
@@ -27,9 +36,14 @@ let getOrderByCustomerName = (name) => {
       let order = "";
       if (name) {
         const regex = new RegExp(name, "i");
-        order = await proModel.find({
-          customer: regex,
-        });
+        order = await orderModel
+          .find({
+            customer: regex,
+          })
+          .populate({
+            path: "item.pro_id",
+            select: "name price discount image",
+          });
       }
       resolve(order);
     } catch (error) {

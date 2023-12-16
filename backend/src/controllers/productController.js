@@ -23,7 +23,7 @@ let handleGetAllProduct = async (req, res) => {
   });
 };
 let handleGetProductById = async (req, res) => {
-  let id = req.body.id;
+  let id = req.params.id;
   let product = await proService.getProduct(id);
   return res.status(200).json({
     errCode: 0,
@@ -45,13 +45,14 @@ let handleGetProductByName = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { name, category_id, detail, price, discount, image } = req.body;
-    if (!name || !category_id || !detail || !price || !discount || !image) {
+    // console.log(image.name);
+    if (!name || !category_id || !price || !discount) {
       return res.status(400).json({
         errCode: 400,
         message: "Vui lòng nhập dữ liệu",
       });
     }
-    // upload.single('image')
+    // upload.single("image");
     const check = await proService.createProduct(req.body);
     if (check.errCode == 0) {
       return res.status(200).json(check);
@@ -130,6 +131,21 @@ const deleteMany = async (req, res) => {
   }
 }; //WIP
 
+const handleResImageUpload = async (req, res) => {
+  if (req.fileValidationError) {
+    return res.status(400).json({
+      errCode: 400,
+      message: "Lỗi định dạng",
+    });
+  }
+
+  // File upload was successful
+  res.status(200).json({
+    errCode: 0,
+    message: "Ảnh tải thành công",
+  });
+};
+
 module.exports = {
   handleGetAllProduct,
   handleGetProductById,
@@ -143,5 +159,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   deleteMany,
-  upload,
+  handleResImageUpload,
 };
