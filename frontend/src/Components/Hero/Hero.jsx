@@ -10,11 +10,12 @@ const Hero = ({arrImg}) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay:true,
-    autoplaySpeed:2000,
+    autoplay: true,
+    autoplaySpeed: 2000,
     fade: true,
     cssEase: 'linear'
   };
+  
 
   return (
     <Slider {...settings}>
