@@ -19,7 +19,9 @@ const handleGetAllUser = () => {
 };
 
 const handleGetUserById = (id) => {
-  return axios.get(`/api/get-user-by-id/${id}`);
+  if (id) {
+    return axios.get(`/api/get-user-by-id/${id}`);
+  }
 }; // truyền id vào
 
 const handleUpdateUser = (data) => {
