@@ -11,8 +11,7 @@ import {
   Select,
 } from "antd";
 import PlusSquareTwoTone from "@ant-design/icons";
-// import { useSelector } from "react-redux";
-import * as userService from "../../../services/userServices";
+import * as orderService from "../../../services/orderService";
 const { Option } = Select;
 
 const Adminuser = () => {
@@ -20,7 +19,7 @@ const Adminuser = () => {
   const [modalUpdate, setModalUpdate] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [userData, setUserData] = useState([]);
+  const [orderData, setOrderData] = useState([]);
   // const user = useSelector((state) => state?.user);
   // const searchInput = useRef(null);
 
@@ -31,30 +30,36 @@ const Adminuser = () => {
       key: "id",
     },
     {
-      title: "Tên",
-      dataIndex: "name",
+      title: "Khách hàng",
+      dataIndex: "customer",
       key: "name",
+      render: (customer) => customer.name,
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      render: (text) => <a>{text}</a>,
+      title: "Tổng tiền",
+      dataIndex: "total",
+      key: "total",
+      render: (text) => <span>{text}</span>,
     },
     {
-      title: "MSSV",
-      dataIndex: "mssv",
-      key: "mssv",
+      title: "Phương thức thanh toán",
+      dataIndex: "payment",
+      key: "payment",
     },
     {
-      title: "SĐT",
-      dataIndex: "phone",
-      key: "sdt",
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+      render: (text) => <span>{renderStatus(text)}</span>,
     },
     {
-      title: "Vai trò",
-      dataIndex: "role",
-      render: (role) => <span>{roleText(role)}</span>,
+      title: "Đã thanh toán",
+      dataIndex: "is_paid",
+      render: (paid) => (
+        <span style={{ color: paid ? "green" : "red" }}>
+          {paid ? "Đã thanh toán" : "Chưa thanh toán"}
+        </span>
+      ),
     },
     {
       title: "Ngày tạo",
@@ -67,14 +72,14 @@ const Adminuser = () => {
         }),
     },
     {
-      title: "Ngày chỉnh sửa",
-      dataIndex: "date_update",
-      render: (text) =>
-        new Date(text).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
+      title: "Giao hàng",
+      dataIndex: "shipping",
+      key: "shipping",
+    },
+    {
+      title: "Ghi chú",
+      dataIndex: "note",
+      key: "note",
     },
     {
       title: "Action",
@@ -82,19 +87,19 @@ const Adminuser = () => {
       render: (_, record) => (
         <Space size="middle">
           <Popconfirm
-            title="Xóa tài khoản"
-            description="Bạn có chắc muốn xóa tài khoản ?"
+            title="Hủy đơn hàng"
+            description="Bạn có chắc muốn hủy đơn hàng ?"
             placement="right"
-            onConfirm={() => handleDeleteUser(record._id)}
+            onConfirm={() => handleDeleteOrder(record._id)}
             onCancel={() => message.info("Đã hủy")}
-            okText="Xóa"
+            okText="Hủy đơn"
             cancelText="Hủy"
           >
             <a disabled={isDeleting} style={{ color: "red" }}>
-              <i class="fa-solid fa-trash"></i> Xóa
+              <i class="fa-solid fa-trash"></i> Hủy đơn hàng
             </a>
           </Popconfirm>
-          <a onClick={() => handleUpdateUser(record._id)}>
+          <a onClick={() => handleUpdateOrder(record._id)}>
             <i class="fa-solid fa-pen-to-square"></i> Sửa
           </a>
         </Space>
@@ -106,50 +111,50 @@ const Adminuser = () => {
   const [formU] = Form.useForm();
 
   useEffect(() => {
-    fetchUserData();
+    fetchOrderData();
   }, []);
 
-  const fetchUserData = async () => {
+  const fetchOrderData = async () => {
     try {
-      const users = await userService.handleGetUserById("*");
-      if (users && users.errCode === 0) {
-        setUserData(users.data);
+      const orders = await orderService.handleGetAllOrder();
+      if (orders && orders.errCode === 0) {
+        setOrderData(orders.data);
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error fetching order data:", error);
     }
   }; //lấy dữ liệu từ db
 
-  const handleDeleteUser = async (userId) => {
+  const handleDeleteOrder = async (orderId) => {
     setIsDeleting(true);
 
-    try {
-      await userService.handleDeleteUser(userId);
-      fetchUserData();
-      setSelectedRowKeys([]);
-      setIsDeleting(false);
-      message.success("Xóa tài khoản thành công");
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      setIsDeleting(false);
-      message.error("Xóa tài khoản thất bại: ", error);
-    }
-  }; //xóa (tạm thời tắt)
+    // try {
+    //   await orderService.handleCancelOrder(orderId);
+    //   fetchOrderData();
+    //   setSelectedRowKeys([]);
+    //   setIsDeleting(false);
+    //   message.success("Hủy đơn hàng thành công");
+    // } catch (error) {
+    //   console.error("Error cancel order:", error);
+    //   setIsDeleting(false);
+    //   message.error("Hủy đơn hàng thất bại: ", error);
+    // }
+  }; //hủy (tạm thời tắt)
 
-  const handleUpdateUser = async (userId) => {
+  const handleUpdateOrder = async (orderId) => {
     try {
-      const data = await userService.handleGetUserById(userId);
+      const data = await orderService.handleGetOrderById(orderId);
       if (data && data.errCode === 0) {
         // console.log(data.data.name);
         setModalUpdate(true);
-        formU.setFieldsValue({
-          id: userId,
-          name: data.data.name,
-          email: data.data.email,
-          mssv: data.data.mssv,
-          phone: data.data.phone,
-          role: data.data.role,
-        });
+        // formU.setFieldsValue({
+        //   id: userId,
+        //   name: data.data.name,
+        //   email: data.data.email,
+        //   mssv: data.data.mssv,
+        //   phone: data.data.phone,
+        //   role: data.data.role,
+        // });
       }
     } catch (error) {
       console.error("Lỗi:", error);
@@ -161,68 +166,68 @@ const Adminuser = () => {
   // };
 
   const onFinish = async (value) => {
-    try {
-      const signupData = {
-        email: value.email,
-        pass: value.pass,
-        name: value.name,
-        mssv: value.mssv,
-        phone: value.phone,
-      };
-      const create = await userService.handleRegister(signupData);
-      // console.log(create.message);
-      if (create.errCode === 0) {
-        setModalCreate(false);
-        message.success("Tạo tài khoản thành công");
-        fetchUserData();
-        form.resetFields();
-      } else {
-        message.error("Lỗi: ", create.message);
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.data) {
-          message.error("Lỗi: " + error.response.data.message);
-        }
-      }
-    }
+    //   try {
+    //     const orderData = {
+    //       email: value.email,
+    //       pass: value.pass,
+    //       name: value.name,
+    //       mssv: value.mssv,
+    //       phone: value.phone,
+    //     };
+    //     const create = await userService.handleRegister(signupData);
+    //     // console.log(create.message);
+    //     if (create.errCode === 0) {
+    //       setModalCreate(false);
+    //       message.success("Tạo tài khoản thành công");
+    //       fetchUserData();
+    //       form.resetFields();
+    //     } else {
+    //       message.error("Lỗi: ", create.message);
+    //     }
+    //   } catch (error) {
+    //     if (error.response) {
+    //       if (error.response.data) {
+    //         message.error("Lỗi: " + error.response.data.message);
+    //       }
+    //     }
+    //   }
   }; //submit button
 
   const onUpdate = async (value) => {
-    try {
-      const updateData = {
-        id: value.id,
-        email: value.email,
-        pass: value.pass,
-        name: value.name,
-        mssv: value.mssv,
-        phone: value.phone,
-        role: value.role,
-      };
-      const change = await userService.handleUpdateUser(updateData);
-      console.log(change.message);
-      if (change.errCode === 0) {
-        setModalUpdate(false);
-        message.success("Thay đổi thông tin thành công");
-        fetchUserData();
-        formU.resetFields();
-      } else {
-        message.error("Lỗi: ", change.message);
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.data) {
-          message.error("Lỗi: " + error.response.data.message);
-        }
-      }
-    }
+    // try {
+    //   const updateData = {
+    //     id: value.id,
+    //     email: value.email,
+    //     pass: value.pass,
+    //     name: value.name,
+    //     mssv: value.mssv,
+    //     phone: value.phone,
+    //     role: value.role,
+    //   };
+    //   const change = await orderService.handleUpdateOrder(updateData);
+    //   console.log(change.message);
+    //   if (change.errCode === 0) {
+    //     setModalUpdate(false);
+    //     message.success("Thay đổi thông tin thành công");
+    //     fetchOrderData();
+    //     formU.resetFields();
+    //   } else {
+    //     message.error("Lỗi: ", change.message);
+    //   }
+    // } catch (error) {
+    //   if (error.response) {
+    //     if (error.response.data) {
+    //       message.error("Lỗi: " + error.response.data.message);
+    //     }
+    //   }
+    // }
   }; //submit update
 
   const handleDelteManyUsers = async () => {
     if (selectedRowKeys.length > 0) {
       try {
         // await userService.handleDeleteManyUser({ ids: selectedRowKeys });
-        fetchUserData();
+        fetchOrderData();
         setSelectedRowKeys([]);
         message.success("Users deleted successfully");
       } catch (error) {
@@ -232,24 +237,21 @@ const Adminuser = () => {
     }
   }; //xóa nhiều user (tạm thời tắt)
 
-  const roleText = (role) => {
-    if (role === "0") {
-      return "Khách hàng";
-    } else if (role === "1") {
-      return (
-        <b>
-          <i class="fa-solid fa-star"></i> Admin{" "}
-          <i class="fa-solid fa-star"></i>
-        </b>
-      );
+  const renderStatus = (text) => {
+    if (text === "0") {
+      return "Đang xử lý";
+    } else if (text === "1") {
+      return "Đang giao hàng";
+    } else if (text === "2") {
+      return "Thành công";
     } else {
-      return "???";
+      return "Đã hủy";
     }
-  }; //render role từ số thành chữ
+  }; //render trạng thái 4 mức
 
   return (
     <div>
-      <h3>QUẢN LÝ NGƯỜI DÙNG</h3>
+      <h3>QUẢN LÝ ĐƠN HÀNG</h3>
       <br />
       <Button
         style={{ width: "100px", height: "100px", borderRadius: "5px" }}
@@ -265,7 +267,7 @@ const Adminuser = () => {
             onChange: (keys) => setSelectedRowKeys(keys),
           }}
           columns={columns}
-          dataSource={userData}
+          dataSource={orderData}
         />
         {selectedRowKeys.length > 0 && (
           <div
@@ -284,7 +286,7 @@ const Adminuser = () => {
         )}
       </div>
       <Modal
-        title="Tạo tài khoản"
+        title="Tạo đơn hàng"
         open={modalCreate}
         onCancel={() => setModalCreate(false)}
         footer={null}

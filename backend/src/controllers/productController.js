@@ -146,6 +146,30 @@ const handleResImageUpload = async (req, res) => {
   });
 };
 
+const updateActive = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    console.log("data " + data);
+    if (!id) {
+      return res.status(400).json({
+        errCode: 1,
+        message: "Thiếu ID",
+      });
+    }
+    const check = await proService.changeActive(id, req.body);
+    if (check.errCode == 0) {
+      return res.status(200).json(check);
+    } else {
+      return res.status(400).json(check);
+    }
+  } catch (e) {
+    return res.status(400).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   handleGetAllProduct,
   handleGetProductById,
@@ -160,4 +184,5 @@ module.exports = {
   deleteProduct,
   deleteMany,
   handleResImageUpload,
+  updateActive,
 };

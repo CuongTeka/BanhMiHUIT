@@ -32,6 +32,7 @@ router.post("/create-product", productController.createProduct);
 router.put("/update-product/:id", productController.updateProduct);
 router.delete("/delete-product/:id", productController.deleteProduct);
 router.post("/delete-many-product");
+router.put("/change-active/:id", productController.updateActive);
 //category
 router.get("/get-all-category", cateController.handleGetAllCategory);
 router.get("/get-category-by-id", cateController.handleGetCategoryById);

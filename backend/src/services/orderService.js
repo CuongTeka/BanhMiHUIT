@@ -6,22 +6,32 @@ let getOrder = (Id) => {
     try {
       let order = "";
       if (Id === "*") {
-        order = await orderModel
-          .find({})
-          .populate({
+        order = await orderModel.find({}).populate([
+          {
             path: "item.pro_id",
             select: "name price discount image",
-          });
+          },
+          {
+            path: "customer",
+            select: "name email mssv phone",
+          },
+        ]);
       }
       if (Id && Id !== "*") {
         order = await orderModel
           .findOne({
             _id: Id,
           })
-          .populate({
-            path: "item.pro_id",
-            select: "name price discount image",
-          });
+          .populate([
+            {
+              path: "item.pro_id",
+              select: "name price discount image",
+            },
+            {
+              path: "customer",
+              select: "name email mssv phone",
+            },
+          ]);
       }
       resolve(order);
     } catch (error) {

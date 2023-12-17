@@ -1,10 +1,5 @@
-const url =
-  process.env.DBURL ||
-  "mongodb+srv://admin:123@qlbanmi.qonjmak.mongodb.net/QLBM/?retryWrites=true&w=majority";
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-mongoose.connect(url, { dbName: "QLBM" });
 
 const contents = new Schema(
   {
@@ -31,7 +26,7 @@ const orders = new Schema(
     date_create: { type: Date, default: Date.now },
     date_edit: { type: Date, default: Date.now },
     payment: { type: String, required: true }, //Thanh toán momo, thanh toán tiền mặt
-    status: { type: String, default: "Đang xử lý" }, //đang xử lý - đã nhận hàng
+    status: { type: String, default: 0 }, //đang xử lý - đã nhận hàng
     is_paid: { type: Boolean, default: false }, //chưa thanh toán (tiền mặt), đã thanh toán (momo)
     shipping: { type: String, required: true },
     note: { type: String },
