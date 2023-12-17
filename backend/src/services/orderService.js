@@ -120,6 +120,36 @@ const updateOrder = (id, data) => {
   });
 }; //update
 
+const updateOrderStatus = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    const { is_paid, status } = data;
+    try {
+      const existingOrder = await orderModel.findById(id);
+      if (existingOrder === null) {
+        resolve({
+          errCode: 1,
+          message: "Không tìm thấy product",
+        });
+      }
+      if (is_paid !== null) {
+        existingOrder.is_paid = data.is_paid;
+      } //set is_paid
+      if (status !== null) {
+        existingOrder.status = data.status;
+      } //set status
+      existingOrder.date_edit = Date.now();
+      await existingOrder.save();
+
+      resolve({
+        errCode: 0,
+        message: "Update successed",
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+}; //update
+
 // const deleteOrder = (id) => {
 //     return new Promise(async (resolve, reject) => {
 //         try {
@@ -161,4 +191,5 @@ module.exports = {
   getOrder,
   createOrder,
   updateOrder,
+  updateOrderStatus,
 };

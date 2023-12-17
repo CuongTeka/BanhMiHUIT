@@ -18,7 +18,7 @@ const Item = (props) => {
     };
     fetchImage();
   }, [props.image]);
-  console.log(process.env.BEURL);
+  // console.log(process.env.BEURL);
   return (
     <div className="item">
       <Link to={`/product/${props.id}`}>

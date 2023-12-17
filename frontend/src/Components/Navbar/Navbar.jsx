@@ -48,7 +48,7 @@ const Navbar = () => {
       let data = await handleGetUserById(id);
       if (data && data.errCode === 0) {
         setuserData(data.data);
-        console.log(data.data);
+        // console.log(data.data);
       }
     } catch (error) {
       if (error.response) {

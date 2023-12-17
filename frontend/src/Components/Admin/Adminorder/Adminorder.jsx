@@ -10,16 +10,18 @@ import {
   message,
   Select,
 } from "antd";
-import PlusSquareTwoTone from "@ant-design/icons";
 import * as orderService from "../../../services/orderService";
+import { numberFormat } from "../../../util";
 const { Option } = Select;
 
 const Adminuser = () => {
+  const [modalDetail, setModalDetail] = useState(false);
   const [modalCreate, setModalCreate] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isCancel, setIsCancel] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [orderData, setOrderData] = useState([]);
+  const [singleOrder, setSingleOrder] = useState([]);
   // const user = useSelector((state) => state?.user);
   // const searchInput = useRef(null);
 
@@ -39,7 +41,7 @@ const Adminuser = () => {
       title: "Tổng tiền",
       dataIndex: "total",
       key: "total",
-      render: (text) => <span>{text}</span>,
+      render: (text) => <span>{numberFormat(text)}</span>,
     },
     {
       title: "Phương thức thanh toán",
@@ -57,7 +59,11 @@ const Adminuser = () => {
       dataIndex: "is_paid",
       render: (paid) => (
         <span style={{ color: paid ? "green" : "red" }}>
-          {paid ? "Đã thanh toán" : "Chưa thanh toán"}
+          {paid ? (
+            <i class="fa-solid fa-circle-check fa-2xl"></i>
+          ) : (
+            <i class="fa-solid fa-circle-xmark fa-2xl"></i>
+          )}
         </span>
       ),
     },
@@ -77,12 +83,23 @@ const Adminuser = () => {
       key: "shipping",
     },
     {
-      title: "Ghi chú",
-      dataIndex: "note",
-      key: "note",
+      title: "Chi tiết đơn hàng",
+      key: "detail",
+      render: (_, record) => (
+        <Button
+          style={{
+            width: "60px",
+            height: "60px",
+            borderRadius: "5px",
+          }}
+          onClick={() => handleGetDetail(record._id)}
+        >
+          <i class="fa-solid fa-circle-info fa-2xl"></i>
+        </Button>
+      ),
     },
     {
-      title: "Action",
+      title: "Hành động",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
@@ -90,20 +107,88 @@ const Adminuser = () => {
             title="Hủy đơn hàng"
             description="Bạn có chắc muốn hủy đơn hàng ?"
             placement="right"
-            onConfirm={() => handleDeleteOrder(record._id)}
-            onCancel={() => message.info("Đã hủy")}
-            okText="Hủy đơn"
-            cancelText="Hủy"
+            onConfirm={() => handleCancelOrder(record._id, null, 2)}
+            onCancel={() => handleCancelOrder(record._id, null, 0)}
+            okText="Bấm để hủy đơn"
+            cancelText="Bấm để quay lại"
           >
-            <a disabled={isDeleting} style={{ color: "red" }}>
-              <i class="fa-solid fa-trash"></i> Hủy đơn hàng
-            </a>
+            <Button style={{ color: "red", width: "60px", height: "60px" }}>
+              <i class="fa-solid fa-ban"></i>
+            </Button>
           </Popconfirm>
-          <a onClick={() => handleUpdateOrder(record._id)}>
-            <i class="fa-solid fa-pen-to-square"></i> Sửa
-          </a>
+          <Popconfirm
+            title="Xác nhận thanh toán"
+            description="Xác nhận thanh toán đơn hàng này ?"
+            placement="right"
+            onConfirm={() => handlePaidOrder(record._id, true, null)}
+            onCancel={() => handlePaidOrder(record._id, false, null)}
+            okText="Bấm để xác nhận"
+            cancelText="Bấm để quay lại"
+          >
+            <Button
+              style={{ color: "blue", width: "60px", height: "60px" }}
+              disabled={isCancel}
+            >
+              <i class="fa-solid fa-money-check"></i>
+            </Button>
+          </Popconfirm>
+          <Popconfirm
+            title="Xác nhận giao hàng"
+            description="Các nhận giao hàng đơn hàng này ?"
+            placement="right"
+            onConfirm={() => handleShippingOrder(record._id, true, 1)}
+            onCancel={() => handleShippingOrder(record._id, null, 0)}
+            okText="Giao hàng thành công"
+            cancelText="Bấm để quay lại"
+          >
+            <Button
+              style={{ color: "green", width: "60px", height: "60px" }}
+              disabled={isCancel}
+            >
+              <i class="fa-solid fa-user-check"></i>
+            </Button>
+          </Popconfirm>
         </Space>
       ),
+    },
+  ];
+
+  const detailColumn = [
+    {
+      title: "Tên sản phẩm",
+      dataIndex: "pro_id",
+      key: "proName",
+      render: (text) => text.name,
+    },
+    {
+      title: "Đơn giá",
+      dataIndex: "pro_id",
+      key: "proPrice",
+      render: (text) => <span>{numberFormat(text.price)}</span>,
+    },
+    {
+      title: "Giảm giá",
+      dataIndex: "pro_id",
+      key: "proDiscount",
+      render: (text) => <span>{text.discount} %</span>,
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "pro_id",
+      key: "proImage",
+      render: (text) => (
+        <img
+          src={renderImage(text.image)}
+          alt={text.image}
+          width={150}
+          height={150}
+        />
+      ),
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "proQuantity",
     },
   ];
 
@@ -125,45 +210,60 @@ const Adminuser = () => {
     }
   }; //lấy dữ liệu từ db
 
-  const handleDeleteOrder = async (orderId) => {
-    setIsDeleting(true);
+  const handleGetDetail = async (orderId) => {
+    const foundOrder = orderData.find((e) => e._id === orderId);
+    // console.log(foundOrder);
+    setSingleOrder(foundOrder);
+    setModalDetail(true);
+  };
 
-    // try {
-    //   await orderService.handleCancelOrder(orderId);
-    //   fetchOrderData();
-    //   setSelectedRowKeys([]);
-    //   setIsDeleting(false);
-    //   message.success("Hủy đơn hàng thành công");
-    // } catch (error) {
-    //   console.error("Error cancel order:", error);
-    //   setIsDeleting(false);
-    //   message.error("Hủy đơn hàng thất bại: ", error);
-    // }
-  }; //hủy (tạm thời tắt)
-
-  const handleUpdateOrder = async (orderId) => {
+  const handleCancelOrder = async (orderId, paid, stat) => {
     try {
-      const data = await orderService.handleGetOrderById(orderId);
-      if (data && data.errCode === 0) {
-        // console.log(data.data.name);
-        setModalUpdate(true);
-        // formU.setFieldsValue({
-        //   id: userId,
-        //   name: data.data.name,
-        //   email: data.data.email,
-        //   mssv: data.data.mssv,
-        //   phone: data.data.phone,
-        //   role: data.data.role,
-        // });
-      }
+      const updateData = {
+        is_paid: paid,
+        status: stat,
+      };
+      await orderService.handleUpdateStatus(orderId, updateData);
+      fetchOrderData();
+      setSelectedRowKeys([]);
+      message.success("Cập nhật thành công");
     } catch (error) {
-      console.error("Lỗi:", error);
+      console.error("Error cancel order:", error);
+      message.error("Hủy đơn hàng thất bại: ", error);
     }
-  }; //table render click
+  }; //hủy
 
-  // const cancelDelete = () => {
-  //   setIsDeleting(false);
-  // };
+  const handlePaidOrder = async (orderId, paid, stat) => {
+    try {
+      const updateData = {
+        is_paid: paid,
+        status: stat,
+      };
+      await orderService.handleUpdateStatus(orderId, updateData);
+      fetchOrderData();
+      setSelectedRowKeys([]);
+      message.success("Cập nhật thành công");
+    } catch (error) {
+      console.error("Error handle paid order:", error);
+      message.error("Xác nhận thanh toán thất bại: ", error);
+    }
+  };
+
+  const handleShippingOrder = async (orderId, paid, stat) => {
+    try {
+      const updateData = {
+        is_paid: paid,
+        status: stat,
+      };
+      await orderService.handleUpdateStatus(orderId, updateData);
+      fetchOrderData();
+      setSelectedRowKeys([]);
+      message.success("Cập nhật thành công");
+    } catch (error) {
+      console.error("Error handle shipping order:", error);
+      message.error("Xác nhận giao hàng thất bại: ", error);
+    }
+  };
 
   const onFinish = async (value) => {
     //   try {
@@ -241,25 +341,39 @@ const Adminuser = () => {
     if (text === "0") {
       return "Đang xử lý";
     } else if (text === "1") {
-      return "Đang giao hàng";
-    } else if (text === "2") {
-      return "Thành công";
+      return <span style={{ color: "green" }}>Thành công</span>;
     } else {
-      return "Đã hủy";
+      return <span style={{ color: "red" }}>Đã hủy</span>;
     }
   }; //render trạng thái 4 mức
+
+  const renderImage = (imageName) => {
+    if (imageName) {
+      return `http://localhost:8080/api/images?imageName=${encodeURIComponent(
+        imageName
+      )}`;
+    } else {
+      //??
+    }
+  };
+
+  // const Detaildata = [
+  //   {
+  //     item: singleOrder.item,
+  //   },
+  // ];
 
   return (
     <div>
       <h3>QUẢN LÝ ĐƠN HÀNG</h3>
       <br />
-      <Button
+      {/* <Button
         style={{ width: "100px", height: "100px", borderRadius: "5px" }}
         onClick={() => setModalCreate(true)}
       >
         <PlusSquareTwoTone />
         <i class="fa-solid fa-plus fa-2xl"></i>
-      </Button>
+      </Button> */}
       <div style={{ marginTop: "50px" }}>
         <Table
           rowSelection={{
@@ -491,6 +605,21 @@ const Adminuser = () => {
         </Form>
       </Modal>{" "}
       {/* modal update */}
+      <Modal
+        title="Chi tiết đơn hàng"
+        open={modalDetail}
+        onCancel={() => setModalDetail(false)}
+        footer={null}
+        destroyOnClose={true}
+        width={1000}
+      >
+        <Table
+          columns={detailColumn}
+          dataSource={singleOrder.item}
+          rowKey={(record) => record._id}
+        />
+      </Modal>
+      {/* modal detail */}
     </div>
   );
 };

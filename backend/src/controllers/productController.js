@@ -149,8 +149,6 @@ const handleResImageUpload = async (req, res) => {
 const updateActive = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = req.body;
-    console.log("data " + data);
     if (!id) {
       return res.status(400).json({
         errCode: 1,
