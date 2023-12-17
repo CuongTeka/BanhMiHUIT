@@ -1,12 +1,15 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "./CSS/PaymentPage.css"; 
+import "./CSS/PaymentPage.css";
 import { ShopContext } from "../Context/ShopContext";
+import { numberFormat } from "../util";
 
 const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState(""); // Chon phuong thuc thanh toan
   const navigate = useNavigate();
   const { resetCart } = useContext(ShopContext);
+  const { getTotalCartAmount, products, cartItems, addToCart } =
+    useContext(ShopContext);
 
   const handlePayment = () => {
     if (paymentMethod === "cash") {
@@ -22,30 +25,85 @@ const PaymentPage = () => {
 
   return (
     <div className="payment-container">
-      <h1 className="payment-title">Chọn phương thức thanh toán</h1>
-      <div className="payment-options">
-        <label className="payment-option-label">
-          <input
-            type="radio"
-            value="cash"
-            checked={paymentMethod === "cash"}
-            onChange={() => setPaymentMethod("cash")}
-          />
-          Thanh toán tiền mặt
-        </label>
-        <label className="payment-option-label">
-          <input
-            type="radio"
-            value="online"
-            checked={paymentMethod === "online"}
-            onChange={() => setPaymentMethod("online")}
-          />
-          Thanh toán trực tuyến
-        </label>
+      <div className="paymentcartitems">
+        <div className="paymentcartitems-fomart-main">
+          <p>Sản Phẩm</p>
+          <p>Tiêu Đề</p>
+          <p>Giá Tiền</p>
+          <p>Số lượng</p>
+          <p>Tổng</p>
+          <p>Xoá</p>
+        </div>
+        <hr />
+        {products.map(
+          (e) =>
+            cartItems[e._id] > 0 && (
+              <div key={e._id}>
+                <div className="paymentcartitems-format paymentcartitems-fomart-main">
+                  <img
+                    className="carticon-product-icon"
+                    src={`http://localhost:8080/api/images?imageName=${encodeURIComponent(
+                      e.image
+                    )}`}
+                    alt=""
+                  />
+                  <p>{e.name}</p>
+                  <p>{numberFormat(e.price)}</p>
+                  <button onClick={() => addToCart(e._id)}>
+                    {cartItems[e._id]}
+                  </button>
+                  <p>{numberFormat(e.price * cartItems[e._id])}</p>
+                </div>
+                <hr />
+              </div>
+            )
+        )}
+        <div className="paymentcartitems-down">
+          <div className="paymentcartitems-total">
+            <h1>Tổng Tiền Giỏ Hàng</h1>
+            <div>
+              <div className="paymentcartitems-total-item">
+                <p>Tổng số tiền hàng</p>
+                <p>{numberFormat(getTotalCartAmount())}</p>
+              </div>
+              <hr />
+              <div className="paymentcartitems-total-item">
+                <p>Phí giao hàng</p>
+                <p>Free</p>
+              </div>
+              <hr />
+              <div className="paymentcartitems-total-item">
+                <h3>Tổng </h3>
+                <h3>{numberFormat(getTotalCartAmount())}</h3>
+              </div>
+            </div>
+          </div>
+          <h1 className="payment-title">Chọn phương thức thanh toán</h1>
+          <div className="payment-options">
+            <label className="payment-option-label">
+              <input
+                type="radio"
+                value="cash"
+                checked={paymentMethod === "cash"}
+                onChange={() => setPaymentMethod("cash")}
+              />
+              Thanh toán tiền mặt
+            </label>
+            <label className="payment-option-label">
+              <input
+                type="radio"
+                value="online"
+                checked={paymentMethod === "online"}
+                onChange={() => setPaymentMethod("online")}
+              />
+              Thanh toán trực tuyến
+            </label>
+          </div>
+          <button className="payment-button" onClick={handlePayment}>
+            Xác nhận thanh toán
+          </button>
+        </div>
       </div>
-      <button className="payment-button" onClick={handlePayment}>
-        Xác nhận thanh toán
-      </button>
     </div>
   );
 };

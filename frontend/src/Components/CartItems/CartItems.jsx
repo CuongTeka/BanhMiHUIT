@@ -72,7 +72,6 @@ const CartItems = () => {
             </div>
           )
       )}
-      {console.log(cartItems)}
       <div className="cartitems-down">
         <div className="cartitems-total">
           <h1>Tổng Tiền Giỏ Hàng</h1>
