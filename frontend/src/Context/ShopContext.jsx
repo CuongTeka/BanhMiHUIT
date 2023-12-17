@@ -54,7 +54,7 @@ const ShopContextProvider = (props) => {
   const contextValue = {
     loading,
     error,
-    products, // Rename to match the variable in your ShopCategory component
+    products, 
     cartItems,
     addToCart: (itemId) => {
       setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1}));

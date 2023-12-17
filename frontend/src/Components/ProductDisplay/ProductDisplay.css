@@ -1,54 +1,62 @@
-.productdisplay{
+/* Default styles for larger screens */
+.productdisplay {
     display: flex;
-    margin: 0px 170px 50px;    
-
+    margin: 0px 170px 50px;
 }
-.productdisplay-left{
+
+.productdisplay-left {
     display: flex;
     gap: 17px;
 }
-.productdisplay-main-img{
+
+.productdisplay-main-img {
     width: 500px;
     height: 500px;
 }
-.productdisplay-right{
+
+.productdisplay-right {
     margin: 0px 70px;
     display: flex;
     flex-direction: column;
 }
-.productdisplay-right h1{
+
+.productdisplay-right h1 {
     color: #3d3d3d;
     font-size: 40px;
     font-weight: 700;
     text-align: left;
 }
-.productdisplay-right-prices{
+
+.productdisplay-right-prices {
     display: flex;
-    
     margin: 20px 0px;
     gap: 5px;
     font-size: 24px;
     font-weight: 700;
 }
-.productdisplay-right-newprice{
+
+.productdisplay-right-newprice {
     color: red;
 }
-.productdisplay-right-description{
+
+.productdisplay-right-description {
     display: flex;
     margin: 10px 0px;
     gap: 3px;
     width: auto;
-    height:auto;
+    height: auto;
     color: #696868;
 }
-.productdisplay-right-description p{
-   font-size: 18px;
-   font-family: Roboto;
-   font-weight: 400;
-   color: #494848;
-   text-align: justify;
+
+.productdisplay-right-description p {
+    font-size: 18px;
+    font-family: Roboto;
+    font-weight: 400;
+    color: #494848;
+    text-align: justify;
 }
-.productdisplay-right button{
+
+.productdisplay-right button {
     padding: 20px 40px;
     width: 250px;
     font-size: 16px;
@@ -60,4 +68,47 @@
     outline: none;
     cursor: pointer;
     text-align: justify;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .productdisplay {
+        margin: 0px 50px 50px;
+    }
+
+    .productdisplay-main-img {
+        width: 100%;
+        height: auto;
+    }
+
+    .productdisplay-right {
+        margin: 0px 20px;
+    }
+
+    .productdisplay-right h1 {
+        font-size: 32px;
+    }
+
+    .productdisplay-right-prices {
+        font-size: 20px;
+    }
+
+    .productdisplay-right-description p {
+        font-size: 16px;
+    }
+
+    .productdisplay-right button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .productdisplay {
+        flex-direction: column;
+        margin: 0px 20px 50px;
+    }
+
+    .productdisplay-right {
+        margin: 20px 0px;
+    }
 }
