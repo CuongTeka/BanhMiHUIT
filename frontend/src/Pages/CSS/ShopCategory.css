@@ -2,7 +2,7 @@
 
 .shop-category {
   width: 100%;
-
+  margin-bottom: 50px;
 }
 
 .shopcategory-banner {
@@ -46,7 +46,7 @@
 
 .shopcategory-loadmore {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .shopcategory-loadmore p {

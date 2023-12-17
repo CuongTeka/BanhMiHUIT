@@ -18,9 +18,7 @@ const ShopCategory = (props) => {
     let filtered = products;
 
     // Lọc sản phẩm dựa trên category và thanh tìm kiếm
-    if (category) {
-      filtered = filtered.filter((product) => product.category === category);
-    }
+    
 
     if (searchText) {
       filtered = filtered.filter((product) =>
@@ -34,9 +32,9 @@ const ShopCategory = (props) => {
     } else if (sortBy === "name-desc") {
       filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === "price-asc") {
-      filtered = filtered.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "price-desc") {
       filtered = filtered.sort((a, b) => b.price - a.price);
+    } else if (sortBy === "price-desc") {
+      filtered = filtered.sort((a, b) => a.price - b.price);
     }
 
     setFilteredProducts(filtered);
@@ -55,7 +53,7 @@ const ShopCategory = (props) => {
       <img className="shopcategory-banner" src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
         <p>
-          <span>Showing 1-12</span> out of {filteredProducts.length} products
+          <span>Showing 1-12</span> out of {products.length} products
         </p>
         <div className="searchbar">
           <Searchbar
@@ -76,15 +74,15 @@ const ShopCategory = (props) => {
             <option value="default">Mặc định</option>
             <option value="name-asc">Tên(A-Z)</option>
             <option value="name-desc">Tên(Z-A)</option>
-            <option value="price-asc">Giá (Low to High)</option>
-            <option value="price-desc">Giá (High to Low)</option>
+            <option value="price-asc">Giá (thấp đến cao)</option>
+            <option value="price-desc">Giá (cao đến thấp)</option>
           </select>
           
         </div>
       </div>
 
       <div className="shopcategory-products">
-        {filteredProducts.map((item, i) => (
+        {products.map((item, i) => (
           <Item
             key={i}
             id={item._id}
@@ -95,7 +93,7 @@ const ShopCategory = (props) => {
         ))}
       </div>
 
-      {visibleProducts < filteredProducts.length && (
+      {visibleProducts <products.length && (
         <div className="shopcategory-loadmore" onClick={handleLoadMore}>
           <p>Xem Thêm</p>
         </div>
