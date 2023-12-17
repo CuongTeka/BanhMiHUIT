@@ -11,11 +11,11 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-logo">
           <img src={Logobm} alt="" />
-        </div>
-        <div className="footer-contact">
           <p className="desc">
             Cửa hàng bánh mì độc quyền Trường ĐH Công Thương
           </p>
+        </div>
+        <div className="footer-contact">
           <p className="icon-contact">
             <img src={phone_icon} alt="" />
             <a href="callto:0346009095">0346009095</a>
