@@ -34,17 +34,15 @@ const Navbar = () => {
   const [menu, SetMenu] = useState();
   const [userData, setuserData] = useState([]);
   const { getTotalCartItems } = useContext(ShopContext);
-  const id = Cookies.get("id");
+
   useEffect(() => {
-    const fetchData = async () => {
-      await getData();
-    };
-    fetchData();
+    getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getData = async () => {
     try {
+      const id = Cookies.get("id");
       let data = await handleGetUserById(id);
       if (data && data.errCode === 0) {
         setuserData(data.data);
