@@ -10,7 +10,7 @@ const handleGetProductById = (id) => {
 };
 
 const handleCreateProduct = (data) => {
-  const { name, category_id, detail, price, discount, image } = data;
+  const { name, category_id, detail, price, discount, image, is_active } = data;
   return axios.post("/api/create-product", {
     name,
     category_id,
@@ -18,6 +18,7 @@ const handleCreateProduct = (data) => {
     price,
     discount,
     image,
+    is_active,
   });
 };
 
@@ -58,6 +59,10 @@ const handleUploadImage = (image) => {
   });
 };
 
+const changeActive = (id, data) => {
+  return axios.put(`/api/change-active/${id}`, data);
+};
+
 export {
   handleGetAllProduct,
   handleGetProductById,
@@ -67,4 +72,5 @@ export {
   handleGetAllCategory,
   handleDeleteManyProduct,
   handleUploadImage,
+  changeActive,
 };

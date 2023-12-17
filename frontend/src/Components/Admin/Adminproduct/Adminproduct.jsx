@@ -9,13 +9,15 @@ import {
   Input,
   Space,
   Table,
+  Switch,
 } from "antd";
 import PlusSquareTwoTone from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
-import Tableadmin from "../Tableadmin/Tableadmin";
-import InputComponent from "../../InputComponent/InputComponent";
+// import Tableadmin from "../Tableadmin/Tableadmin";
+// import InputComponent from "../../InputComponent/InputComponent";
 import { UploadOutlined } from "@ant-design/icons";
 import * as proService from "../../../services/productService";
+import { numberFormat } from "../../../util";
 const { Option } = Select;
 
 const Adminproduct = () => {
@@ -23,7 +25,7 @@ const Adminproduct = () => {
   const [modalUpdate, setModalUpdate] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [imageData, setImageData] = useState(null);
+  // const [imageData, setImageData] = useState(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [productData, setProductData] = useState([]);
   const [singleData, setSingleData] = useState([]);
@@ -53,11 +55,13 @@ const Adminproduct = () => {
       title: "Đơn giá",
       dataIndex: "price",
       key: "price",
+      render: (text) => <span>{numberFormat(text)}</span>,
     },
     {
       title: "Giảm giá",
       dataIndex: "discount",
       key: "discount",
+      render: (text) => <span>{text} %</span>,
     },
     {
       title: "hình ảnh",
@@ -94,10 +98,16 @@ const Adminproduct = () => {
     {
       title: "Hiển thị",
       dataIndex: "is_active",
-      render: (isActive) => (
-        <span style={{ color: isActive ? "green" : "red" }}>
-          {isActive ? "True" : "False"}
-        </span>
+      // render: (isActive) => (
+      //   <span style={{ color: isActive ? "green" : "red" }}>
+      //     {isActive ? "True" : "False"}
+      //   </span>
+      // ),
+      render: (text, record) => (
+        <Switch
+          checked={text}
+          onChange={(checked) => handleSwitchChange(record._id, checked)}
+        />
       ),
     },
     {
@@ -143,9 +153,24 @@ const Adminproduct = () => {
     }
   }, [singleData]);
 
+  const handleSwitchChange = async (id, checked) => {
+    try {
+      const data = { is_active: checked };
+      const active = await proService.changeActive(id, data);
+      if (active && active.errCode === 0) {
+        message.success("Đổi hiển thị thành công");
+        fetchProductData();
+      } else {
+        message.error("Đổi hiển thị thất bại:" + active.message);
+      }
+    } catch (error) {
+      console.error("Lỗi:", error);
+    }
+  };
+
   const fetchProductData = async () => {
     try {
-      const pros = await proService.handleGetAllProduct();
+      const pros = await proService.handleGetProductById("all");
       if (pros && pros.errCode === 0) {
         setProductData(pros.data);
       }
@@ -200,6 +225,7 @@ const Adminproduct = () => {
         price: value.price,
         discount: value.discount,
         image: value.image.file,
+        is_active: value.is_active,
       };
       console.log(productData);
       const create = await proService.handleCreateProduct(productData);
@@ -223,25 +249,26 @@ const Adminproduct = () => {
 
   const onUpdate = async (value) => {
     try {
-      // const updateData = {
-      //   id: value.id,
-      //   email: value.email,
-      //   pass: value.pass,
-      //   name: value.name,
-      //   mssv: value.mssv,
-      //   phone: value.phone,
-      //   role: value.role,
-      // };
-      // const change = await handleUpdateProduct(updateData);
-      // console.log(change.message);
-      // if (change.errCode === 0) {
-      //   setModalUpdate(false);
-      //   message.success("Thay đổi thông tin thành công");
-      //   fetchUserData();
-      //   formU.resetFields();
-      // } else {
-      //   message.error("Lỗi: ", change.message);
-      // }
+      const updateData = {
+        id: value.id,
+        name: value.name,
+        category_id: value.category_id,
+        detail: value.detail,
+        price: value.price,
+        discount: value.discount,
+        image: value.image.file,
+        is_active: value.is_active,
+      };
+      const change = await handleUpdateProduct(updateData);
+      console.log(change.message);
+      if (change.errCode === 0) {
+        setModalUpdate(false);
+        message.success("Thay đổi thông tin thành công");
+        fetchProductData();
+        formU.resetFields();
+      } else {
+        message.error("Lỗi: ", change.message);
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.data) {
@@ -406,7 +433,11 @@ const Adminproduct = () => {
             </Select>
           </Form.Item>
           <Form.Item label="Chi tiết" name="detail">
-            <Input placeholder="Chi tiết về sản phẩm..." />
+            <Input.TextArea
+              showCount
+              maxLength={600}
+              placeholder="Chi tiết về sản phẩm..."
+            />
           </Form.Item>
           <Form.Item
             label="Đơn giá"
@@ -531,7 +562,11 @@ const Adminproduct = () => {
             </Select>
           </Form.Item>
           <Form.Item label="Chi tiết" name="detail">
-            <Input placeholder="Chi tiết về sản phẩm..." />
+            <Input.TextArea
+              showCount
+              maxLength={600}
+              placeholder="Chi tiết về sản phẩm..."
+            />
           </Form.Item>
           <Form.Item
             label="Đơn giá"

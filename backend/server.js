@@ -1,12 +1,13 @@
 const express = require("express");
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const dotenv = require("dotenv");
-dotenv.config();
 const webRoutes = require("./src/routes/web");
+const cors = require("cors");
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -32,13 +33,13 @@ app.use(
 );
 
 app.use("/api", webRoutes);
-
+// mongoose.connect(url ,{dbName: 'QLBM'});
 mongoose
-  .connect(`${process.env.MONGO_DB}`)
+  .connect(`${process.env.DBURL}`, { dbName: `${process.env.MONGO_DB}` })
   .then(() => {
-    // console.log('Connect Db success!')
+    console.log("Connect Atlas successed!");
   })
   .catch((err) => {
-    // console.log(err)
+    console.log(err);
   });
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
