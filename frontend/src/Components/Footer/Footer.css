@@ -12,6 +12,7 @@
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
+  width: 100%;
   gap: 20px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -48,7 +49,7 @@ p.icon-contact a {
 
 .footer-copyright hr {
   margin-top: 10px;
-  width: 60%; 
+  width: 20%; 
   margin-left: auto;
   margin-right: auto;
 }

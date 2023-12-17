@@ -11,7 +11,7 @@
 .Ad_Col_container {
   box-sizing: border-box;
   display: flex;
-  height: 280px;
+  height: 300px;
   min-height: 1px;
   padding: 0 10px;
   position: relative;
@@ -98,8 +98,9 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 60px;
+  justify-content: center; 
+  width: 260px; 
+  height: 70px;
   font-size: 15px;
   color: rgb(105, 105, 105);
 }
