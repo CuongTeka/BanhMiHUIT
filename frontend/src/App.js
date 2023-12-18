@@ -19,6 +19,7 @@ import AdminPage from "./Pages/AdminPage";
 import { useAuth } from "./Context/authContext";
 import Headeradmin from "./Components/Admin/Headeradmin/Headeradmin";
 import ProfileUser from "./Pages/ProfileUser";
+import Order from "./Components/Order/Order"
 // import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
 
@@ -56,6 +57,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/order" element={<Order/>} />
             <Route path="*" element={<Failpage />} />    
           </Routes>
           <Footer />

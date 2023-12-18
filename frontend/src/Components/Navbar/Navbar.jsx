@@ -22,7 +22,7 @@ const items = [
   {
     key: "2",
     label: (
-      <Link style={{ textDecoration: "none" }} to="/">
+      <Link style={{ textDecoration: "none" }} to="/order">
         Lịch sử đơn hàng
       </Link>
     ),

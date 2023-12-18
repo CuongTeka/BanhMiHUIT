@@ -1,6 +1,6 @@
 import React from "react";
 import './Order.css'
-import TableComponent from "./TableComponent"; // Đường dẫn cần điều chỉnh tùy thuộc vào cấu trúc thư mục của bạn
+import Tableadmin from "../Admin/Tableadmin/Tableadmin";
 
 const OrderHistory = () => {
   // Giả sử data lịch sử mua hàng của bạn có dạng như sau
@@ -57,7 +57,7 @@ const OrderHistory = () => {
   return (
     <div>
       <h1>Lịch sử mua hàng</h1>
-      <TableComponent
+      <Tableadmin
         data={orderHistoryData}
         columns={columns}
         handleDelteMany={handleDeleteMany}
