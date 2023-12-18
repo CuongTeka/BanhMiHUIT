@@ -6,16 +6,19 @@ let getOrder = (Id) => {
     try {
       let order = "";
       if (Id === "*") {
-        order = await orderModel.find({}).populate([
-          {
-            path: "item.pro_id",
-            select: "name price discount image",
-          },
-          {
-            path: "customer",
-            select: "name email mssv phone",
-          },
-        ]);
+        order = await orderModel
+          .find({})
+          .populate([
+            {
+              path: "item.pro_id",
+              select: "name price discount image",
+            },
+            {
+              path: "customer",
+              select: "name email mssv phone",
+            },
+          ])
+          .sort({ date_create: "desc" });
       }
       if (Id && Id !== "*") {
         order = await orderModel
@@ -31,7 +34,8 @@ let getOrder = (Id) => {
               path: "customer",
               select: "name email mssv phone",
             },
-          ]);
+          ])
+          .sort({ date_create: "desc" });
       }
       resolve(order);
     } catch (error) {
@@ -53,7 +57,8 @@ let getOrderByCustomerName = (name) => {
           .populate({
             path: "item.pro_id",
             select: "name price discount image",
-          });
+          })
+          .sort({ date_create: "desc" });
       }
       resolve(order);
     } catch (error) {
@@ -62,10 +67,32 @@ let getOrderByCustomerName = (name) => {
   });
 }; //tìm order theo tên khách hàng
 
+let getOrderByCustomerId = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let order = "";
+      if (id) {
+        order = await orderModel
+          .find({
+            customer: id,
+          })
+          .populate({
+            path: "item.pro_id",
+            select: "name price discount image",
+          })
+          .sort({ date_create: "desc" });
+      }
+      resolve(order);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 // create - update - delete
 const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
-    const { customer, item, total, payment, status, shipping, note } = newOrder;
+    const { customer, item, total, payment, shipping, note } = newOrder;
     // const item = [pro_id, quantity, custom]
     try {
       const newOrder = await orderModel.create({
@@ -73,7 +100,6 @@ const createOrder = (newOrder) => {
         item,
         total,
         payment,
-        status,
         shipping,
         note,
       });
@@ -192,4 +218,6 @@ module.exports = {
   createOrder,
   updateOrder,
   updateOrderStatus,
+  getOrderByCustomerId,
+  getOrderByCustomerName,
 };

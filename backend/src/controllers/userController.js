@@ -85,8 +85,6 @@ const updateUser = async (req, res) => {
   const id = req.params.id;
   const data = req.body;
   try {
-    // const userId = req.params.id
-    // const data = req.body
     if (!id) {
       return res.status(400).json({
         errCode: 500,

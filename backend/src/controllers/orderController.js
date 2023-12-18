@@ -18,20 +18,40 @@ let handleGetOrderById = async (req, res) => {
     message: "get order by id",
     data: order,
   });
-}; //get order by id
+};
+
+let handleGetOrderByCustomerId = async (req, res) => {
+  let id = req.params.id;
+  let order = await orderService.getOrderByCustomerId(id);
+  return res.status(200).json({
+    errCode: 0,
+    message: "get order by customer id",
+    data: order,
+  });
+}; //get order by customer id
+
+let handleGetOrderByCustomerName = async (req, res) => {
+  let name = req.params.name;
+  let order = await orderService.getOrderByCustomerName(name);
+  return res.status(200).json({
+    errCode: 0,
+    message: "get order by customer name",
+    data: order,
+  });
+};
 
 //create - update
 const handleCreateOrder = async (req, res) => {
   try {
+    console.log(req.body);
     const { customer, item, total, payment, status, shipping, note } = req.body;
-    // const item = req.body.item.map(({ pro_id, quantity, custom }) => ({ pro_id, quantity, custom }));
-    if (!customer || !total || !payment || !shipping || !item) {
+    if (!customer || !total || !payment || !item) {
       return res.status(400).json({
         errCode: 400,
         message: "Vui lòng nhập dữ liệu",
       });
     }
-    // console.log(req.body)
+
     // console.log(item)
     const check = await orderService.createOrder(req.body);
     // console.log(check)
@@ -92,4 +112,6 @@ module.exports = {
   handleCreateOrder,
   handleUpdateOrder,
   handleUpdateStatus,
+  handleGetOrderByCustomerId,
+  handleGetOrderByCustomerName,
 };

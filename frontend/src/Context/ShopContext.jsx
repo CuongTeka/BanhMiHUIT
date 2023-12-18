@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useEffect } from "react";
 import { handleGetAllProduct } from "../services/productService";
 export const ShopContext = createContext(null);
@@ -21,7 +20,6 @@ const ShopContextProvider = (props) => {
     };
 
     fetchData();
-  
   }, []);
 
   const productData = async () => {
@@ -54,12 +52,12 @@ const ShopContextProvider = (props) => {
   const contextValue = {
     loading,
     error,
-    products, 
+    products,
     cartItems,
     addToCart: (itemId) => {
-      setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1}));
+      setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1 }));
     },
-    // them san pham  
+    // them san pham
 
     removeToCart: (itemId) => {
       setCartItems((prev) => {
@@ -70,21 +68,17 @@ const ShopContextProvider = (props) => {
         return updatedCart;
       });
     },
-    // bot san pham   
-
+    // bot san pham
 
     getTotalCartAmount: () => {
       let totalAmount = 0;
       for (const item in cartItems) {
         if (cartItems[item] > 0) {
-          let itemInfo = products.find(
-            (product) => product._id === item
-          );
-          console.log('iteminfo',itemInfo)
+          let itemInfo = products.find((product) => product._id === item);
+          // console.log('iteminfo',itemInfo)
           if (itemInfo && itemInfo.price !== undefined) {
             totalAmount += itemInfo.price * cartItems[item];
           }
-            
         }
       }
       return totalAmount;
@@ -107,7 +101,6 @@ const ShopContextProvider = (props) => {
     },
     //Đưa gio hang ve trang hai ban dau
   };
-
 
   return (
     <ShopContext.Provider value={contextValue}>

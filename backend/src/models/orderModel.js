@@ -28,7 +28,7 @@ const orders = new Schema(
     payment: { type: String, required: true }, //Thanh toán momo, thanh toán tiền mặt
     status: { type: String, default: 0 }, //đang xử lý - đã nhận hàng
     is_paid: { type: Boolean, default: false }, //chưa thanh toán (tiền mặt), đã thanh toán (momo)
-    shipping: { type: String, required: true },
+    shipping: { type: String },
     note: { type: String },
   },
   { collection: "Order", versionKey: false }
