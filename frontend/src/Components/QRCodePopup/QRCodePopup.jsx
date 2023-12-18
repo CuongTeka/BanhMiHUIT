@@ -27,7 +27,7 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
         />
       </div>
       <div className="qrcode-btn">
-        <button onClick={handleClose}>Đóng</button>
+        <button onClick={handleClose}>Xác nhận</button>
         <button onClick={onCancel}>Huỷ thanh toán</button>
       </div>
     </div>
