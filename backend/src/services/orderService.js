@@ -37,6 +37,21 @@ let getOrder = (Id) => {
           ])
           .sort({ date_create: "desc" });
       }
+      if (Id === "checkpaid") {
+        order = await orderModel
+          .find({ checkpaid: true })
+          .populate([
+            {
+              path: "item.pro_id",
+              select: "name price discount image",
+            },
+            {
+              path: "customer",
+              select: "name email mssv phone",
+            },
+          ])
+          .sort({ date_create: "desc" });
+      }
       resolve(order);
     } catch (error) {
       reject(error);
@@ -176,6 +191,34 @@ const updateOrderStatus = (id, data) => {
   });
 }; //update
 
+const updateOrderRequest = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    const { checkpaid } = data;
+    // console.log(checkpaid);
+    try {
+      const existingOrder = await orderModel.findById(id);
+      if (existingOrder === null) {
+        resolve({
+          errCode: 1,
+          message: "Không tìm thấy product",
+        });
+      }
+      if (checkpaid !== null) {
+        existingOrder.checkpaid = checkpaid;
+      } //set to true or false
+      existingOrder.date_edit = Date.now();
+      await existingOrder.save();
+
+      resolve({
+        errCode: 0,
+        message: "Update successed",
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 // const deleteOrder = (id) => {
 //     return new Promise(async (resolve, reject) => {
 //         try {
@@ -220,4 +263,5 @@ module.exports = {
   updateOrderStatus,
   getOrderByCustomerId,
   getOrderByCustomerName,
+  updateOrderRequest,
 };

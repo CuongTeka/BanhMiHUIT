@@ -7,6 +7,8 @@ import { Button, Modal, Table, Space, Popconfirm, message } from "antd";
 
 const OrderHistory = () => {
   const [modalDetail, setModalDetail] = useState(false);
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [modalError, setModalError] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [singleOrder, setSingleOrder] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -84,11 +86,6 @@ const OrderHistory = () => {
         }),
     },
     {
-      title: "Giao hàng",
-      dataIndex: "shipping",
-      key: "shipping",
-    },
-    {
       title: "Ghi chú",
       dataIndex: "note",
       key: "note",
@@ -115,6 +112,8 @@ const OrderHistory = () => {
       render: (_, record) => {
         const isCanceled = record.status === "2" || record.status === "1";
         // console.log(isCanceled);
+        const isSended = record.checkpaid === true;
+        const isCash = record.payment === "Tiền mặt";
         return (
           <Space size="middle">
             <Popconfirm
@@ -146,11 +145,11 @@ const OrderHistory = () => {
               onConfirm={() => handleSendNoti(record._id)}
               okText="Gửi yêu cầu"
               cancelText="Không"
-              disabled={isCanceled}
+              disabled={isCanceled || isSended || isCash}
             >
               <Button
                 style={{ color: "blue", width: "60px", height: "60px" }}
-                disabled={isCanceled}
+                disabled={isCanceled || isSended || isCash}
               >
                 <i class="fa-solid fa-money-check fa-2xl"></i>
               </Button>
@@ -200,9 +199,16 @@ const OrderHistory = () => {
     },
   ];
 
-  const handleSendNoti = (id) => {
-    // Send notification to AdminPage
-    message.success(id);
+  const handleSendNoti = async (id) => {
+    try {
+      const checkpaid = true;
+      await orderService.handleUpdateRequest(id, checkpaid);
+      fetchOrderData();
+      setModalSuccess(true);
+    } catch (error) {
+      console.error("Error handle paid order:", error);
+      setModalError(true);
+    }
   };
 
   const handleCancelOrder = async (orderId, paid, stat) => {
@@ -220,22 +226,6 @@ const OrderHistory = () => {
       message.error("Hủy đơn hàng thất bại: ", error);
     }
   }; //hủy
-
-  const handlePaidOrder = async (orderId, paid, stat) => {
-    try {
-      const updateData = {
-        is_paid: paid,
-        status: stat,
-      };
-      await orderService.handleUpdateStatus(orderId, updateData);
-      fetchOrderData();
-      setSelectedRowKeys([]);
-      message.success("Cập nhật thành công");
-    } catch (error) {
-      console.error("Error handle paid order:", error);
-      message.error("Xác nhận thanh toán thất bại: ", error);
-    }
-  };
 
   const renderStatus = (text) => {
     if (text === "0") {
@@ -280,6 +270,43 @@ const OrderHistory = () => {
           dataSource={singleOrder.item}
           rowKey={(record) => record._id}
         />
+      </Modal>
+      <Modal
+        open={modalSuccess}
+        onCancel={() => setModalSuccess(false)}
+        onOk={() => setModalSuccess(false)}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{ color: "green", fontSize: "48px", marginBottom: "20px" }}
+          >
+            <i className="fa-regular fa-circle-check fa-2x"></i>
+          </div>
+          <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+            GỬI YÊU CẦU THÀNH CÔNG
+          </h1>
+          <p style={{ fontSize: "16px" }}>
+            Chúng tôi sẽ xử lý yêu cầu của bạn ngay lập tức.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal
+        open={modalError}
+        onCancel={() => setModalError(false)}
+        onOk={() => setModalError(false)}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div style={{ color: "red", fontSize: "48px", marginBottom: "20px" }}>
+            <i className="fa-regular fa-circle-xmark fa-2x"></i>
+          </div>
+          <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+            GỬI YÊU CẦU THẤT BẠI
+          </h1>
+          <p style={{ fontSize: "16px" }}>
+            Có vẻ như đã xảy ra trục trặc, xin hãy thử lại sau ít phút
+          </p>
+        </div>
       </Modal>
     </div>
   );

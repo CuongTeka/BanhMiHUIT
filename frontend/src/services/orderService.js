@@ -54,6 +54,10 @@ const handleUpdateStatus = (id, data) => {
   return axios.put(`/api/update-status/${id}`, { is_paid, status });
 };
 
+const handleUpdateRequest = (id, checkpaid) => {
+  return axios.put(`/api/update-request/${id}`, { checkpaid });
+};
+
 export {
   handleGetAllOrder,
   handleGetOrderById,
@@ -62,4 +66,5 @@ export {
   handleUpdateStatus,
   handleGetOrderByCustomerId,
   handleGetOrderByCustomerName,
+  handleUpdateRequest,
 };

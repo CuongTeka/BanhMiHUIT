@@ -43,7 +43,7 @@ let handleGetOrderByCustomerName = async (req, res) => {
 //create - update
 const handleCreateOrder = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const { customer, item, total, payment, status, shipping, note } = req.body;
     if (!customer || !total || !payment || !item) {
       return res.status(400).json({
@@ -88,10 +88,30 @@ const handleUpdateOrder = async (req, res) => {
 
 const handleUpdateStatus = async (req, res) => {
   try {
-    const id = req.params.id; // Assuming you're using route parameters for the orderId
+    const id = req.params.id;
     const data = req.body;
     // console.log(data);
     const check = await orderService.updateOrderStatus(id, data);
+
+    if (check.errCode === 0) {
+      return res.status(200).json(check);
+    } else {
+      return res.status(400).json(check);
+    }
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 500,
+      message: error.message || "Internal Server Error",
+    });
+  }
+};
+
+const handleUpdateRequest = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    // console.log(data);
+    const check = await orderService.updateOrderRequest(id, data);
 
     if (check.errCode === 0) {
       return res.status(200).json(check);
@@ -114,4 +134,5 @@ module.exports = {
   handleUpdateStatus,
   handleGetOrderByCustomerId,
   handleGetOrderByCustomerName,
+  handleUpdateRequest,
 };

@@ -51,6 +51,7 @@ router.get(
 router.post("/create-order", orderController.handleCreateOrder);
 router.put("/update-order/:id", orderController.handleUpdateOrder);
 router.put("/update-status/:id", orderController.handleUpdateStatus);
+router.put("/update-request/:id", orderController.handleUpdateRequest);
 //feedback
 router.get("/get-all-feedback");
 router.get("/get-feedback-by-product-id");

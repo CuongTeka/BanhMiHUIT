@@ -68,7 +68,7 @@ const PaymentPage = () => {
         }
         resetCart();
         setTimeout(() => {
-          navigate("/order");
+          navigate("/orderhistory");
         }, 2000);
       } else {
         setModalError(true);

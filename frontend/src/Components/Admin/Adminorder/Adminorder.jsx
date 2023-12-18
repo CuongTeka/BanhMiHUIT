@@ -33,36 +33,46 @@ const Adminuser = () => {
       dataIndex: "customer",
       key: "name",
       render: (customer) => customer.name,
+      responsive: ["sm"],
     },
     {
       title: "Tổng tiền",
       dataIndex: "total",
       key: "total",
       render: (text) => <span>{numberFormat(text)}</span>,
+      responsive: ["sm"],
     },
     {
       title: "Phương thức thanh toán",
       dataIndex: "payment",
       key: "payment",
+      responsive: ["sm"],
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       render: (text) => <span>{renderStatus(text)}</span>,
+      responsive: ["sm"],
     },
     {
-      title: "Đã thanh toán",
+      title: "Thanh toán",
       dataIndex: "is_paid",
-      render: (paid) => (
+      render: (paid, record) => (
         <span style={{ color: paid ? "green" : "red" }}>
           {paid ? (
             <i class="fa-solid fa-circle-check fa-2xl"></i>
+          ) : record.checkpaid ? (
+            <i
+              style={{ color: "orange" }}
+              class="fa-solid fa-money-check-dollar fa-2xl"
+            ></i>
           ) : (
             <i class="fa-solid fa-circle-xmark fa-2xl"></i>
           )}
         </span>
       ),
+      responsive: ["sm"],
     },
     {
       title: "Ngày tạo",
@@ -73,11 +83,9 @@ const Adminuser = () => {
           month: "2-digit",
           year: "numeric",
         }),
-    },
-    {
-      title: "Giao hàng",
-      dataIndex: "shipping",
-      key: "shipping",
+      responsive: ["sm"],
+      sorter: (a, b) => new Date(a.date_create) - new Date(b.date_create),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Chi tiết đơn hàng",
@@ -94,6 +102,7 @@ const Adminuser = () => {
           <i class="fa-solid fa-circle-info fa-2xl"></i>
         </Button>
       ),
+      responsive: ["sm"],
     },
     {
       title: "Hành động",
@@ -312,6 +321,24 @@ const Adminuser = () => {
     <div>
       <h3>QUẢN LÝ ĐƠN HÀNG</h3>
       <br />
+      <div style={{ padding: "10px" }}>
+        <p style={{ padding: "10px" }}>Chú thích: </p>
+        <p style={{ padding: "10px" }}>
+          <i style={{ color: "green" }} class="fa-solid fa-circle-check"></i> Đã
+          thanh toán
+        </p>
+        <p style={{ padding: "10px" }}>
+          <i
+            style={{ color: "orange" }}
+            class="fa-solid fa-money-check-dollar"
+          ></i>
+          Khách hàng gửi yêu cầu xác nhận thanh toán
+        </p>
+        <p style={{ padding: "10px" }}>
+          <i style={{ color: "red" }} class="fa-solid fa-circle-xmark"></i> Chưa
+          thanh toán
+        </p>
+      </div>
       <div style={{ marginTop: "50px" }}>
         <Table
           rowSelection={{
