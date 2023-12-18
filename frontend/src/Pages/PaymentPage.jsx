@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./CSS/PaymentPage.css";
 import { ShopContext } from "../Context/ShopContext";
 import { numberFormat } from "../util";
+import QRCodePopup from "../Components/QRCodePopup/QRCodePopup";
 import Cookies from "js-cookie";
 import { handleCreateOrder } from "../services/orderService";
 import { Modal } from "antd";
@@ -18,8 +19,25 @@ const PaymentPage = () => {
   const [shipping, setShipping] = useState("");
   const [note, setNote] = useState("");
   const navigate = useNavigate();
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false); //theo dõi trạng thái đã xác nhận thanh toán
   const { resetCart } = useContext(ShopContext);
   const { getTotalCartAmount, products, cartItems } = useContext(ShopContext);
+
+  // const handlePayment = () => {
+  //   if (paymentMethod === "cash") {
+  //     alert("Thanh toán tiền mặt thành công!");
+  //     navigate("/category");
+  //     resetCart();
+  //   } else if (paymentMethod === "ZaloPay" || paymentMethod === "MoMo") {
+  //     setShowQRCodePopup(true);
+  //   }
+
+  //   setPaymentConfirmed(true); // Đã xác nhận thanh toán
+  // };
+
+  // const handleCancel = () => {
+  //   setShowQRCodePopup(false);
+  //   setPaymentConfirmed(false);
 
   const formatCartItemsForApi = (
     cartItems,
@@ -160,11 +178,12 @@ const PaymentPage = () => {
               <label className="payment-option-label">
                 <input
                   type="radio"
-                  value="VnPay"
-                  checked={paymentMethod === "VnPay"}
-                  onChange={() => setPaymentMethod("VnPay")}
+                  value="ZaloPay"
+                  checked={paymentMethod === "ZaloPay"}
+                  onChange={() => setPaymentMethod("ZaloPay")}
+                  disabled={paymentConfirmed}
                 />
-                Thanh toán VnPay
+                Thanh toán ZaloPay
               </label>
               <label className="payment-option-label">
                 <input
@@ -172,14 +191,21 @@ const PaymentPage = () => {
                   value="MoMo"
                   checked={paymentMethod === "MoMo"}
                   onChange={() => setPaymentMethod("MoMo")}
+                  disabled={paymentConfirmed}
                 />
                 Thanh toán MoMo
               </label>
+              {showQRCodePopup && (
+                <QRCodePopup
+                  paymentMethod={paymentMethod}
+                  onClose={() => setShowQRCodePopup(false)}
+                  onCancel={handleCancel}
+                />
+              )}
+              <button className="payment-button" onClick={handlePayment}>
+                Xác nhận thanh toán
+              </button>
             </div>
-            {generateQRCode()}
-            <button className="payment-button" onClick={handlePayment}>
-              Xác nhận thanh toán
-            </button>
           </div>
         </div>
       </div>
