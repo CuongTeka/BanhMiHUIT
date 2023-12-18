@@ -1,5 +1,5 @@
 import React from "react";
-import "./Order.css";
+import "./OrderHistory.css";
 import Tableadmin from "../Admin/Tableadmin/Tableadmin";
 
 const OrderHistory = () => {

@@ -19,7 +19,7 @@ import AdminPage from "./Pages/AdminPage";
 import { useAuth } from "./Context/authContext";
 import Headeradmin from "./Components/Admin/Headeradmin/Headeradmin";
 import ProfileUser from "./Pages/ProfileUser";
-import Order from "./Components/Order/Order"
+import Order from "./Components/OrderHistory/OrderHistory"
 // import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
 
