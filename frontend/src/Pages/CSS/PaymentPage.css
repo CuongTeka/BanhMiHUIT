@@ -1,12 +1,11 @@
 .payment-container {
   width: 100%;
   min-height: 700px;
- 
 }
 
 .paymentcartitems {
   font-family: "Arial", sans-serif;
- 
+
   padding: 15px;
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -20,7 +19,6 @@
   gap: 10px;
   padding: 20px 0px;
   align-items: center;
-
 }
 
 .paymentcartitems-format {
@@ -89,20 +87,51 @@
 .payment-button:hover {
   background-color: #45a049;
 }
+.qrcode-popup {
+  width: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.qrcode-popup img {
+  width: 100%;
+}
+
+.qrcode-popup button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.qrcode-popup button:hover {
+  background-color: #45a049;
+}
 
 @media (max-width: 768px) {
-
-  .paymentcartitems{
+  .paymentcartitems {
     margin: 30px 10px;
   }
   .paymentcartitems-fomart-main,
   .paymentcartitems-format {
-
     grid-template-rows: auto;
   }
 
   .carticon-product-icon {
-    width: 100%; 
+    width: 100%;
+  }
+  .qrcode-popup {
+    max-width: 150px;
   }
 }
 @media (max-width: 400px) {
@@ -112,5 +141,10 @@
   .paymentcartitems-fomart-main,
   .paymentcartitems-format {
     grid-template-rows: auto;
+  }
+  .qrcode-popup button {
+    width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+    margin-right: 0; /* Loại bỏ margin-right để không có khoảng trắng giữa các nút */
+    margin-bottom: 10px; /* Thêm khoảng cách giữa các nút */
   }
 }

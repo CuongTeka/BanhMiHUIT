@@ -3,13 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "./CSS/PaymentPage.css";
 import { ShopContext } from "../Context/ShopContext";
 import { numberFormat } from "../util";
-import QRCode from "qrcode.react";
-import {zlpqr} from "../Components/Assets";
-import {momoqr} from "../Components/Assets";
+import QRCodePopup from "../Components/QRCodePopup/QRCodePopup";
 
 const PaymentPage = () => {
-  const [paymentMethod, setPaymentMethod] = useState(""); // Chon phuong thuc thanh toan
   const navigate = useNavigate();
+  const [paymentMethod, setPaymentMethod] = useState(""); // Chon phuong thuc thanh toan
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false); //theo dõi trạng thái đã xác nhận thanh toán
   const { resetCart } = useContext(ShopContext);
   const { getTotalCartAmount, products, cartItems } = useContext(ShopContext);
   const [showQRCodePopup, setShowQRCodePopup] = useState(false); // hiển thị pop up
@@ -17,34 +16,18 @@ const PaymentPage = () => {
   const handlePayment = () => {
     if (paymentMethod === "cash") {
       alert("Thanh toán tiền mặt thành công!");
-    }else if (paymentMethod === "VnPay" || paymentMethod === "MoMo") {
+      navigate("/category");
+      resetCart();
+    } else if (paymentMethod === "ZaloPay" || paymentMethod === "MoMo") {
       setShowQRCodePopup(true);
     }
-
-    resetCart();
-    navigate("/");
+    
+    setPaymentConfirmed(true); // Đã xác nhận thanh toán
   };
 
-  const generateQRCode = () => {
-    // Tùy thuộc vào lựa chọn thanh toán, trả về hình ảnh QR Code tương ứng
-    if (paymentMethod === "VnPay") {
-      return (
-        <img
-          src={zlpqr}
-          alt="VnPay QR Code"
-          className="qrcode-image"
-        />
-      );
-    } else if (paymentMethod === "MoMo") {
-      return (
-        <img
-          src={momoqr}
-          alt="MoMo QR Code"
-          className="qrcode-image"
-        />
-      );
-    }
-    return null; // Trả về null nếu không có lựa chọn thanh toán hoặc là thanh toán tiền mặt
+  const handleCancel = () => {
+    setShowQRCodePopup(false);
+    setPaymentConfirmed(false);
   };
 
   return (
@@ -104,17 +87,19 @@ const PaymentPage = () => {
                   value="cash"
                   checked={paymentMethod === "cash"}
                   onChange={() => setPaymentMethod("cash")}
+                  disabled={paymentConfirmed}
                 />
                 Thanh toán tiền mặt
               </label>
               <label className="payment-option-label">
                 <input
                   type="radio"
-                  value="VnPay"
-                  checked={paymentMethod === "VnPay"}
-                  onChange={() => setPaymentMethod("VnPay")}
+                  value="ZaloPay"
+                  checked={paymentMethod === "ZaloPay"}
+                  onChange={() => setPaymentMethod("ZaloPay")}
+                  disabled={paymentConfirmed}
                 />
-                Thanh toán VnPay
+                Thanh toán ZaloPay
               </label>
               <label className="payment-option-label">
                 <input
@@ -122,14 +107,21 @@ const PaymentPage = () => {
                   value="MoMo"
                   checked={paymentMethod === "MoMo"}
                   onChange={() => setPaymentMethod("MoMo")}
+                  disabled={paymentConfirmed}
                 />
                 Thanh toán MoMo
               </label>
+              {showQRCodePopup && (
+                <QRCodePopup
+                  paymentMethod={paymentMethod}
+                  onClose={() => setShowQRCodePopup(false)}
+                  onCancel={handleCancel}
+                />
+              )}
+              <button className="payment-button" onClick={handlePayment}>
+                Xác nhận thanh toán
+              </button>
             </div>
-            {generateQRCode()}
-            <button className="payment-button" onClick={handlePayment}>
-              Xác nhận thanh toán
-            </button>
           </div>
         </div>
       </div>
