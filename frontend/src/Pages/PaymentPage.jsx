@@ -7,9 +7,6 @@ import QRCodePopup from "../Components/QRCodePopup/QRCodePopup";
 import Cookies from "js-cookie";
 import { handleCreateOrder } from "../services/orderService";
 import { Modal } from "antd";
-import QRCode from "qrcode.react";
-import { zlpqr } from "../Components/Assets";
-import { momoqr } from "../Components/Assets";
 
 const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState(""); // Chon phuong thuc thanh toan
@@ -34,11 +31,10 @@ const PaymentPage = () => {
 
   //   setPaymentConfirmed(true); // Đã xác nhận thanh toán
   // };
-
-  // const handleCancel = () => {
-  //   setShowQRCodePopup(false);
-  //   setPaymentConfirmed(false);
-
+  const handleCancel = () => {
+    setShowQRCodePopup(false);
+    setPaymentConfirmed(false);
+  };
   const formatCartItemsForApi = (
     cartItems,
     total,
@@ -69,50 +65,47 @@ const PaymentPage = () => {
 
   const handlePayment = async () => {
     try {
-      const formattedData = formatCartItemsForApi(
-        cartItems,
-        getTotalCartAmount(),
-        paymentMethod,
-        shipping,
-        note
-      );
-      console.log(formattedData);
-      const create = await handleCreateOrder(formattedData);
-      console.log(create.message);
-      if (create.errCode === 0) {
-        setModalSuccess(true);
-        if (paymentMethod === "VnPay" || paymentMethod === "MoMo") {
-          setShowQRCodePopup(true);
-        }
+      if (paymentMethod === "cash") {
+        alert("Thanh toán tiền mặt thành công!");
+        navigate("/category");
         resetCart();
-        setTimeout(() => {
-          navigate("/orderhistory");
-        }, 2000);
+      } else if (paymentMethod === "ZaloPay" || paymentMethod === "MoMo") {
+        const formattedData = formatCartItemsForApi(
+          cartItems,
+          getTotalCartAmount(),
+          paymentMethod,
+          shipping,
+          note
+        );
+        console.log(formattedData);
+        const create = await handleCreateOrder(formattedData);
+        console.log(create.message);
+        if (create.errCode === 0) {
+          setModalSuccess(true);
+          if (paymentMethod === "VnPay" || paymentMethod === "MoMo") {
+            setShowQRCodePopup(true);
+          }
+          resetCart();
+          setTimeout(() => {
+            navigate("/orderhistory");
+          }, 2000);
+        } else {
+          setModalError(true);
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+          console.log("Lỗi: ", create.message);
+        }
       } else {
-        setModalError(true);
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-        console.log("Lỗi: ", create.message);
+        // Handle other payment methods as needed
       }
     } catch (error) {
       if (error.response) {
         if (error.response.data) {
-          // message.error("Lỗi: " + error.response.data.message);
           console.log("Lỗi: " + error.response.data.message);
         }
       }
     }
-  };
-
-  const generateQRCode = () => {
-    // Tùy thuộc vào lựa chọn thanh toán, trả về hình ảnh QR Code tương ứng
-    if (paymentMethod === "VnPay") {
-      return <img src={zlpqr} alt="VnPay QR Code" className="qrcode-image" />;
-    } else if (paymentMethod === "MoMo") {
-      return <img src={momoqr} alt="MoMo QR Code" className="qrcode-image" />;
-    }
-    return null; // Trả về null nếu không có lựa chọn thanh toán hoặc là thanh toán tiền mặt
   };
 
   return (
@@ -199,6 +192,7 @@ const PaymentPage = () => {
                 <QRCodePopup
                   paymentMethod={paymentMethod}
                   onClose={() => setShowQRCodePopup(false)}
+                  onCancel={handleCancel}
                 />
               )}
               <button className="payment-button" onClick={handlePayment}>
