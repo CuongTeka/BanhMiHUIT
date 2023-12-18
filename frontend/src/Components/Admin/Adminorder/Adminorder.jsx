@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Space,
-  Table,
-  Popconfirm,
-  message,
-  Select,
-  notification,
-} from "antd";
+import { Button, Modal, Space, Table, Popconfirm, message } from "antd";
 import * as orderService from "../../../services/orderService";
-import { numberFormat } from "../../../util";
+import { numberFormat, renderImage } from "../../../util";
 
 const Adminuser = () => {
   const [modalDetail, setModalDetail] = useState(false);
@@ -301,16 +290,6 @@ const Adminuser = () => {
     }
   }; //render trạng thái 4 mức
 
-  const renderImage = (imageName) => {
-    if (imageName) {
-      return `http://localhost:8080/api/images?imageName=${encodeURIComponent(
-        imageName
-      )}`;
-    } else {
-      //??
-    }
-  };
-
   // const Detaildata = [
   //   {
   //     item: singleOrder.item,
@@ -331,7 +310,7 @@ const Adminuser = () => {
           <i
             style={{ color: "orange" }}
             class="fa-solid fa-money-check-dollar"
-          ></i>
+          ></i>{" "}
           Khách hàng gửi yêu cầu xác nhận thanh toán
         </p>
         <p style={{ padding: "10px" }}>

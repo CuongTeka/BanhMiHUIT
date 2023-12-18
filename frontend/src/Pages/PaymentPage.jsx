@@ -199,7 +199,6 @@ const PaymentPage = () => {
                 <QRCodePopup
                   paymentMethod={paymentMethod}
                   onClose={() => setShowQRCodePopup(false)}
-                  onCancel={handleCancel}
                 />
               )}
               <button className="payment-button" onClick={handlePayment}>

@@ -22,15 +22,8 @@ const handleCreateProduct = (data) => {
   });
 };
 
-const handleUpdateProduct = (
-  id,
-  name,
-  category_id,
-  detail,
-  price,
-  discount,
-  image
-) => {
+const handleUpdateProduct = (data) => {
+  const { id, name, category_id, detail, price, discount, image } = data;
   return axios.put(`/api/update-product/${id}`, {
     name,
     category_id,

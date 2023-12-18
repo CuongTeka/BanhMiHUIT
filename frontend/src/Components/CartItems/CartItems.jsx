@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import "./CartItems.css";
 import remove_icon from "../Assets/cart_cross_icon.png";
-import { numberFormat } from "../../util";
+import { numberFormat, renderImage } from "../../util";
 import { useAuth } from "../../Context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -51,10 +51,8 @@ const CartItems = () => {
                 <div className="cartitems-format cartitems-fomart-main">
                   <img
                     className="carticon-product-icon"
-                    src={`http://localhost:8080/api/images?imageName=${encodeURIComponent(
-                      e.image
-                    )}`}
-                    alt=""
+                    src={renderImage(e.image)}
+                    alt={e.image}
                   />
                   <p>{e.name}</p>
                   <p>{numberFormat(e.price)}</p>

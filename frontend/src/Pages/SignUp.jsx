@@ -1,53 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
 import "./CSS/Loginsignup.css";
 import { Link, useNavigate } from "react-router-dom";
-import { handleRegisterApi } from "../services/userServices";
-
-
+import { handleRegister } from "../services/userServices";
+import { Button, Form, Input, notification } from "antd";
 
 const SignUp = () => {
-
   const navigate = useNavigate();
-  const [email, setEmail] = useState('')
-  const [pass, setPass] = useState('')
-  const [name, setName] = useState('')
-  const [mssv, setMssv] = useState('')
-  const [phone, setPhone] = useState('')
-  const [errors, setErrors] = useState('');
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePassChange = (e) => {
-    setPass(e.target.value);
-  };
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-  const handleMssvChange = (e) => {
-    setMssv(e.target.value);
-  };
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
-  };
+  const [form] = Form.useForm();
 
-  const handleSubmit = async() => {
-    setErrors('')
+  const onFinish = async (value) => {
     try {
-      let data = await handleRegisterApi(email, pass, name, mssv, phone)
-      console.log(data.message);
-
-      if(data && data.errCode !== 0){
-        setErrors(data.message)
+      const signupData = {
+        email: value.email,
+        pass: value.pass,
+        name: value.name,
+        mssv: value.mssv,
+        phone: value.phone,
+      };
+      const create = await handleRegister(signupData);
+      // console.log(create.message);
+      if (create.errCode === 0) {
+        // message.success("Tạo tài khoản thành công");
+        notification.success({
+          message: "Tạo tài khoản thành công",
+          description: "Vui lòng đăng nhập để tiếp tục",
+        });
+        form.resetFields();
+        navigate("/signin");
+      } else {
+        notification.error({
+          message: "Tạo tài khoản thất bại",
+          description: create.message,
+        });
       }
-      if(data && data.errCode === 0){
-        navigate('/signin')
-      }
-
     } catch (error) {
       if (error.response) {
-        if(error.response.data)
-        {
-          setErrors(error.response.data.message);
+        if (error.response.data) {
+          // message.error("Lỗi: " + error.response.data.message);
+          notification.error({
+            message: "Tạo tài khoản thất bại",
+            description: error.response.data.message,
+          });
         }
       }
     }
@@ -57,15 +50,115 @@ const SignUp = () => {
     <div className="loginsignup">
       <div className="loginsignup-container">
         <h1>Đăng Ký</h1>
-        <form className="loginsignup-fields" onSubmit={handleSubmit}>
-          <input type="email" placeholder="Email" name="email" value={email} onChange={handleEmailChange}></input>
-          <input type="password" placeholder="Mật khẩu" name="pass" value={pass} onChange={handlePassChange}></input>
-          <input type="name" placeholder="Họ Tên" name="name" value={name} onChange={handleNameChange}></input>
-          <input type="mssv" placeholder="Mã số sinh viên" name="mssv" value={mssv} onChange={handleMssvChange}></input>
-          <input type="phone" placeholder="Số điện thoại" name="phone" value={phone} onChange={handlePhoneChange}></input>
-          <div style={{ color:'red', textAlign:'center'}}>{errors}</div>
-          <button type="submit">Tiếp Tục</button>
-        </form>
+        <Form
+          form={form}
+          name="singup"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 160 }}
+          style={{ maxWidth: 1000 }}
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Form.Item
+            // label="Họ tên"
+            name="name"
+            rules={[{ required: true, message: "Họ tên không được để trống!" }]}
+          >
+            <Input placeholder="Họ tên" style={{ fontSize: "20px" }} />
+          </Form.Item>
+          <Form.Item
+            // label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Email không được để trống!" },
+              { type: "email", message: "Email không đúng định dạng" },
+            ]}
+          >
+            <Input placeholder="Email" style={{ fontSize: "20px" }} />
+          </Form.Item>
+          <Form.Item
+            // label="Mã số sinh viên"
+            name="mssv"
+            rules={[
+              {
+                required: true,
+                message: "Mã số sinh viên không được để trống!",
+              },
+              { min: 10, message: "Mã số sinh viên phải có ít nhất 10 ký tự" },
+            ]}
+          >
+            <Input placeholder="Mã số sinh viên" style={{ fontSize: "20px" }} />
+          </Form.Item>
+          <Form.Item
+            // label="Số điện thoại"
+            name="phone"
+            rules={[
+              { required: true, message: "Số điện thoại không được để trống!" },
+              { min: 10, message: "Số điện phải có ít nhất 10 ký tự" },
+              {
+                pattern:
+                  /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
+                message: "Số điện thoại không đúng định dạng",
+              },
+            ]}
+          >
+            <Input placeholder="Số điện thoại" style={{ fontSize: "20px" }} />
+          </Form.Item>
+          <Form.Item
+            // label="Mật khẩu"
+            name="pass"
+            hasFeedback
+            rules={[
+              { required: true, message: "Vui lòng nhập mật khẩu mới!" },
+              { min: 6, message: "Mật khẩu phải có ít nhất 6 ký tự" },
+            ]}
+          >
+            <Input.Password
+              placeholder="Mật khẩu"
+              style={{ fontSize: "20px" }}
+            />
+          </Form.Item>
+          <Form.Item
+            // label="Xác nhận mật khẩu"
+            name="repass"
+            dependencies={["pass"]}
+            hasFeedback
+            rules={[
+              { required: true, message: "Vui lòng xác nhận mật khẩu!" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("pass") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("Mật khẩu vừa nhập không khớp!")
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              placeholder="Xác nhận mật khẩu"
+              style={{ fontSize: "20px" }}
+            />
+          </Form.Item>
+          <Form.Item
+            wrapperCol={{
+              span: 100,
+            }}
+          >
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ fontSize: "20px", width: "100%" }}
+              block
+            >
+              Tạo tài khoản
+            </Button>
+          </Form.Item>
+        </Form>
+        {/* <button type="submit">Tiếp Tục</button> */}
+
         <p className="loginsignup-login">
           Đã có tài khoản ?{" "}
           <Link to="/signin">
@@ -77,8 +170,4 @@ const SignUp = () => {
   );
 };
 
-
 export default SignUp;
-
-
-

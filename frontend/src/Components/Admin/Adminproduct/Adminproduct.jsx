@@ -10,6 +10,7 @@ import {
   Space,
   Table,
   Switch,
+  notification,
 } from "antd";
 import PlusSquareTwoTone from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
@@ -17,7 +18,7 @@ import React, { useState, useEffect } from "react";
 // import InputComponent from "../../InputComponent/InputComponent";
 import { UploadOutlined } from "@ant-design/icons";
 import * as proService from "../../../services/productService";
-import { numberFormat } from "../../../util";
+import { numberFormat, renderImage } from "../../../util";
 const { Option } = Select;
 
 const Adminproduct = () => {
@@ -46,11 +47,12 @@ const Adminproduct = () => {
       dataIndex: "category_id",
       render: (category_id) => <span>{renderCategory(category_id)}</span>,
     },
-    {
-      title: "Chi tiết",
-      dataIndex: "detail",
-      key: "detail",
-    },
+    // {
+    //   title: "Chi tiết",
+    //   dataIndex: "detail",
+    //   key: "detail",
+    //   responsive: ["sm"],
+    // },
     {
       title: "Đơn giá",
       dataIndex: "price",
@@ -124,13 +126,19 @@ const Adminproduct = () => {
             okText="Xóa"
             cancelText="Hủy"
           >
-            <a disabled={isDeleting} style={{ color: "red" }}>
-              <i class="fa-solid fa-trash"></i> Xóa
-            </a>
+            <Button
+              disabled={isDeleting}
+              style={{ color: "red", width: "60px", height: "60px" }}
+            >
+              <i class="fa-solid fa-trash fa-lg"></i>
+            </Button>
           </Popconfirm>
-          <a onClick={() => handleUpdateProduct(record._id)}>
-            <i class="fa-solid fa-pen-to-square"></i> Sửa
-          </a>
+          <Button
+            onClick={() => handleUpdateProductForForm(record._id)}
+            style={{ width: "60px", height: "60px" }}
+          >
+            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+          </Button>
         </Space>
       ),
     },
@@ -194,7 +202,7 @@ const Adminproduct = () => {
     }
   }; //xóa (tạm thời tắt)
 
-  const handleUpdateProduct = async (proId) => {
+  const handleUpdateProductForForm = async (proId) => {
     try {
       const data = await proService.handleGetProductById(proId);
       if (data && data.errCode === 0) {
@@ -256,10 +264,11 @@ const Adminproduct = () => {
         detail: value.detail,
         price: value.price,
         discount: value.discount,
-        image: value.image.file,
-        is_active: value.is_active,
+        image: typeof value.image === "string" ? value.image : value.image.file,
       };
-      const change = await handleUpdateProduct(updateData);
+      console.log(value.image);
+      // console.log(value.id);
+      const change = await proService.handleUpdateProduct(updateData);
       console.log(change.message);
       if (change.errCode === 0) {
         setModalUpdate(false);
@@ -267,12 +276,16 @@ const Adminproduct = () => {
         fetchProductData();
         formU.resetFields();
       } else {
-        message.error("Lỗi: ", change.message);
+        notification.error({
+          message: "Tạo tài khoản thất bại",
+          description: change.message,
+        });
+        console.log(change.message);
       }
     } catch (error) {
       if (error.response) {
         if (error.response.data) {
-          message.error("Lỗi: " + error.response.data.message);
+          console.log(error.response.data.message);
         }
       }
     }
@@ -291,16 +304,6 @@ const Adminproduct = () => {
       // }
     }
   }; //xóa nhiều (tạm thời tắt)
-
-  const renderImage = (imageName) => {
-    if (imageName) {
-      return `http://localhost:8080/api/images?imageName=${encodeURIComponent(
-        imageName
-      )}`;
-    } else {
-      //??
-    }
-  }; //render image (test)
 
   const renderCategory = (cateid) => {
     if (cateid === "653c5f91eee1ad0711267a15") {
@@ -323,20 +326,18 @@ const Adminproduct = () => {
     if (!isLt2M) {
       message.error("Image must be smaller than 2MB!");
     }
-
+    console.log(file);
     // Return false to prevent automatic upload if validation fails
     return isJpgOrPng && isLt2M;
   };
 
   const handleImageChange = ({ fileList }) => {
-    // if (info.file.status === "done") {
-    //   // message.success(`${info.file.name} file uploaded successfully`);
-    //   const imageUrl = info.file.response;
-    //   message.info("url: " + imageUrl);
-    // } else if (info.file.status === "error") {
-    //   message.error(`${info.file.name} file upload failed.`);
-    // }
-    setFileList(fileList);
+    const updatedFileList = fileList.map((file) =>
+      file.url ? file : { ...file, url: renderImage(file) }
+    );
+    console.log(fileList);
+    setFileList(updatedFileList);
+    // setFileList(fileList);
   };
 
   const customRequest = async ({ file, onSuccess, onError }) => {
@@ -618,16 +619,10 @@ const Adminproduct = () => {
               beforeUpload={beforeUpload}
               onChange={handleImageChange}
               customRequest={customRequest}
-              defaultFileList={fileList}
+              fileList={fileList}
             >
               <Button icon={<UploadOutlined />}>Click to upload</Button>
             </Upload>
-          </Form.Item>
-          <Form.Item name="is_active" label="Hiển thị">
-            <Select placeholder="Chọn hiển thị" defaultValue="true">
-              <Option value="true">True</Option>
-              <Option value="false">False</Option>
-            </Select>
           </Form.Item>
           <Form.Item
             wrapperCol={{

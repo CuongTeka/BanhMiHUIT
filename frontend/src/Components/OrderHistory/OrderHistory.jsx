@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./OrderHistory.css";
 import * as orderService from "../../services/orderService";
 import Cookies from "js-cookie";
-import { numberFormat } from "../../util";
+import { numberFormat, renderImage } from "../../util";
 import { Button, Modal, Table, Space, Popconfirm, message } from "antd";
 
 const OrderHistory = () => {
@@ -234,16 +234,6 @@ const OrderHistory = () => {
       return <span style={{ color: "green" }}>Thành công</span>;
     } else {
       return <span style={{ color: "red" }}>Đã hủy</span>;
-    }
-  };
-
-  const renderImage = (imageName) => {
-    if (imageName) {
-      return `http://localhost:8080/api/images?imageName=${encodeURIComponent(
-        imageName
-      )}`;
-    } else {
-      //??
     }
   };
 
