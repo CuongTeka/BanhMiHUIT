@@ -18,20 +18,40 @@ let handleGetOrderById = async (req, res) => {
     message: "get order by id",
     data: order,
   });
-}; //get order by id
+};
+
+let handleGetOrderByCustomerId = async (req, res) => {
+  let id = req.params.id;
+  let order = await orderService.getOrderByCustomerId(id);
+  return res.status(200).json({
+    errCode: 0,
+    message: "get order by customer id",
+    data: order,
+  });
+}; //get order by customer id
+
+let handleGetOrderByCustomerName = async (req, res) => {
+  let name = req.params.name;
+  let order = await orderService.getOrderByCustomerName(name);
+  return res.status(200).json({
+    errCode: 0,
+    message: "get order by customer name",
+    data: order,
+  });
+};
 
 //create - update
 const handleCreateOrder = async (req, res) => {
   try {
+    // console.log(req.body);
     const { customer, item, total, payment, status, shipping, note } = req.body;
-    // const item = req.body.item.map(({ pro_id, quantity, custom }) => ({ pro_id, quantity, custom }));
-    if (!customer || !total || !payment || !shipping || !item) {
+    if (!customer || !total || !payment || !item) {
       return res.status(400).json({
         errCode: 400,
         message: "Vui lòng nhập dữ liệu",
       });
     }
-    // console.log(req.body)
+
     // console.log(item)
     const check = await orderService.createOrder(req.body);
     // console.log(check)
@@ -68,10 +88,30 @@ const handleUpdateOrder = async (req, res) => {
 
 const handleUpdateStatus = async (req, res) => {
   try {
-    const id = req.params.id; // Assuming you're using route parameters for the orderId
+    const id = req.params.id;
     const data = req.body;
     // console.log(data);
     const check = await orderService.updateOrderStatus(id, data);
+
+    if (check.errCode === 0) {
+      return res.status(200).json(check);
+    } else {
+      return res.status(400).json(check);
+    }
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 500,
+      message: error.message || "Internal Server Error",
+    });
+  }
+};
+
+const handleUpdateRequest = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    // console.log(data);
+    const check = await orderService.updateOrderRequest(id, data);
 
     if (check.errCode === 0) {
       return res.status(200).json(check);
@@ -92,4 +132,7 @@ module.exports = {
   handleCreateOrder,
   handleUpdateOrder,
   handleUpdateStatus,
+  handleGetOrderByCustomerId,
+  handleGetOrderByCustomerName,
+  handleUpdateRequest,
 };

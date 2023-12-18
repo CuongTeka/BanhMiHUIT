@@ -4,30 +4,115 @@ import "./CSS/PaymentPage.css";
 import { ShopContext } from "../Context/ShopContext";
 import { numberFormat } from "../util";
 import QRCodePopup from "../Components/QRCodePopup/QRCodePopup";
+import Cookies from "js-cookie";
+import { handleCreateOrder } from "../services/orderService";
+import { Modal } from "antd";
+import QRCode from "qrcode.react";
+import { zlpqr } from "../Components/Assets";
+import { momoqr } from "../Components/Assets";
 
 const PaymentPage = () => {
-  const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState(""); // Chon phuong thuc thanh toan
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [modalError, setModalError] = useState(false);
+  const [showQRCodePopup, setShowQRCodePopup] = useState(false);
+  const [shipping, setShipping] = useState("");
+  const [note, setNote] = useState("");
+  const navigate = useNavigate();
   const [paymentConfirmed, setPaymentConfirmed] = useState(false); //theo dõi trạng thái đã xác nhận thanh toán
   const { resetCart } = useContext(ShopContext);
   const { getTotalCartAmount, products, cartItems } = useContext(ShopContext);
-  const [showQRCodePopup, setShowQRCodePopup] = useState(false); // hiển thị pop up
 
-  const handlePayment = () => {
-    if (paymentMethod === "cash") {
-      alert("Thanh toán tiền mặt thành công!");
-      navigate("/category");
-      resetCart();
-    } else if (paymentMethod === "ZaloPay" || paymentMethod === "MoMo") {
-      setShowQRCodePopup(true);
+  // const handlePayment = () => {
+  //   if (paymentMethod === "cash") {
+  //     alert("Thanh toán tiền mặt thành công!");
+  //     navigate("/category");
+  //     resetCart();
+  //   } else if (paymentMethod === "ZaloPay" || paymentMethod === "MoMo") {
+  //     setShowQRCodePopup(true);
+  //   }
+
+  //   setPaymentConfirmed(true); // Đã xác nhận thanh toán
+  // };
+
+  // const handleCancel = () => {
+  //   setShowQRCodePopup(false);
+  //   setPaymentConfirmed(false);
+
+  const formatCartItemsForApi = (
+    cartItems,
+    total,
+    paymentMethod,
+    shipping,
+    note
+  ) => {
+    if (Cookies.get("id") !== undefined) {
+      const formattedItems = Object.keys(cartItems)
+        .filter((itemId) => cartItems[itemId] > 0)
+        .map((itemId) => {
+          return {
+            pro_id: itemId,
+            quantity: cartItems[itemId],
+          };
+        });
+
+      return {
+        customer: Cookies.get("id"),
+        item: formattedItems,
+        total: total,
+        payment: paymentMethod,
+        shipping: shipping,
+        note: note,
+      };
     }
-    
-    setPaymentConfirmed(true); // Đã xác nhận thanh toán
   };
 
-  const handleCancel = () => {
-    setShowQRCodePopup(false);
-    setPaymentConfirmed(false);
+  const handlePayment = async () => {
+    try {
+      const formattedData = formatCartItemsForApi(
+        cartItems,
+        getTotalCartAmount(),
+        paymentMethod,
+        shipping,
+        note
+      );
+      console.log(formattedData);
+      const create = await handleCreateOrder(formattedData);
+      console.log(create.message);
+      if (create.errCode === 0) {
+        setModalSuccess(true);
+        if (paymentMethod === "VnPay" || paymentMethod === "MoMo") {
+          setShowQRCodePopup(true);
+        }
+        resetCart();
+        setTimeout(() => {
+          navigate("/orderhistory");
+        }, 2000);
+      } else {
+        setModalError(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+        console.log("Lỗi: ", create.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.data) {
+          // message.error("Lỗi: " + error.response.data.message);
+          console.log("Lỗi: " + error.response.data.message);
+        }
+      }
+    }
+  };
+
+  const generateQRCode = () => {
+    // Tùy thuộc vào lựa chọn thanh toán, trả về hình ảnh QR Code tương ứng
+    if (paymentMethod === "VnPay") {
+      return <img src={zlpqr} alt="VnPay QR Code" className="qrcode-image" />;
+    } else if (paymentMethod === "MoMo") {
+      return <img src={momoqr} alt="MoMo QR Code" className="qrcode-image" />;
+    }
+    return null; // Trả về null nếu không có lựa chọn thanh toán hoặc là thanh toán tiền mặt
   };
 
   return (
@@ -84,10 +169,9 @@ const PaymentPage = () => {
               <label className="payment-option-label">
                 <input
                   type="radio"
-                  value="cash"
-                  checked={paymentMethod === "cash"}
-                  onChange={() => setPaymentMethod("cash")}
-                  disabled={paymentConfirmed}
+                  value="Tiền mặt"
+                  checked={paymentMethod === "Tiền mặt"}
+                  onChange={() => setPaymentMethod("Tiền mặt")}
                 />
                 Thanh toán tiền mặt
               </label>
@@ -125,6 +209,37 @@ const PaymentPage = () => {
           </div>
         </div>
       </div>
+
+      <Modal open={modalSuccess} footer={null}>
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{ color: "green", fontSize: "48px", marginBottom: "20px" }}
+          >
+            <i className="fa-regular fa-circle-check fa-2x"></i>
+          </div>
+          <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+            ĐẶT HÀNG THÀNH CÔNG
+          </h1>
+          <p style={{ fontSize: "16px" }}>
+            Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn ngay lập
+            tức.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal open={modalError} footer={null}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ color: "red", fontSize: "48px", marginBottom: "20px" }}>
+            <i className="fa-regular fa-circle-xmark fa-2x"></i>
+          </div>
+          <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+            ĐẶT HÀNG THẤT BẠI
+          </h1>
+          <p style={{ fontSize: "16px" }}>
+            Có vẻ như đã xảy ra trục trặc, xin hãy thử lại sau ít phút
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 };

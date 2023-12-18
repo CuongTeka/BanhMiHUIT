@@ -6,16 +6,19 @@ let getOrder = (Id) => {
     try {
       let order = "";
       if (Id === "*") {
-        order = await orderModel.find({}).populate([
-          {
-            path: "item.pro_id",
-            select: "name price discount image",
-          },
-          {
-            path: "customer",
-            select: "name email mssv phone",
-          },
-        ]);
+        order = await orderModel
+          .find({})
+          .populate([
+            {
+              path: "item.pro_id",
+              select: "name price discount image",
+            },
+            {
+              path: "customer",
+              select: "name email mssv phone",
+            },
+          ])
+          .sort({ date_create: "desc" });
       }
       if (Id && Id !== "*") {
         order = await orderModel
@@ -31,7 +34,23 @@ let getOrder = (Id) => {
               path: "customer",
               select: "name email mssv phone",
             },
-          ]);
+          ])
+          .sort({ date_create: "desc" });
+      }
+      if (Id === "checkpaid") {
+        order = await orderModel
+          .find({ checkpaid: true })
+          .populate([
+            {
+              path: "item.pro_id",
+              select: "name price discount image",
+            },
+            {
+              path: "customer",
+              select: "name email mssv phone",
+            },
+          ])
+          .sort({ date_create: "desc" });
       }
       resolve(order);
     } catch (error) {
@@ -53,7 +72,8 @@ let getOrderByCustomerName = (name) => {
           .populate({
             path: "item.pro_id",
             select: "name price discount image",
-          });
+          })
+          .sort({ date_create: "desc" });
       }
       resolve(order);
     } catch (error) {
@@ -62,10 +82,32 @@ let getOrderByCustomerName = (name) => {
   });
 }; //tìm order theo tên khách hàng
 
+let getOrderByCustomerId = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let order = "";
+      if (id) {
+        order = await orderModel
+          .find({
+            customer: id,
+          })
+          .populate({
+            path: "item.pro_id",
+            select: "name price discount image",
+          })
+          .sort({ date_create: "desc" });
+      }
+      resolve(order);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 // create - update - delete
 const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
-    const { customer, item, total, payment, status, shipping, note } = newOrder;
+    const { customer, item, total, payment, shipping, note } = newOrder;
     // const item = [pro_id, quantity, custom]
     try {
       const newOrder = await orderModel.create({
@@ -73,7 +115,6 @@ const createOrder = (newOrder) => {
         item,
         total,
         payment,
-        status,
         shipping,
         note,
       });
@@ -150,6 +191,34 @@ const updateOrderStatus = (id, data) => {
   });
 }; //update
 
+const updateOrderRequest = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    const { checkpaid } = data;
+    // console.log(checkpaid);
+    try {
+      const existingOrder = await orderModel.findById(id);
+      if (existingOrder === null) {
+        resolve({
+          errCode: 1,
+          message: "Không tìm thấy product",
+        });
+      }
+      if (checkpaid !== null) {
+        existingOrder.checkpaid = checkpaid;
+      } //set to true or false
+      existingOrder.date_edit = Date.now();
+      await existingOrder.save();
+
+      resolve({
+        errCode: 0,
+        message: "Update successed",
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 // const deleteOrder = (id) => {
 //     return new Promise(async (resolve, reject) => {
 //         try {
@@ -192,4 +261,7 @@ module.exports = {
   createOrder,
   updateOrder,
   updateOrderStatus,
+  getOrderByCustomerId,
+  getOrderByCustomerName,
+  updateOrderRequest,
 };

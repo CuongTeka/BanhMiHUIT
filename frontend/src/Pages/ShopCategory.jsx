@@ -18,7 +18,6 @@ const ShopCategory = (props) => {
     let filtered = products;
 
     // Lọc sản phẩm dựa trên category và thanh tìm kiếm
-    
 
     if (searchText) {
       filtered = filtered.filter((product) =>
@@ -28,7 +27,7 @@ const ShopCategory = (props) => {
 
     // Sắp xếp sản phẩm dựa trên trạng thái của sortBy
     if (sortBy === "name-asc") {
-      filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));    
+      filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));
     } else if (sortBy === "name-desc") {
       filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === "price-asc") {
@@ -77,7 +76,6 @@ const ShopCategory = (props) => {
             <option value="price-asc">Giá (thấp đến cao)</option>
             <option value="price-desc">Giá (cao đến thấp)</option>
           </select>
-          
         </div>
       </div>
 
@@ -93,7 +91,7 @@ const ShopCategory = (props) => {
         ))}
       </div>
 
-      {visibleProducts <products.length && (
+      {visibleProducts < products.length && (
         <div className="shopcategory-loadmore" onClick={handleLoadMore}>
           <p>Xem Thêm</p>
         </div>

@@ -8,21 +8,21 @@ const handleGetOrderById = (id) => {
   return axios.get(`/api/get-order-by-id/${id}`);
 }; // truyền id vào
 
-const handleCreateOrder = (
-  customer,
-  item,
-  total,
-  payment,
-  status,
-  shipping,
-  note
-) => {
-  return axios.post("/api/signup", {
+const handleGetOrderByCustomerId = (id) => {
+  return axios.get(`/api/get-order-by-customer-id/${id}`);
+}; // truyền id vào
+
+const handleGetOrderByCustomerName = (name) => {
+  return axios.get(`/api/get-order-by-customer-name/${name}`);
+}; // truyền id vào
+
+const handleCreateOrder = (data) => {
+  const { customer, item, note, payment, shipping, total } = data;
+  return axios.post("/api/create-order", {
     customer,
     item,
     total,
     payment,
-    status,
     shipping,
     note,
   });
@@ -54,10 +54,17 @@ const handleUpdateStatus = (id, data) => {
   return axios.put(`/api/update-status/${id}`, { is_paid, status });
 };
 
+const handleUpdateRequest = (id, checkpaid) => {
+  return axios.put(`/api/update-request/${id}`, { checkpaid });
+};
+
 export {
   handleGetAllOrder,
   handleGetOrderById,
   handleCreateOrder,
   handleUpdateOrder,
   handleUpdateStatus,
+  handleGetOrderByCustomerId,
+  handleGetOrderByCustomerName,
+  handleUpdateRequest,
 };

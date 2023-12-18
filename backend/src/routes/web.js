@@ -40,9 +40,18 @@ router.get("/get-category-by-id", cateController.handleGetCategoryById);
 //order
 router.get("/get-all-order", orderController.handleGetAllOrder);
 router.get("/get-order-by-id/:id", orderController.handleGetOrderById);
+router.get(
+  "/get-order-by-customer-id/:id",
+  orderController.handleGetOrderByCustomerId
+);
+router.get(
+  "/get-order-by-customer-name/:name",
+  orderController.handleGetOrderByCustomerName
+);
 router.post("/create-order", orderController.handleCreateOrder);
 router.put("/update-order/:id", orderController.handleUpdateOrder);
 router.put("/update-status/:id", orderController.handleUpdateStatus);
+router.put("/update-request/:id", orderController.handleUpdateRequest);
 //feedback
 router.get("/get-all-feedback");
 router.get("/get-feedback-by-product-id");
