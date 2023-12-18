@@ -6,29 +6,21 @@ import { numberFormat } from "../util";
 import Cookies from "js-cookie";
 import { handleCreateOrder } from "../services/orderService";
 import { Modal } from "antd";
-import {
-  CheckCircleOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
+import QRCode from "qrcode.react";
+import { zlpqr } from "../Components/Assets";
+import { momoqr } from "../Components/Assets";
 
 const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState(""); // Chon phuong thuc thanh toan
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
+  const [showQRCodePopup, setShowQRCodePopup] = useState(false);
   const [shipping, setShipping] = useState("");
   const [note, setNote] = useState("");
   const navigate = useNavigate();
   const { resetCart } = useContext(ShopContext);
   const { getTotalCartAmount, products, cartItems } = useContext(ShopContext);
-  // const handlePayment = () => {
-  //   if (paymentMethod === "cash") {
-  //     alert("Thanh toán tiền mặt thành công!");
-  //   } else if (paymentMethod === "online") {
-  //     alert("Thanh toán trực tuyến thành công!");
-  //   }
-  //   resetCart();
-  //   navigate("/");
-  // };
+
   const formatCartItemsForApi = (
     cartItems,
     total,
@@ -71,6 +63,10 @@ const PaymentPage = () => {
       console.log(create.message);
       if (create.errCode === 0) {
         setModalSuccess(true);
+        if (paymentMethod === "VnPay" || paymentMethod === "MoMo") {
+          setShowQRCodePopup(true);
+        }
+        resetCart();
         setTimeout(() => {
           navigate("/order");
         }, 2000);
@@ -91,14 +87,25 @@ const PaymentPage = () => {
     }
   };
 
+  const generateQRCode = () => {
+    // Tùy thuộc vào lựa chọn thanh toán, trả về hình ảnh QR Code tương ứng
+    if (paymentMethod === "VnPay") {
+      return <img src={zlpqr} alt="VnPay QR Code" className="qrcode-image" />;
+    } else if (paymentMethod === "MoMo") {
+      return <img src={momoqr} alt="MoMo QR Code" className="qrcode-image" />;
+    }
+    return null; // Trả về null nếu không có lựa chọn thanh toán hoặc là thanh toán tiền mặt
+  };
+
   return (
     <div className="payment-container">
       <div className="paymentcartitems">
         <div className="paymentcartitems-fomart-main">
           <p>Sản Phẩm</p>
-          <p>Tiêu Đề</p>
           <p>Giá Tiền</p>
           <p>Số lượng</p>
+          <p>Địa điểm nhận hàng</p>
+          <p>Thời gian nhận hàng</p>
           <p>Tổng</p>
         </div>
         <hr />
@@ -107,16 +114,11 @@ const PaymentPage = () => {
             cartItems[e._id] > 0 && (
               <div key={e._id}>
                 <div className="paymentcartitems-format paymentcartitems-fomart-main">
-                  <img
-                    className="carticon-product-icon"
-                    src={`http://localhost:8080/api/images?imageName=${encodeURIComponent(
-                      e.image
-                    )}`}
-                    alt=""
-                  />
                   <p>{e.name}</p>
                   <p>{numberFormat(e.price)}</p>
                   <p>{cartItems[e._id]}</p>
+                  <p>Căn tin trường</p>
+                  <p>mẹ chán vl</p>
                   <p>{numberFormat(e.price * cartItems[e._id])}</p>
                 </div>
                 <hr />
@@ -158,22 +160,23 @@ const PaymentPage = () => {
               <label className="payment-option-label">
                 <input
                   type="radio"
-                  value="online"
-                  checked={paymentMethod === "online"}
-                  onChange={() => setPaymentMethod("online")}
+                  value="VnPay"
+                  checked={paymentMethod === "VnPay"}
+                  onChange={() => setPaymentMethod("VnPay")}
                 />
                 Thanh toán VnPay
               </label>
               <label className="payment-option-label">
                 <input
                   type="radio"
-                  value="online"
-                  checked={paymentMethod === "online"}
-                  onChange={() => setPaymentMethod("online")}
+                  value="MoMo"
+                  checked={paymentMethod === "MoMo"}
+                  onChange={() => setPaymentMethod("MoMo")}
                 />
                 Thanh toán MoMo
               </label>
             </div>
+            {generateQRCode()}
             <button className="payment-button" onClick={handlePayment}>
               Xác nhận thanh toán
             </button>

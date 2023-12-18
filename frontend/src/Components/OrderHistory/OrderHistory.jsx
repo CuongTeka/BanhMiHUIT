@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "./Order.css";
+import "./OrderHistory.css";
 import * as orderService from "../../services/orderService";
 import Cookies from "js-cookie";
 import { numberFormat } from "../../util";
 import { Button, Modal, Table, Space, Popconfirm, message } from "antd";
-import { useNotification } from "../../Context/notiContext";
 
 const OrderHistory = () => {
   const [modalDetail, setModalDetail] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [singleOrder, setSingleOrder] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const { sendNotification } = useNotification();
 
   useEffect(() => {
     fetchOrderData();
@@ -204,7 +202,6 @@ const OrderHistory = () => {
 
   const handleSendNoti = (id) => {
     // Send notification to AdminPage
-    sendNotification(id);
     message.success(id);
   };
 
