@@ -6,6 +6,7 @@ const OrderHistory = () => {
   const orderHistoryData = [
     {
       orderNumber: "1",
+      _id:" ",
       productName: "Product 1",
       quantity: 2,
       total: 100,
@@ -19,6 +20,11 @@ const OrderHistory = () => {
       title: "Số thứ tự",
       dataIndex: "orderNumber",
       key: "orderNumber",
+    },
+    {
+      title: "Mã đơn hàng",
+      dataIndex: "productid",
+      key: "_id",
     },
     {
       title: "Tên sản phẩm",

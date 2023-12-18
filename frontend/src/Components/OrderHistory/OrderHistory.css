@@ -1,38 +1,33 @@
-
 .orderhistory-container {
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    min-height: 400px;
+  width: 100%;
+  min-height: 400px;
+}
+
+.orderhistory {
+  padding: 20px;
+
+}
+h1 {
+  color: #333;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.table-container {
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 14px;
   }
-  
-  /* Heading styling */
-  h1 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  /* Table styling */
-  .table-container {
-    margin-top: 20px;
-  }
-  
-  
-  /* Responsive Table Styling */
-  @media (max-width: 768px) {
-    table {
-      font-size: 14px;
-    }
-  }
-  
-  /* Footer styling */
-  .footer {
-    margin-top: 40px;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-  }
-  
-  
+}
+
+/* Footer styling */
+.footer {
+  margin-top: 40px;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
