@@ -43,6 +43,7 @@ const TableComponent = (props) => {
         }}
         columns={columns}
         dataSource={dataSource}
+        hideSelectAll={false}
         {...props}
       />
     </>
