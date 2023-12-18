@@ -1,10 +1,17 @@
 .breadcrums{
     display: flex;
-    align-items: center;
+    align-items: left;
     gap: 8px;
     color: #5e5e5e;
     font-size: 16px;
     font-weight: 600;
-    margin: 60px 170px;
+    margin: 40px 40px;
     text-transform: capitalize;
+}
+@media screen and (max-width: 768px) {
+    .breadcrumbs {
+        flex-direction: column; /* Stack items vertically for smaller screens */
+        align-items: flex-start; /* Align items to the start of the container */
+        margin: 30px 20px; 
+    }
 }

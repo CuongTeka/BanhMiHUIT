@@ -1,19 +1,30 @@
 .failpage {
   box-sizing: border-box;
   display: flex;
- 
   justify-content: center;
+  text-align: center;
 }
 
 .failpage img {
   display: block;
-  max-width: auto;
-  height: 500px;
+  max-width: 100%; 
+  height: auto; 
 }
 
-.failpage h1{
+.failpage h1 {
   color: rgb(245, 27, 27);
   position: absolute;
   margin-top: 430px;
+}
 
+@media screen and (max-width: 768px) {
+  .failpage {
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .failpage h1 {
+    position: static; 
+    margin-top: 20px; 
+  }
 }

@@ -1,70 +1,110 @@
-/* PaymentPage.css */
-
-/* Container for the entire page */
 .payment-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  width: 100%;
+  min-height: 700px;
 }
 
-/* Styles for the cart items section */
 .paymentcartitems {
-  width: 100%;
-  max-width: 800px; /* Set a maximum width for better readability */
+  font-family: "Arial", sans-serif;
+  border: 1px solid #ccc;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .paymentcartitems-fomart-main {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr 2fr 1fr 0.5fr 1fr;
   font-weight: bold;
-  padding: 10px 0;
-}
-.paymentcartitems-down {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start; /* Align items at the top */
-  width: 100%;
-  max-width: 800px; /* Set a maximum width for better readability */
-  margin-top: 20px;
+  font-size: 18px;
+  gap: 10px;
+  padding: 20px 0px;
+  align-items: center;
 }
 
 .paymentcartitems-format {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 0.5fr 1fr;
   gap: 10px;
-  align-items: center;
-  padding: 10px 0;
+  justify-items: center;
 }
 
-.paymentcartitems-total {
-  width: 48%; /* Set the width of the total section */
+.carticon-product-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.paymentcartitems-down {
+  display: flex;
+  margin-top: 100px;
+  justify-content: space-between;
+}
+
+.paymentcartitems-downleft {
+  width: 400px;
+  border: solid 0.5px rgb(148, 145, 145);
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paymentcartitems-downright {
+  width: 400px;
+  border: solid 0.5px rgb(148, 145, 145);
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .paymentcartitems-total-item {
   display: flex;
   justify-content: space-between;
-  padding: 10px 0;
+  margin-bottom: 10px;
 }
 
-/* Styles for the payment options section */
 .payment-title {
+  font-size: 1.5rem;
   margin-top: 20px;
 }
 
 .payment-options {
-  width: 48%; /* Set the width of the options section */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 500px;
+  justify-content: center;
 }
 
 .payment-option-label {
   margin-bottom: 10px;
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 600px) {
+.payment-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.payment-button:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+
+  .paymentcartitems{
+    margin: 30px 10px;
+  }
   .paymentcartitems-fomart-main,
   .paymentcartitems-format {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .carticon-product-icon {
+    width: 100%; 
   }
 }
