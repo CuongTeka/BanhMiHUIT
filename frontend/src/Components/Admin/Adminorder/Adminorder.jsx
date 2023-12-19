@@ -1,15 +1,59 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Space, Table, Popconfirm, message } from "antd";
+import {
+  Button,
+  Modal,
+  Space,
+  Table,
+  Popconfirm,
+  message,
+  Input,
+  Select,
+} from "antd";
 import * as orderService from "../../../services/orderService";
 import { numberFormat, renderImage } from "../../../util";
+const { Search } = Input;
+const { Option } = Select;
 
 const Adminuser = () => {
   const [modalDetail, setModalDetail] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [orderData, setOrderData] = useState([]);
   const [singleOrder, setSingleOrder] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchColumn, setSearchColumn] = useState("customer.name");
+  const [filteredData, setFilteredData] = useState(orderData);
   // const user = useSelector((state) => state?.user);
   // const searchInput = useRef(null);
+
+  const getNestedPropertyValue = (obj, path) => {
+    const keys = path.split(".");
+    return keys.reduce((acc, key) => acc?.[key], obj);
+  };
+
+  const handleSearch = () => {
+    const lowerSearchText = searchText.toLowerCase();
+    const filtered = orderData.filter((record) => {
+      if (searchColumn === "id" || searchColumn === "date_create") {
+        const columnValue =
+          record[searchColumn]?.toString().toLowerCase() || "";
+        return columnValue.includes(lowerSearchText);
+      } else if (searchColumn === "customer.name") {
+        // Handle nested property
+        const columnValue =
+          getNestedPropertyValue(record, searchColumn)
+            ?.toString()
+            .toLowerCase() || "";
+        return columnValue.includes(lowerSearchText);
+      }
+      return false;
+    });
+    setFilteredData(filtered);
+  };
+
+  const handleReset = () => {
+    setSearchText("");
+    setFilteredData(orderData);
+  };
 
   const columns = [
     {
@@ -198,7 +242,8 @@ const Adminuser = () => {
 
   useEffect(() => {
     fetchOrderData();
-  }, []);
+    handleSearch();
+  }, [searchText, searchColumn, orderData]);
 
   const fetchOrderData = async () => {
     try {
@@ -318,14 +363,43 @@ const Adminuser = () => {
           thanh toán
         </p>
       </div>
-      <div style={{ marginTop: "50px" }}>
+      <div style={{ margin: "50px" }}>
+        <div style={{ textAlign: "center" }}>
+          <Search
+            placeholder={`Tìm kiếm theo ${searchColumn}`}
+            enterButton
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onSearch={handleSearch}
+            style={{ width: 400, marginRight: 8 }}
+          />
+          <Select
+            defaultValue="customer.name"
+            style={{ width: 200 }}
+            onChange={(value) => setSearchColumn(value)}
+          >
+            <Option value="id">ID Đơn hàng</Option>
+            <Option value="customer.name">Tên khách hàng</Option>
+            <Option value="date_create">Ngày đặt</Option>
+          </Select>
+          <Button
+            type="primary"
+            onClick={handleSearch}
+            style={{ marginLeft: 8 }}
+          >
+            Tìm kiếm
+          </Button>
+          <Button onClick={handleReset} style={{ marginLeft: 8 }}>
+            Đặt lại
+          </Button>
+        </div>
         <Table
           rowSelection={{
             selectedRowKeys,
             onChange: (keys) => setSelectedRowKeys(keys),
           }}
           columns={columns}
-          dataSource={orderData}
+          dataSource={filteredData}
         />
         {selectedRowKeys.length > 0 && (
           <div
