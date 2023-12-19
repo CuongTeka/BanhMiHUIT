@@ -7,7 +7,7 @@ const TableComponent = (props) => {
     data: dataSource = [],
     columns = [],
     handleDelteMany,
-
+    responsive: [],
   } = props;
   const [rowSelectedKeys, setRowSelectedKeys] = useState([]);
  

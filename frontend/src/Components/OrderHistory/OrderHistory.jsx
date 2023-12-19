@@ -44,6 +44,7 @@ const OrderHistory = () => {
       title: "ID Đơn hàng",
       dataIndex: "_id",
       key: "id",
+  
     },
     {
       title: "Tổng tiền",
