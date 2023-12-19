@@ -9,16 +9,12 @@
         "dest": "/src/$1"
       },
       {
-        "src": "/public/banner/(.*)",
-        "dest": "/public/banner/$1"
-      },
-      {
         "src": "/public/images/(.*)",
         "dest": "/public/images/$1"
       },
       {
         "src": "/(.*)",
-        "dest": "/$1"
+        "dest": "/"
       }
     ]
   }
