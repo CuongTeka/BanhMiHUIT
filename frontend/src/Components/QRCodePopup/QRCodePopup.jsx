@@ -5,24 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import Cookies from "js-cookie";
 import { handleCreateOrder } from "../../services/orderService";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 
 const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
   const navigate = useNavigate();
   const { resetCart, getTotalCartAmount, cartItems } = useContext(ShopContext);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
-  const [shipping, setShipping] = useState("");
   const [note, setNote] = useState("");
-  const [showQRCodePopup, setShowQRCodePopup] = useState(false);
 
-  const formatCartItemsForApi = (
-    cartItems,
-    total,
-    paymentMethod,
-    shipping,
-    note
-  ) => {
+  const formatCartItemsForApi = (cartItems, total, paymentMethod, note) => {
     if (Cookies.get("id") !== undefined) {
       const formattedItems = Object.keys(cartItems)
         .filter((itemId) => cartItems[itemId] > 0)
@@ -38,7 +30,6 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
         item: formattedItems,
         total: total,
         payment: paymentMethod,
-        shipping: shipping,
         note: note,
       };
     }
@@ -50,21 +41,16 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
         cartItems,
         getTotalCartAmount(),
         paymentMethod,
-        shipping,
         note
       );
-      console.log(formattedData);
       const create = await handleCreateOrder(formattedData);
-      console.log(create.message);
-      if (
-        paymentMethod === "cash" ||
-        paymentMethod === "ZaloPay" ||
-        paymentMethod === "MoMo"
-      ) {
-        setShowQRCodePopup(true);
-        if (create.errCode === 0) {
-          setModalSuccess(true);
-        }
+
+      if (create.errCode === 0) {
+        setModalSuccess(true);
+        notification.success({
+          message: "Tạo đơn hàng thành công",
+          description: "Vui lòng gửi yêu cầu xác nhận thanh toán online",
+        });
         resetCart();
         setTimeout(() => {
           navigate("/orderhistory");
@@ -83,8 +69,6 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
         }
       }
     }
-
-    onClose();
   };
 
   return (

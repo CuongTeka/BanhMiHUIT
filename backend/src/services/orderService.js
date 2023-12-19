@@ -107,7 +107,7 @@ let getOrderByCustomerId = (id) => {
 // create - update - delete
 const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
-    const { customer, item, total, payment, shipping, note } = newOrder;
+    const { customer, item, total, payment, note } = newOrder;
     // const item = [pro_id, quantity, custom]
     try {
       const newOrder = await orderModel.create({
@@ -115,7 +115,6 @@ const createOrder = (newOrder) => {
         item,
         total,
         payment,
-        shipping,
         note,
       });
       if (newOrder) {

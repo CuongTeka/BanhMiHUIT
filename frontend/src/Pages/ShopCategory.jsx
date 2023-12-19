@@ -11,7 +11,7 @@ const ShopCategory = (props) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [searchText, setSearchText] = useState("");
   const [sortBy, setSortBy] = useState("default"); // State cho sắp xếp
-  const [visibleProducts, setVisibleProducts] = useState(6); // Số lượng sản phẩm hiển thị ban đầu
+  const [visibleProducts, setVisibleProducts] = useState(4); // Số lượng sản phẩm hiển thị ban đầu
   const { category } = useParams();
 
   useEffect(() => {
@@ -44,7 +44,9 @@ const ShopCategory = (props) => {
   };
 
   const handleLoadMore = () => {
-    setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 6);
+    console.log("visibleProducts:", visibleProducts);
+    console.log("filteredProducts.length:", filteredProducts.length);
+    setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 4);
   };
 
   return (
@@ -53,7 +55,7 @@ const ShopCategory = (props) => {
       <div className="shopcategory-indexSort">
         <div className="shopcategory-log">
           <p>
-            <span>Showing 1-12</span> out of {filteredProducts.length} products
+            <span>Hiển thị 1 - {filteredProducts.length}</span> sản phẩm
           </p>
         </div>
         <div className="searchbar">
@@ -82,15 +84,17 @@ const ShopCategory = (props) => {
       </div>
 
       <div className="shopcategory-products">
-        {filteredProducts.map((item, i) => (
-          <Item
-            key={i}
-            id={item._id}
-            name={item.name}
-            image={item.image}
-            price={numberFormat(item.price)}
-          />
-        ))}
+        {filteredProducts.map((item, i) =>
+          props.category === null || props.category === item.category_id ? (
+            <Item
+              key={i}
+              id={item._id}
+              name={item.name}
+              image={item.image}
+              price={numberFormat(item.price)}
+            />
+          ) : null
+        )}
       </div>
 
       {visibleProducts < filteredProducts.length && (

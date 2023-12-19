@@ -5,6 +5,7 @@ import remove_icon from "../Assets/cart_cross_icon.png";
 import { numberFormat, renderImage } from "../../util";
 import { useAuth } from "../../Context/authContext";
 import { Link, useNavigate } from "react-router-dom";
+import { notification } from "antd";
 
 const CartItems = () => {
   const { getTotalCartAmount, products, cartItems, removeToCart, addToCart } =
@@ -15,7 +16,10 @@ const CartItems = () => {
 
   const handlePaymentClick = () => {
     if (isCartEmpty()) {
-      alert("Vui lòng thêm sản phẩm vào giỏ hàng!");
+      notification.error({
+        message: "Lỗi",
+        description: "Vui lòng thêm sản phẩm vào giỏ hàng",
+      });
 
       return;
     }

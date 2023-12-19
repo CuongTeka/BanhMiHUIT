@@ -44,7 +44,6 @@ const OrderHistory = () => {
       title: "ID Đơn hàng",
       dataIndex: "_id",
       key: "id",
-  
     },
     {
       title: "Tổng tiền",
@@ -56,6 +55,7 @@ const OrderHistory = () => {
       title: "Phương thức thanh toán",
       dataIndex: "payment",
       key: "payment",
+      render: (text) => <span>{renderPayment(text)}</span>,
     },
     {
       title: "Trạng thái",
@@ -235,6 +235,14 @@ const OrderHistory = () => {
       return <span style={{ color: "green" }}>Thành công</span>;
     } else {
       return <span style={{ color: "red" }}>Đã hủy</span>;
+    }
+  };
+
+  const renderPayment = (text) => {
+    if (text === "cash") {
+      return "Tiền mặt";
+    } else {
+      return text;
     }
   };
 
