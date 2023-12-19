@@ -33,9 +33,22 @@ const Adminuser = () => {
   const handleSearch = () => {
     const lowerSearchText = searchText.toLowerCase();
     const filtered = orderData.filter((record) => {
-      if (searchColumn === "id" || searchColumn === "date_create") {
+      if (searchColumn === "_id") {
         const columnValue =
-          record[searchColumn]?.toString().toLowerCase() || "";
+          (record.hasOwnProperty(searchColumn) &&
+            record[searchColumn]?.toString()) ||
+          "";
+        return columnValue.includes(lowerSearchText);
+      } else if (searchColumn === "date_create") {
+        const columnValue = new Date(record[searchColumn])
+          .toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
+          .toLowerCase();
+
+        // Partial matching for formatted date (e.g., "19/12" matches "19/12/2023")
         return columnValue.includes(lowerSearchText);
       } else if (searchColumn === "customer.name") {
         // Handle nested property
@@ -378,7 +391,7 @@ const Adminuser = () => {
             style={{ width: 200 }}
             onChange={(value) => setSearchColumn(value)}
           >
-            <Option value="id">ID Đơn hàng</Option>
+            <Option value="_id">ID Đơn hàng</Option>
             <Option value="customer.name">Tên khách hàng</Option>
             <Option value="date_create">Ngày đặt</Option>
           </Select>

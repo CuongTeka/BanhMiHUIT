@@ -41,11 +41,15 @@ const Adminproduct = () => {
       title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Danh mục",
       dataIndex: "category_id",
       render: (category_id) => <span>{renderCategory(category_id)}</span>,
+      sorter: (a, b) => a.category_id.localeCompare(b.category_id),
+      sortDirections: ["descend", "ascend"],
     },
     // {
     //   title: "Chi tiết",
@@ -58,6 +62,8 @@ const Adminproduct = () => {
       dataIndex: "price",
       key: "price",
       render: (text) => <span>{numberFormat(text)}</span>,
+      sorter: (a, b) => a.price - b.price,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Giảm giá",

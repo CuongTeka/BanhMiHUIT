@@ -11,7 +11,7 @@ const ShopCategory = (props) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [searchText, setSearchText] = useState("");
   const [sortBy, setSortBy] = useState("default"); // State cho sắp xếp
-  const [visibleProducts, setVisibleProducts] = useState(4); // Số lượng sản phẩm hiển thị ban đầu
+  const [visibleProducts, setVisibleProducts] = useState(6); // Số lượng sản phẩm hiển thị ban đầu
   const { category } = useParams();
 
   useEffect(() => {
@@ -44,9 +44,12 @@ const ShopCategory = (props) => {
   };
 
   const handleLoadMore = () => {
-    console.log("visibleProducts:", visibleProducts);
-    console.log("filteredProducts.length:", filteredProducts.length);
-    setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 4);
+    const newVisibleProducts = visibleProducts + 4;
+    setVisibleProducts(
+      newVisibleProducts <= filteredProducts.length
+        ? newVisibleProducts
+        : filteredProducts.length
+    );
   };
 
   return (
@@ -84,17 +87,19 @@ const ShopCategory = (props) => {
       </div>
 
       <div className="shopcategory-products">
-        {filteredProducts.map((item, i) =>
-          props.category === null || props.category === item.category_id ? (
-            <Item
-              key={i}
-              id={item._id}
-              name={item.name}
-              image={item.image}
-              price={numberFormat(item.price)}
-            />
-          ) : null
-        )}
+        {filteredProducts
+          .slice(0, visibleProducts)
+          .map((item, i) =>
+            props.category === null || props.category === item.category_id ? (
+              <Item
+                key={i}
+                id={item._id}
+                name={item.name}
+                image={item.image}
+                price={numberFormat(item.price)}
+              />
+            ) : null
+          )}
       </div>
 
       {visibleProducts < filteredProducts.length && (
