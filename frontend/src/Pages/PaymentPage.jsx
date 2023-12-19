@@ -31,33 +31,33 @@ const PaymentPage = () => {
     setShowQRCodePopup(false);
     setPaymentConfirmed(false);
   };
-  const formatCartItemsForApi = (
-    cartItems,
-    total,
-    paymentMethod,
-    shipping,
-    note
-  ) => {
-    if (Cookies.get("id") !== undefined) {
-      const formattedItems = Object.keys(cartItems)
-        .filter((itemId) => cartItems[itemId] > 0)
-        .map((itemId) => {
-          return {
-            pro_id: itemId,
-            quantity: cartItems[itemId],
-          };
-        });
+  // const formatCartItemsForApi = (
+  //   cartItems,
+  //   total,
+  //   paymentMethod,
+  //   shipping,
+  //   note
+  // ) => {
+  //   if (Cookies.get("id") !== undefined) {
+  //     const formattedItems = Object.keys(cartItems)
+  //       .filter((itemId) => cartItems[itemId] > 0)
+  //       .map((itemId) => {
+  //         return {
+  //           pro_id: itemId,
+  //           quantity: cartItems[itemId],
+  //         };
+  //       });
 
-      return {
-        customer: Cookies.get("id"),
-        item: formattedItems,
-        total: total,
-        payment: paymentMethod,
-        shipping: shipping,
-        note: note,
-      };
-    }
-  };
+  //     return {
+  //       customer: Cookies.get("id"),
+  //       item: formattedItems,
+  //       total: total,
+  //       payment: paymentMethod,
+  //       shipping: shipping,
+  //       note: note,
+  //     };
+  //   }
+  // };
 
   // const handlePayment = async () => {
   //   try {
