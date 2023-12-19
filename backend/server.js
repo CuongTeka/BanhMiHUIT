@@ -32,14 +32,14 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.json("Hello from backend");
-});
-
 app.use("/api", webRoutes);
 // mongoose.connect(url ,{dbName: 'QLBM'});
+const url =
+  process.env.DBURL ||
+  "mongodb+srv://admin:123@qlbanmi.qonjmak.mongodb.net/?retryWrites=true&w=majority";
+
 mongoose
-  .connect(`${process.env.DBURL}`, { dbName: `${process.env.MONGO_DB}` })
+  .connect(url, { dbName: "QLBM" })
   .then(() => {
     console.log("Connect Atlas successed!");
   })
