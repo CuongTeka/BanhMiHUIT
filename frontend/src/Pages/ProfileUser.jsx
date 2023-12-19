@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./CSS/ProfileUser.css";
 import { Form, Input, Button, Table, Modal, message } from "antd";
 // import { MyFormItemGroup, MyFormItem } from "../util";
-import { useAuth } from "../Context/authContext";
+// import { useAuth } from "../Context/authContext";
 import {
   handleChangeUserInfo,
   handleChangeUserPass,
@@ -14,7 +14,7 @@ const ProfileUser = () => {
   var [userData, setuserData] = useState([]);
   const [modalChangepass, setmodalChangepass] = useState(false);
   const [modalChangeinfo, setmodalChangeinfo] = useState(false);
-  const { isLoggedIn } = useAuth();
+  // const { isLoggedIn } = useAuth();
   const onFinish = async (value) => {
     // console.log(value);
     if (Cookies.get("id") !== undefined) {

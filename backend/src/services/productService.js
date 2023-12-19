@@ -85,15 +85,15 @@ const updateProduct = (id, data) => {
           message: "Không tìm thấy product",
         });
       }
-
+      // console.log(id);
       const updatedProduct = await proModel.findByIdAndUpdate(id, {
         name,
         category_id,
-        detail,
         price,
         discount,
-        image,
-        date_edit: Date.now(),
+        detail,
+        image: image.name,
+        date_create: Date.now(),
         is_active,
       });
       if (updatedProduct) {

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form } from 'antd';
+import React from "react";
+import { Form } from "antd";
 
 const MyFormItemContext = React.createContext([]);
 function toArr(str) {
@@ -7,25 +7,32 @@ function toArr(str) {
 }
 export const MyFormItemGroup = ({ prefix, children }) => {
   const prefixPath = React.useContext(MyFormItemContext);
-  const concatPath = React.useMemo(() => [...prefixPath, ...toArr(prefix)], [prefixPath, prefix]);
-  return <MyFormItemContext.Provider value={concatPath}>{children}</MyFormItemContext.Provider>;
+  const concatPath = React.useMemo(
+    () => [...prefixPath, ...toArr(prefix)],
+    [prefixPath, prefix]
+  );
+  return (
+    <MyFormItemContext.Provider value={concatPath}>
+      {children}
+    </MyFormItemContext.Provider>
+  );
 };
 export const MyFormItem = ({ name, ...props }) => {
   const prefixPath = React.useContext(MyFormItemContext);
-  const concatName = name !== undefined ? [...prefixPath, ...toArr(name)] : undefined;
+  const concatName =
+    name !== undefined ? [...prefixPath, ...toArr(name)] : undefined;
   return <Form.Item name={concatName} {...props} />;
 };
-// Form 
+// Form
 
 export const isJsonString = (data) => {
   try {
-      JSON.parse(data)
+    JSON.parse(data);
   } catch (error) {
-      return false
+    return false;
   }
-  return true
-}
-
+  return true;
+};
 
 export const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -36,21 +43,29 @@ export const getBase64 = (file) =>
   });
 // Get image
 
+export const renderImage = (imageName) => {
+  if (imageName) {
+    return `http://localhost:8080/api/images?imageName=${encodeURIComponent(
+      imageName
+    )}`;
+  } else {
+    //??
+  }
+};
 
 export const numberFormat = (value) =>
-new Intl.NumberFormat('vi-VN', {
-  style: 'currency',
-  currency: 'VND'
-}).format(value);
+  new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value);
 //change style currency
 
-
 export function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  }
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  };
+}

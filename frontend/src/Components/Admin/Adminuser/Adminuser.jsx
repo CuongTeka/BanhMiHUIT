@@ -90,13 +90,19 @@ const Adminuser = () => {
             okText="Xóa"
             cancelText="Hủy"
           >
-            <a disabled={isDeleting} style={{ color: "red" }}>
-              <i class="fa-solid fa-trash"></i> Xóa
-            </a>
+            <Button
+              disabled={isDeleting}
+              style={{ color: "red", width: "60px", height: "60px" }}
+            >
+              <i class="fa-solid fa-trash fa-lg"></i>
+            </Button>
           </Popconfirm>
-          <a onClick={() => handleUpdateUser(record._id)}>
-            <i class="fa-solid fa-pen-to-square"></i> Sửa
-          </a>
+          <Button
+            onClick={() => handleUpdateUser(record._id)}
+            style={{ width: "60px", height: "60px" }}
+          >
+            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+          </Button>
         </Space>
       ),
     },

@@ -77,6 +77,8 @@ const updateProduct = async (req, res) => {
         message: "Thiếu ID",
       });
     }
+    console.log(id);
+    console.log(data);
     const check = await proService.updateProduct(id, data);
     if (check.errCode == 0) {
       return res.status(200).json(check);
@@ -155,12 +157,12 @@ const updateActive = async (req, res) => {
         message: "Thiếu ID",
       });
     }
-    const check = await proService.changeActive(id, req.body);
-    if (check.errCode == 0) {
-      return res.status(200).json(check);
-    } else {
-      return res.status(400).json(check);
-    }
+    // const check = await proService.changeActive(id, req.body);
+    // if (check.errCode == 0) {
+    //   return res.status(200).json(check);
+    // } else {
+    //   return res.status(400).json(check);
+    // }
   } catch (e) {
     return res.status(400).json({
       message: e,

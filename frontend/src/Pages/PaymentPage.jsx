@@ -30,7 +30,79 @@ const PaymentPage = () => {
   const handleCancel = () => {
     setShowQRCodePopup(false);
     setPaymentConfirmed(false);
-  };
+  }
+    const formatCartItemsForApi = (
+      cartItems,
+      total,
+      paymentMethod,
+      shipping,
+      note
+    ) => {
+      if (Cookies.get("id") !== undefined) {
+        const formattedItems = Object.keys(cartItems)
+          .filter((itemId) => cartItems[itemId] > 0)
+          .map((itemId) => {
+            return {
+              pro_id: itemId,
+              quantity: cartItems[itemId],
+            };
+          });
+
+        return {
+          customer: Cookies.get("id"),
+          item: formattedItems,
+          total: total,
+          payment: paymentMethod,
+          shipping: shipping,
+          note: note,
+        };
+      }
+    };
+
+    const handlePayment = async () => {
+      try {
+        if (paymentMethod === "cash") {
+          alert("Thanh toán tiền mặt thành công!");
+          navigate("/category");
+          resetCart();
+        } else if (paymentMethod === "ZaloPay" || paymentMethod === "MoMo") {
+          const formattedData = formatCartItemsForApi(
+            cartItems,
+            getTotalCartAmount(),
+            paymentMethod,
+            shipping,
+            note
+          );
+          console.log(formattedData);
+          const create = await handleCreateOrder(formattedData);
+          console.log(create.message);
+          if (create.errCode === 0) {
+            setModalSuccess(true);
+            if (paymentMethod === "VnPay" || paymentMethod === "MoMo") {
+              setShowQRCodePopup(true);
+            }
+            resetCart();
+            setTimeout(() => {
+              navigate("/orderhistory");
+            }, 2000);
+          } else {
+            setModalError(true);
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
+            console.log("Lỗi: ", create.message);
+          }
+        } else {
+          // Handle other payment methods as needed
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.data) {
+            console.log("Lỗi: " + error.response.data.message);
+          }
+        }
+      }
+    };
 
   return (
     <div className="payment-container">
