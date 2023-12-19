@@ -32,6 +32,10 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.json("Hello from backend");
+});
+
 app.use("/api", webRoutes);
 // mongoose.connect(url ,{dbName: 'QLBM'});
 mongoose

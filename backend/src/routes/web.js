@@ -70,10 +70,6 @@ router.post(
   productController.handleResImageUpload
 );
 
-router.get("/", (req, res) => {
-  res.json("Hello from backend");
-});
-
 router.get("/send", homeController.handleTestEmail);
 
 module.exports = router;
