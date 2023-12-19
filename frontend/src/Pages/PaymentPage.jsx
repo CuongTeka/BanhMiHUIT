@@ -125,7 +125,7 @@ const PaymentPage = () => {
                   <p>{numberFormat(e.price)}</p>
                   <p>{cartItems[e._id]}</p>
                   <p>Căn tin trường</p>
-                  <p>mẹ chán vl</p>
+                  <p>~3 phút sau khi đặt hàng</p>
                   <p>{numberFormat(e.price * cartItems[e._id])}</p>
                 </div>
                 <hr />

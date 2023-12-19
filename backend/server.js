@@ -10,7 +10,7 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
-// const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 const oneYear = 1000 * 60 * 60 * 3600;
 
@@ -34,16 +34,13 @@ app.use(
 
 app.use("/api", webRoutes);
 // mongoose.connect(url ,{dbName: 'QLBM'});
-const url =
-  process.env.DBURL ||
-  "mongodb+srv://admin:123@qlbanmi.qonjmak.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
-  .connect(url, { dbName: "QLBM" })
+  .connect(`${process.env.DBURL}`, { dbName: `${process.env.MONGO_DB}` })
   .then(() => {
     console.log("Connect Atlas successed!");
   })
   .catch((err) => {
     console.log(err);
   });
-// app.listen(PORT, console.log(`Server started on port ${PORT}`));
+app.listen(PORT, console.log(`Server started on port ${PORT}`));
