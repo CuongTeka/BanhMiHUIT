@@ -11,7 +11,7 @@ const ShopCategory = (props) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [searchText, setSearchText] = useState("");
   const [sortBy, setSortBy] = useState("default"); // State cho sắp xếp
-  const [visibleProducts, setVisibleProducts] = useState(3); // Số lượng sản phẩm hiển thị ban đầu
+  const [visibleProducts, setVisibleProducts] = useState(6); // Số lượng sản phẩm hiển thị ban đầu
   const { category } = useParams();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const ShopCategory = (props) => {
 
     // Sắp xếp sản phẩm dựa trên trạng thái của sortBy
     if (sortBy === "name-asc") {
-      filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));    
+      filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));
     } else if (sortBy === "name-desc") {
       filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === "price-asc") {
@@ -44,16 +44,18 @@ const ShopCategory = (props) => {
   };
 
   const handleLoadMore = () => {
-    setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 3);
+    setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 6);
   };
 
   return (
     <div className="shop-category">
       <img className="shopcategory-banner" src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
-        <p>
-          <span>Showing 1-12</span> out of {products.length} products
-        </p>
+        <div className="shopcategory-log">
+          <p>
+            <span>Showing 1-12</span> out of {filteredProducts.length} products
+          </p>
+        </div>
         <div className="searchbar">
           <Searchbar
             size="large"
@@ -76,12 +78,11 @@ const ShopCategory = (props) => {
             <option value="price-asc">Giá (thấp đến cao)</option>
             <option value="price-desc">Giá (cao đến thấp)</option>
           </select>
-          
         </div>
       </div>
 
       <div className="shopcategory-products">
-        {products.map((item, i) => (
+        {filteredProducts.map((item, i) => (
           <Item
             key={i}
             id={item._id}
@@ -92,7 +93,7 @@ const ShopCategory = (props) => {
         ))}
       </div>
 
-      {visibleProducts <products.length && (
+      {visibleProducts < filteredProducts.length && (
         <div className="shopcategory-loadmore" onClick={handleLoadMore}>
           <p>Xem Thêm</p>
         </div>
