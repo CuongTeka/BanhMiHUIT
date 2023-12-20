@@ -107,7 +107,7 @@ const ProfileUser = () => {
     {
       title: "Email",
       dataIndex: "email",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <p>{text}</p>,
     },
     {
       title: "Mã số sinh viên",

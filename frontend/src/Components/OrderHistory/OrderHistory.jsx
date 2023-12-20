@@ -11,7 +11,7 @@ const OrderHistory = () => {
   const [modalError, setModalError] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [singleOrder, setSingleOrder] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  
 
   useEffect(() => {
     fetchOrderData();
@@ -220,7 +220,7 @@ const OrderHistory = () => {
       };
       await orderService.handleUpdateStatus(orderId, updateData);
       fetchOrderData();
-      setSelectedRowKeys([]);
+      
       message.success("Cập nhật thành công");
     } catch (error) {
       console.error("Error cancel order:", error);
