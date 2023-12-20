@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.BEURL || "https://banh-mi-huit-server.vercel.app/",
+  baseURL: process.env.BEURL || "http://localhost:8080/",
   withCredentials: true,
 });
 

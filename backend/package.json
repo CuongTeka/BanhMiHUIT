@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/CuongTeka/BanhMiHUIT#readme",
   "dependencies": {
+    "@vercel/node": "^3.0.13",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",

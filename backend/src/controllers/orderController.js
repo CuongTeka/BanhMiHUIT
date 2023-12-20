@@ -44,7 +44,7 @@ let handleGetOrderByCustomerName = async (req, res) => {
 const handleCreateOrder = async (req, res) => {
   try {
     // console.log(req.body);
-    const { customer, item, total, payment, status, shipping, note } = req.body;
+    const { customer, item, total, payment, status, note } = req.body;
     if (!customer || !total || !payment || !item) {
       return res.status(400).json({
         errCode: 400,

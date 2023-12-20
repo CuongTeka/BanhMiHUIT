@@ -44,7 +44,12 @@ const ShopCategory = (props) => {
   };
 
   const handleLoadMore = () => {
-    setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 6);
+    const newVisibleProducts = visibleProducts + 4;
+    setVisibleProducts(
+      newVisibleProducts <= filteredProducts.length
+        ? newVisibleProducts
+        : filteredProducts.length
+    );
   };
 
   return (
@@ -53,7 +58,7 @@ const ShopCategory = (props) => {
       <div className="shopcategory-indexSort">
         <div className="shopcategory-log">
           <p>
-            <span>Showing 1-12</span> out of {filteredProducts.length} products
+            <span>Hiển thị 1 - {filteredProducts.length}</span> sản phẩm
           </p>
         </div>
         <div className="searchbar">
@@ -82,15 +87,19 @@ const ShopCategory = (props) => {
       </div>
 
       <div className="shopcategory-products">
-        {filteredProducts.map((item, i) => (
-          <Item
-            key={i}
-            id={item._id}
-            name={item.name}
-            image={item.image}
-            price={numberFormat(item.price)}
-          />
-        ))}
+        {filteredProducts
+          .slice(0, visibleProducts)
+          .map((item, i) =>
+            props.category === null || props.category === item.category_id ? (
+              <Item
+                key={i}
+                id={item._id}
+                name={item.name}
+                image={item.image}
+                price={numberFormat(item.price)}
+              />
+            ) : null
+          )}
       </div>
 
       {visibleProducts < filteredProducts.length && (
