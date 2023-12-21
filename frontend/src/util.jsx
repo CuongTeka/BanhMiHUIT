@@ -45,9 +45,9 @@ export const getBase64 = (file) =>
 
 export const renderImage = (imageName) => {
   if (imageName) {
-    return `http://localhost:8080/api/images?imageName=${encodeURIComponent(
-      imageName
-    )}`;
+    return `${
+      process.env.REACT_APP_BEURL || "http://localhost:8080"
+    }/api/images?imageName=${encodeURIComponent(imageName)}`;
   } else {
     //??
   }

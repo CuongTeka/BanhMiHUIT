@@ -10,7 +10,7 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
 
 const oneYear = 1000 * 60 * 60 * 3600;
 
@@ -28,7 +28,7 @@ app.use(
     secret: "banhmihuit",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: oneYear },
+    cookie: { maxAge: oneYear, sameSite: "None", secure: true },
   })
 );
 
@@ -43,4 +43,6 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+// app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+module.exports = app;
