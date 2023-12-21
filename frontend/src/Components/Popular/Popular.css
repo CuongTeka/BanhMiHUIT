@@ -7,7 +7,7 @@
   width: 100%;
   background-color: rgb(235, 239, 243);
   background: linear-gradient(180deg, #fde1ff 0%);
-  margin-bottom: 150px;
+  margin-bottom: 50px;
   padding: 20px;
 }
 
@@ -29,12 +29,22 @@
 }
 
 .popular-item {
+  width: 100%;
   box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
   margin-top: 20px;
-  display: flex;
   flex-wrap: wrap;
-  gap: 20px;
   margin-bottom: 20px;
+}
+
+.popular-itemcover {
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .popular-itemcover {
+    flex-direction: column;
+    align-items: center;
+  }
 }

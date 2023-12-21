@@ -6,20 +6,11 @@
 }
 .navbar-container {
   display: flex;
-  padding: 10px 20px 10px 20px ;
+  padding: 5px 30px 0px 30px ;
   justify-content: space-between;
   background-color: ghostwhite;
   z-index: 100;
 }
-
-.nav-logo img {
-  border-radius: 50px;
-  width: 80px;
-  height: 80px;
-  margin-right: 10px;
-  background-color: #f3f3f3;
-}
-
 .nav-logo {
   display: flex;
   align-items: center;
@@ -32,6 +23,23 @@
   font-weight: 600;
   margin: 0;
 }
+
+.nav-logo a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo img {
+  margin-right: 8px;
+  border-radius: 50px;
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+  background-color: #f3f3f3;
+}
+
+
 
 .nav-menu {
   display: flex;
@@ -168,7 +176,6 @@
   display: flex;
   align-items: center;
   gap: 30px;
-  margin-right: 20px;
 }
 
 .nav-login-cart button {
@@ -212,30 +219,38 @@
 }
 
 /* Responsive styles */
-@media (max-width: 600px) {
+@media (max-width: 786px) {
   .navbar {
     width: 100%;
     height: auto;
     position: relative;
+    margin-bottom: 20px;
   }
 
   .navbar-container {
     flex-direction: column;
     align-items: flex-start;
     background-color: ghostwhite;
-    margin-bottom: 10px;
+    padding-bottom: 15px;
+    padding-top: 15px;
   }
 
   .nav-logo {
     margin-right: 0;
     margin-bottom: 10px;
   }
+  .nav-logo p {
+    color: #171717;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
 
   .nav-logo img {
-    margin-right: 0; 
+    margin-right: 5px; 
     margin-bottom: 5px; 
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
   }
 
   .nav-menu {
@@ -245,6 +260,10 @@
   }
   .dropbtn {
     align-items: flex-start;
+    float: none;
+  }
+  .dropbtn a:hover {
+    color: rgb(12, 94, 12);
   }
 
   .dropdown {
@@ -252,7 +271,17 @@
     align-items: flex-start;
     margin-bottom: 10px;
   }
-
+  .dropdown-content li a:hover {
+    color: rgb(12, 82, 39);
+  }
+  
+  .dropdown-content li:hover {
+    background-color: #ddd;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
   .nav-login-cart {
     flex-direction: column;
     align-items: flex-start;
@@ -270,16 +299,4 @@
     margin-top: -60px;
     margin-left: 35px;
   }
-}
-@media screen and (max-width: 400px) {
-  .navbar {
-    
-
-    margin-bottom: 20px;
-  }
-  
-  .dropbtn {
-    float: none;
-  }
-
 }

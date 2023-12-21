@@ -61,8 +61,10 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navbar-container">
         <div className="nav-logo">
-          <img src={Logobm} alt="" />
-          <p>BÁNH MÌ HUIT</p>
+          <Link style={{ textDecoration: "none" }} to="/">
+            <img src={Logobm} alt="" />
+            <p>BÁNH MÌ HUIT</p>
+          </Link>
         </div>
         <ul className="nav-menu">
           <li
