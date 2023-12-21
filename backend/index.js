@@ -28,7 +28,7 @@ app.use(
     secret: "banhmihuit",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: oneYear },
+    cookie: { maxAge: oneYear, sameSite: "None", secure: true },
   })
 );
 
