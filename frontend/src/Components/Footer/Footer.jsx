@@ -26,7 +26,7 @@ const Footer = () => {
           </p>
           <p className="icon-contact">
             <img src={fb_icon} alt="" />
-            <a href="https://www.facebook.com/thai.phong.4754">FB: Bánh Mì SV HUIT</a>
+            <a href="https://www.facebook.com/profile.php?id=61553840430877&locale=vi_VN">FB: Bánh Mì SV HUIT</a>
           </p>
         </div>
         <div className="footer-copyright">

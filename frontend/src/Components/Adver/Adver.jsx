@@ -46,7 +46,7 @@ const Adver = () => {
               </div>
               <div className="insight-icon-boxes--inner">
                 <div className="insight-icon-boxes-title">NƯỚC XỐT ĐỘC ĐÁO</div>
-                <div className="insight-icon-boxes-content">Được chế biến theo công thức và bí quyết riêng, độc đào, hài hòa.</div>    
+                <div className="insight-icon-boxes-content">Được chế biến theo công thức và bí quyết riêng, độc đáo, hài hòa.</div>    
               </div>
             </div>
           </div>
