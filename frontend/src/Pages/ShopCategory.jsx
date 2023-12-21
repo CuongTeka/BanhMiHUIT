@@ -43,7 +43,8 @@ const ShopCategory = (props) => {
     setSortBy(value);
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (e) => {
+    e.preventDefault();
     const newVisibleProducts = visibleProducts + 4;
     setVisibleProducts(
       newVisibleProducts <= filteredProducts.length
