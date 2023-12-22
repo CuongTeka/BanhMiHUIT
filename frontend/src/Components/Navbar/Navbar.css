@@ -6,7 +6,7 @@
 }
 .navbar-container {
   display: flex;
-  padding: 5px 30px 0px 30px ;
+  padding: 5px 30px 0px 30px;
   justify-content: space-between;
   background-color: ghostwhite;
   z-index: 100;
@@ -39,8 +39,6 @@
   background-color: #f3f3f3;
 }
 
-
-
 .nav-menu {
   display: flex;
   align-items: center;
@@ -50,10 +48,7 @@
   font-size: 18px;
   font-weight: 600;
   font-family: inherit;
-}
-
-.nav-menu ul {
-  margin-right: 56px;
+  margin-top: 10px;
 }
 
 .nav-menu li {
@@ -88,7 +83,6 @@
 .dropdown {
   display: flex;
   position: relative;
-
 }
 
 .dropdown .dropbtn {
@@ -204,6 +198,11 @@
   background: #f3f3f3;
 }
 
+.cart{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .nav-cart-count {
   width: 22px;
   height: 22px;
@@ -211,28 +210,42 @@
   justify-content: center;
   align-items: center;
   margin-top: -35px;
-  margin-left: -36px;
+  margin-left: -10px;
   border-radius: 11px;
   font-size: 14px;
   background: rgb(235, 47, 34);
   color: white;
 }
-
+.menu {
+  display: none;
+  position: absolute;
+  top: 1.25rem;
+  right: 1rem;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 2.25rem;
+  height: 2rem;
+}
+.menu span {
+  height: 0.4rem;
+  width: 100%;
+  border-radius: 0.2rem;
+  background-color: rgb(167, 163, 163);
+}
 /* Responsive styles */
 @media (max-width: 786px) {
   .navbar {
     width: 100%;
+    flex-direction: column;
     height: auto;
-    position: relative;
-    margin-bottom: 20px;
   }
 
   .navbar-container {
     flex-direction: column;
     align-items: flex-start;
     background-color: ghostwhite;
-    padding-bottom: 15px;
-    padding-top: 15px;
+    padding-top: 0.75rem;
+    padding-left: 10px;
   }
 
   .nav-logo {
@@ -247,56 +260,51 @@
   }
 
   .nav-logo img {
-    margin-right: 5px; 
-    margin-bottom: 5px; 
-    width: 40px;
-    height: 40px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    width: 50px;
+    height: 50px;
   }
 
-  .nav-menu {
-    gap: 10px;
-    flex-direction: column; 
-    align-items: flex-start;
-  }
   .dropbtn {
     align-items: flex-start;
     float: none;
   }
-  .dropbtn a:hover {
-    color: rgb(12, 94, 12);
-  }
 
   .dropdown {
     width: 100%;
-    align-items: flex-start;
     margin-bottom: 10px;
   }
-  .dropdown-content li a:hover {
-    color: rgb(12, 82, 39);
-  }
-  
-  .dropdown-content li:hover {
-    background-color: #ddd;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+
   .nav-login-cart {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    margin-right: 0;
+   
+    display: flex;
+    width: 100%;
     margin-top: 10px;
+    justify-content: space-between;
+  
   }
 
   .nav-login-cart button {
-    width: 100%;
-    align-items: flex-start;
+    width: 100px;
+    height: 40px;
+    font-size: 14px;
+
   }
 
-  .nav-cart-count {
-    margin-top: -60px;
-    margin-left: 35px;
+  .menu {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;  /*mặc định ẩn menu */
+  }
+
+  .nav-menu.open {
+    gap: 0px;
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start; /* Thêm để canh trái */
+
   }
 }

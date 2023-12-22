@@ -1,11 +1,17 @@
 
 .Adver {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin: 0 auto;
   width: 100%;
   margin-top: 50px;
+  align-items: center;
+}
+
+.Adver-container{
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 30px; 
+  margin: 0 auto;
 }
 
 .Ad_Col_container {

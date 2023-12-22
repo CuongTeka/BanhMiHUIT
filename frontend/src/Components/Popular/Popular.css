@@ -1,13 +1,18 @@
 .popular {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
   width: 100%;
   background-color: rgb(235, 239, 243);
   background: linear-gradient(180deg, #fde1ff 0%);
   margin-bottom: 50px;
+}
+
+.popular-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;  
   padding: 20px;
 }
 
