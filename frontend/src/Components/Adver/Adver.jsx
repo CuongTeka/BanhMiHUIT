@@ -7,6 +7,7 @@ import icon4 from "../Assets/ICON4.png";
 const Adver = () => {
   return (
     <div className="Adver">
+    <div className="Adver-container">
       <div className="Ad_Col_container">
         <div className="Ad_Col-inner">
           <div className="wrapper">
@@ -67,7 +68,7 @@ const Adver = () => {
           </div>
         </div>
       </div>
-      
+      </div>
     </div>
   );
 };

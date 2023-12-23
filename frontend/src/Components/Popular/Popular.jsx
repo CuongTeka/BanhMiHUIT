@@ -9,23 +9,25 @@ const Popular = (props) => {
 
   return (
     <div className="popular">
-      <h1>SẢN PHẨM PHONG PHÚ</h1>
-      <hr />
-      <div className="popular-item">
-        <div className="popular-itemcover">
-          {products
-            .slice(0, visibleProducts)
-            .map((item, i) =>
-              props.Popular === item.Popular ? (
-                <Item
-                  key={i}
-                  id={item._id}
-                  name={item.name}
-                  image={item.image}
-                  price={item.price}
-                />
-              ) : null
-            )}
+      <div className="popular-container">
+        <h1>SẢN PHẨM PHONG PHÚ</h1>
+        <hr />
+        <div className="popular-item">
+          <div className="popular-itemcover">
+            {products
+              .slice(0, visibleProducts)
+              .map((item, i) =>
+                props.Popular === item.Popular ? (
+                  <Item
+                    key={i}
+                    id={item._id}
+                    name={item.name}
+                    image={item.image}
+                    price={item.price}
+                  />
+                ) : null
+              )}
+          </div>
         </div>
       </div>
     </div>

@@ -10,30 +10,12 @@ import { UserOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import { handleGetUserById } from "../../services/userServices";
 
-const items = [
-  {
-    key: "1",
-    label: (
-      <Link style={{ textDecoration: "none" }} to="/profile_user">
-        Thông tin người dùng
-      </Link>
-    ),
-  },
-  {
-    key: "2",
-    label: (
-      <Link style={{ textDecoration: "none" }} to="/orderhistory">
-        Lịch sử đơn hàng
-      </Link>
-    ),
-  },
-];
-
 const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
   const [menu, SetMenu] = useState();
   const [userData, setuserData] = useState([]);
   const { getTotalCartItems } = useContext(ShopContext);
+  const [menuOpen, setmenuOpen] = useState(false);
 
   useEffect(() => {
     getData();
@@ -56,6 +38,40 @@ const Navbar = () => {
       }
     }
   };
+  const items = [
+    {
+      key: "1",
+      label: (
+        <Link style={{ textDecoration: "none" }} to="/profile_user">
+          Thông tin người dùng
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link style={{ textDecoration: "none" }} to="/orderhistory">
+          Lịch sử đơn hàng
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <>
+          {isLoggedIn ? (
+            <span
+              onClick={() => {
+                logout();
+              }}
+            >
+              Đăng xuất
+            </span>
+          ) : null}
+        </>
+      ),
+    },
+  ];
 
   return (
     <div className="navbar">
@@ -66,7 +82,25 @@ const Navbar = () => {
             <p>BÁNH MÌ HUIT</p>
           </Link>
         </div>
-        <ul className="nav-menu">
+        <div className="cart-mobile">
+          {" "}
+          {/*su dung cho mobile */}
+          <Link to="/cart">
+            <img src={cart_icon} alt="" />
+          </Link>
+          <div className="cart-count-mobile">{getTotalCartItems()}</div>
+        </div>
+        <div
+          className="menu"
+          onClick={() => {
+            setmenuOpen(!menuOpen);
+          }}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul className={`nav-menu ${menuOpen ? "open" : " "}`}>
           <li
             onClick={() => {
               SetMenu("shop");
@@ -77,6 +111,7 @@ const Navbar = () => {
             </Link>
             {menu === "shop" ? <hr /> : <></>}
           </li>
+          <div className="mobile-hr"><hr /> </div>
           <div className="dropdown">
             <button
               className="dropbtn"
@@ -136,6 +171,9 @@ const Navbar = () => {
               </ul>
             </div>
           </div>
+
+          <div className="mobile-hr"><hr /> </div>
+        
           <li
             onClick={() => {
               SetMenu("aboutus");
@@ -146,7 +184,34 @@ const Navbar = () => {
             </Link>
             {menu === "aboutus" ? <hr /> : <></>}
           </li>
+          <div className="mobile-hr"><hr /> </div>
+          <li className="signin-mobile">
+            {isLoggedIn ? (
+              <>
+                <Dropdown menu={{ items }} placement="bottom" arrow>
+                  <Link style={{ textDecoration: "none" }}>
+                    <p>
+                      <UserOutlined
+                        style={{
+                          fontSize: "26px",
+                          color: "#515151",
+                          marginRight: "10px",
+                        }}
+                      />
+                      {userData.name}
+                    </p>
+                  </Link>
+                </Dropdown>
+              </>
+            ) : (
+              <Link style={{ textDecoration: "none" }} to="/signin">
+                <button>Đăng Nhập</button>
+              </Link>
+            )}
+            {menu === "signin" ? <hr /> : <></>}
+          </li>
         </ul>
+
         <div className="nav-login-cart">
           {isLoggedIn ? (
             <>
@@ -164,27 +229,18 @@ const Navbar = () => {
                   </p>
                 </Link>
               </Dropdown>
-              <Link style={{ textDecoration: "none" }} to="/">
-                <button
-                  onClick={() => {
-                    logout();
-                  }}
-                >
-                  Đăng xuất
-                </button>
-              </Link>
             </>
           ) : (
             <Link style={{ textDecoration: "none" }} to="/signin">
               <button>Đăng Nhập</button>
             </Link>
           )}
-
-          <Link to="/cart">
-            <img src={cart_icon} alt="" />
-          </Link>
-
-          <div className="nav-cart-count">{getTotalCartItems()}</div>
+          <div className="cart">
+            <Link to="/cart">
+              <img src={cart_icon} alt="" />
+            </Link>
+            <div className="nav-cart-count">{getTotalCartItems()}</div>
+          </div>
         </div>
       </div>
     </div>
