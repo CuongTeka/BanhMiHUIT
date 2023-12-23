@@ -44,8 +44,19 @@ let handleGetOrderByCustomerName = async (req, res) => {
 const handleCreateOrder = async (req, res) => {
   try {
     // console.log(req.body);
-    const { customer, item, total, payment, status, note } = req.body;
-    if (!customer || !total || !payment || !item) {
+    const {
+      customer,
+      item,
+      total,
+      payment,
+      deliTime,
+      deliLocation,
+      status,
+      note,
+    } = req.body;
+    if (
+      (!customer || !total || !payment || !item || !deliTime, !deliLocation)
+    ) {
       return res.status(400).json({
         errCode: 400,
         message: "Vui lòng nhập dữ liệu",
@@ -69,7 +80,7 @@ const handleCreateOrder = async (req, res) => {
 
 const handleUpdateOrder = async (req, res) => {
   try {
-    const id = req.params.id; // Assuming you're using route parameters for the orderId
+    const id = req.params.id;
     const data = req.body;
 
     const check = await orderService.updateOrder(id, data);

@@ -14,6 +14,7 @@ import PlusSquareTwoTone from "@ant-design/icons";
 // import { useSelector } from "react-redux";
 import * as userService from "../../../services/userServices";
 const { Option } = Select;
+const { Search } = Input;
 
 const Adminuser = () => {
   const [modalCreate, setModalCreate] = useState(false);
@@ -21,6 +22,9 @@ const Adminuser = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchColumn, setSearchColumn] = useState("name");
+  const [filteredData, setFilteredData] = useState(userData);
   // const user = useSelector((state) => state?.user);
   // const searchInput = useRef(null);
 
@@ -29,32 +33,44 @@ const Adminuser = () => {
       title: "ID",
       dataIndex: "_id",
       key: "id",
+      sorter: (a, b) => a._id.localeCompare(b._id),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Tên",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
       render: (text) => <a>{text}</a>,
+      sorter: (a, b) => a.email.localeCompare(b.email),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "MSSV",
       dataIndex: "mssv",
       key: "mssv",
+      sorter: (a, b) => a.mssv.localeCompare(b.mssv),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "SĐT",
       dataIndex: "phone",
       key: "sdt",
+      sorter: (a, b) => a.phone.localeCompare(b.phone),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Vai trò",
       dataIndex: "role",
       render: (role) => <span>{roleText(role)}</span>,
+      sorter: (a, b) => a.role.localeCompare(b.role),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Ngày tạo",
@@ -65,6 +81,8 @@ const Adminuser = () => {
           month: "2-digit",
           year: "numeric",
         }),
+      sorter: (a, b) => new Date(a.date_create) - new Date(b.date_create),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Ngày chỉnh sửa",
@@ -75,6 +93,8 @@ const Adminuser = () => {
           month: "2-digit",
           year: "numeric",
         }),
+      sorter: (a, b) => new Date(a.date_update) - new Date(b.date_update),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Action",
@@ -114,6 +134,48 @@ const Adminuser = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchText, searchColumn, userData]);
+
+  const handleSearch = () => {
+    const lowerSearchText = searchText.toLowerCase();
+    const filtered = userData.filter((record) => {
+      if (
+        searchColumn === "_id" ||
+        searchColumn === "name" ||
+        searchColumn === "email" ||
+        searchColumn === "mssv" ||
+        searchColumn === "phone"
+      ) {
+        const columnValue =
+          (record.hasOwnProperty(searchColumn) &&
+            record[searchColumn]?.toString()) ||
+          "";
+        return columnValue.toLowerCase().includes(lowerSearchText);
+      } else if (
+        searchColumn === "date_create" ||
+        searchColumn === "date_update"
+      ) {
+        const columnValue = new Date(record[searchColumn])
+          .toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
+          .toLowerCase();
+        return columnValue.includes(lowerSearchText);
+      }
+      return false;
+    });
+    setFilteredData(filtered);
+  };
+
+  const handleReset = () => {
+    setSearchText("");
+    setFilteredData(userData);
+  };
 
   const fetchUserData = async () => {
     try {
@@ -265,13 +327,39 @@ const Adminuser = () => {
         <i class="fa-solid fa-plus fa-2xl"></i>
       </Button>
       <div style={{ marginTop: "50px" }}>
+        <div style={{ textAlign: "center" }}>
+          <Search
+            placeholder={`Tìm kiếm theo ${searchColumn}`}
+            enterButton
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onSearch={handleSearch}
+            style={{ width: 400, marginRight: 8 }}
+          />
+          <Select
+            defaultValue="name"
+            style={{ width: 200 }}
+            onChange={(value) => setSearchColumn(value)}
+          >
+            <Option value="_id">ID người dùng</Option>
+            <Option value="name">Tên người dùng</Option>
+            <Option value="email">Email</Option>
+            <Option value="mssv">MSSV</Option>
+            <Option value="phone">Số điện thoại</Option>
+            <Option value="date_create">Ngày tạo</Option>
+            <Option value="date_update">Ngày chỉnh sửa</Option>
+          </Select>
+          <Button onClick={handleReset} style={{ marginLeft: 8 }}>
+            Đặt lại
+          </Button>
+        </div>
         <Table
           rowSelection={{
             selectedRowKeys,
             onChange: (keys) => setSelectedRowKeys(keys),
           }}
           columns={columns}
-          dataSource={userData}
+          dataSource={filteredData}
         />
         {selectedRowKeys.length > 0 && (
           <div

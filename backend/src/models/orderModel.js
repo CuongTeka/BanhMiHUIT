@@ -29,6 +29,8 @@ const orders = new Schema(
     status: { type: String, default: 0 }, //đang xử lý - đã nhận hàng
     is_paid: { type: Boolean, default: false }, //chưa thanh toán (tiền mặt), đã thanh toán (momo)
     checkpaid: { type: Boolean, default: false }, //user có gửi yêu cầu xác nhận thanh toán
+    deliTime: { type: String, required: true }, //thời gian nhận
+    deliLocation: { type: String, required: true }, //địa điểm nhận
     note: { type: String },
   },
   { collection: "Order", versionKey: false }

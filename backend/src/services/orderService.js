@@ -107,7 +107,8 @@ let getOrderByCustomerId = (id) => {
 // create - update - delete
 const createOrder = (newOrder) => {
   return new Promise(async (resolve, reject) => {
-    const { customer, item, total, payment, note } = newOrder;
+    const { customer, item, total, payment, deliTime, deliLocation, note } =
+      newOrder;
     // const item = [pro_id, quantity, custom]
     try {
       const newOrder = await orderModel.create({
@@ -115,6 +116,8 @@ const createOrder = (newOrder) => {
         item,
         total,
         payment,
+        deliTime,
+        deliLocation,
         note,
       });
       if (newOrder) {
@@ -158,7 +161,7 @@ const updateOrder = (id, data) => {
       reject(e);
     }
   });
-}; //update
+}; //update (no use)
 
 const updateOrderStatus = (id, data) => {
   return new Promise(async (resolve, reject) => {
@@ -188,7 +191,7 @@ const updateOrderStatus = (id, data) => {
       reject(e);
     }
   });
-}; //update
+}; //update status
 
 const updateOrderRequest = (id, data) => {
   return new Promise(async (resolve, reject) => {

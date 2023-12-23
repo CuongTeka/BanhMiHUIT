@@ -1,5 +1,6 @@
 const userService = require("../services/userService");
 const emailService = require("../services/emailService");
+const authService = require("../services/authService");
 const path = require("path");
 
 const registerFunction = async (req, res) => {
@@ -56,7 +57,7 @@ const registerFunction = async (req, res) => {
     });
   } //check mssv exist (maybe remove, if remove then remove unique in model)
   let check = await userService.Register(req.body);
-  console.log(check);
+  // console.log(check);
   if (check.errCode == 0) {
     return res.status(200).json({
       errCode: 0,
@@ -93,17 +94,73 @@ const handleGetProductImage = async (req, res) => {
   res.sendFile(path.join(__dirname, "../../public/images", imageName));
 }; //send image to frontend
 
-const handleTestEmail = async (req, res) => {
-  const send = await emailService.testEmail();
-  if (send) {
-    return res.status(400).json({
-      errCode: 0,
-      message: "Email send",
-    });
-  } else {
+const handleSendEmail = async (req, res) => {
+  const { email } = req.query;
+  // console.log(email);
+  if (!email) {
     return res.status(500).json({
       errCode: 1,
-      message: "Email send fail",
+      message: "Thiếu email",
+    });
+  }
+  try {
+    let isEmailExist = await userService.checkEmail(email);
+    if (isEmailExist) {
+      await emailService.sendOTP(email);
+      return res.status(200).json({
+        errCode: 0,
+        message: "Đã gửi mail",
+      });
+    } else {
+      return res.status(500).json({
+        errCode: 500,
+        message: "Email không tồn tại",
+      });
+    }
+  } catch (e) {
+    console.error("Error sending OTP:", error);
+    return res.status(500).json({
+      errCode: 1,
+      message: "Gửi mail thất bại",
+    });
+  }
+};
+
+const handleCheckOTP = async (req, res) => {
+  const { email, otp } = req.body;
+  // console.log(req.body);
+  if (!email || !otp) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "No email or otp",
+    });
+  }
+  let check = await authService.checkOTP(email, otp);
+  if (check.errCode == 0) {
+    return res.status(200).json(check);
+  } else {
+    return res.status(400).json(check);
+  }
+};
+
+const handleChangePassForget = async (req, res) => {
+  try {
+    const { email, pass } = req.body;
+    if (!email) {
+      return res.status(400).json({
+        errCode: 1,
+        message: "Thiếu email",
+      });
+    }
+    const check = await userService.changePasswordForget(email, pass);
+    if (check.errCode == 0) {
+      return res.status(200).json(check);
+    } else {
+      return res.status(400).json(check);
+    }
+  } catch (e) {
+    return res.status(400).json({
+      message: e,
     });
   }
 };
@@ -113,5 +170,7 @@ module.exports = {
   registerFunction,
   handleGetProductImage,
 
-  handleTestEmail,
+  handleSendEmail,
+  handleCheckOTP,
+  handleChangePassForget,
 };

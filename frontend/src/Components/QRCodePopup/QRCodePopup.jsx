@@ -9,12 +9,25 @@ import { Modal, notification } from "antd";
 
 const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
   const navigate = useNavigate();
-  const { resetCart, getTotalCartAmount, cartItems } = useContext(ShopContext);
+  const {
+    resetCart,
+    getTotalCartAmount,
+    cartItems,
+    deliveryTime,
+    deliveryLocation,
+    notes,
+  } = useContext(ShopContext);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
-  const [note, setNote] = useState("");
 
-  const formatCartItemsForApi = (cartItems, total, paymentMethod, note) => {
+  const formatCartItemsForApi = (
+    cartItems,
+    total,
+    paymentMethod,
+    deliveryTime,
+    deliveryLocation,
+    notes
+  ) => {
     if (Cookies.get("id") !== undefined) {
       const formattedItems = Object.keys(cartItems)
         .filter((itemId) => cartItems[itemId] > 0)
@@ -30,7 +43,9 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
         item: formattedItems,
         total: total,
         payment: paymentMethod,
-        note: note,
+        deliTime: deliveryTime,
+        deliLocation: deliveryLocation,
+        note: notes,
       };
     }
   };
@@ -41,7 +56,9 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
         cartItems,
         getTotalCartAmount(),
         paymentMethod,
-        note
+        deliveryTime,
+        deliveryLocation,
+        notes
       );
       const create = await handleCreateOrder(formattedData);
 
@@ -50,6 +67,7 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
         notification.success({
           message: "Tạo đơn hàng thành công",
           description: "Vui lòng gửi yêu cầu xác nhận thanh toán online",
+          duration: null,
         });
         resetCart();
         setTimeout(() => {
@@ -85,6 +103,7 @@ const QRCodePopup = ({ paymentMethod, onClose, onCancel }) => {
           alt={paymentMethod === "ZaloPay" ? "ZaloPay QR Code" : "MoMo QR Code"}
         />
       </div>
+      <p>Lưu ý: Khi chuyển khoản, vui lòng ghi họ tên và mssv</p>
       <div className="qrcode-btn">
         <button onClick={handleClose}>Xác nhận</button>
         <button onClick={onCancel}>Huỷ thanh toán</button>

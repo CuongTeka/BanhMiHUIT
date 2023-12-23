@@ -205,6 +205,36 @@ const changePassword = (id, data) => {
   });
 }; //điều chỉnh
 
+const changePasswordForget = (email, pass) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkUser = await userModel.findOne({
+        email,
+      }); //check email tồn tại
+      if (checkUser === null) {
+        resolve({
+          errCode: 500,
+          message: "Không tìm thấy email user",
+        });
+      }
+      const encryptPass = bcrypt.hashSync(pass, bcrypt.genSaltSync(5));
+      await userModel.findOneAndUpdate(
+        { email },
+        {
+          password: encryptPass,
+          date_update: Date.now(),
+        }
+      );
+      resolve({
+        errCode: 0,
+        message: "Thay đổi mật khẩu thành công",
+      }); //tiến hành đổi
+    } catch (e) {
+      reject(e);
+    }
+  });
+}; // đổi mật khẩu khi quên
+
 const deleteUser = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -254,4 +284,5 @@ module.exports = {
   updateUser,
   changePassword,
   updateUserNoPass,
+  changePasswordForget,
 };
