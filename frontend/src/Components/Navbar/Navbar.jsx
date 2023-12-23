@@ -82,6 +82,14 @@ const Navbar = () => {
             <p>BÁNH MÌ HUIT</p>
           </Link>
         </div>
+        <div className="cart-mobile">
+          {" "}
+          {/*su dung cho mobile */}
+          <Link to="/cart">
+            <img src={cart_icon} alt="" />
+          </Link>
+          <div className="cart-count-mobile">{getTotalCartItems()}</div>
+        </div>
         <div
           className="menu"
           onClick={() => {
@@ -103,6 +111,7 @@ const Navbar = () => {
             </Link>
             {menu === "shop" ? <hr /> : <></>}
           </li>
+          <div className="mobile-hr"><hr /> </div>
           <div className="dropdown">
             <button
               className="dropbtn"
@@ -162,6 +171,9 @@ const Navbar = () => {
               </ul>
             </div>
           </div>
+
+          <div className="mobile-hr"><hr /> </div>
+        
           <li
             onClick={() => {
               SetMenu("aboutus");
@@ -171,6 +183,32 @@ const Navbar = () => {
               VỀ CHÚNG TÔI
             </Link>
             {menu === "aboutus" ? <hr /> : <></>}
+          </li>
+          <div className="mobile-hr"><hr /> </div>
+          <li className="signin-mobile">
+            {isLoggedIn ? (
+              <>
+                <Dropdown menu={{ items }} placement="bottom" arrow>
+                  <Link style={{ textDecoration: "none" }}>
+                    <p>
+                      <UserOutlined
+                        style={{
+                          fontSize: "26px",
+                          color: "#515151",
+                          marginRight: "10px",
+                        }}
+                      />
+                      {userData.name}
+                    </p>
+                  </Link>
+                </Dropdown>
+              </>
+            ) : (
+              <Link style={{ textDecoration: "none" }} to="/signin">
+                <button>Đăng Nhập</button>
+              </Link>
+            )}
+            {menu === "signin" ? <hr /> : <></>}
           </li>
         </ul>
 
