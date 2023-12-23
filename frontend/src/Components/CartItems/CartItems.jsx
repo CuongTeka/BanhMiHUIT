@@ -20,6 +20,7 @@ const CartItems = () => {
     setDeliveryLocation,
     setNotes,
   } = useContext(ShopContext);
+  const defaultTime = dayjs().add(30, "minutes");
 
   const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
@@ -47,6 +48,27 @@ const CartItems = () => {
   const handleTimeChange = (value) => {
     setDeliveryTime(value);
   };
+
+  const disabledHours = () => {
+    return Array.from({ length: dayjs().hour() + 1 }, (_, index) => index);
+  }; //disable tiếng nếu =< tiếng hiện tại
+
+  const disabledMinutes = (selectedHour) => {
+    if (selectedHour === dayjs().hour()) {
+      return Array.from({ length: dayjs().minute() + 1 }, (_, index) => index);
+    }
+    return [];
+  }; //như trên nhưng là phút
+
+  const disabledSeconds = (selectedHour, selectedMinute) => {
+    if (
+      selectedHour === dayjs().hour() &&
+      selectedMinute === dayjs().minute()
+    ) {
+      return Array.from({ length: dayjs().second() + 1 }, (_, index) => index);
+    }
+    return [];
+  }; //như trên nhưng là giây
 
   const handleLocationChange = (value) => {
     setDeliveryLocation(value);
@@ -136,9 +158,12 @@ const CartItems = () => {
               <p>
                 Thời gian giao hàng:&nbsp;
                 <TimePicker
-                  defaultValue={dayjs()}
+                  defaultValue={defaultTime}
                   className="timepicker"
                   onChange={handleTimeChange}
+                  disabledHours={disabledHours}
+                  disabledMinutes={disabledMinutes}
+                  disabledSeconds={disabledSeconds}
                 />
               </p>
             </div>

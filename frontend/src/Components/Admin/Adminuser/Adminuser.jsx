@@ -306,8 +306,7 @@ const Adminuser = () => {
     } else if (role === "1") {
       return (
         <b>
-          <i class="fa-solid fa-star"></i> Admin{" "}
-          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i> Admin
         </b>
       );
     } else {

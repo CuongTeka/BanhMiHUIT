@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import "./Popular.css";
 import Item from "../Item/Item";
 import { ShopContext } from "../../Context/ShopContext";
+import { numberFormat } from "../../util";
 
 const Popular = (props) => {
   const { products } = useContext(ShopContext);
@@ -23,7 +24,7 @@ const Popular = (props) => {
                     id={item._id}
                     name={item.name}
                     image={item.image}
-                    price={item.price}
+                    price={numberFormat(item.price)}
                   />
                 ) : null
               )}

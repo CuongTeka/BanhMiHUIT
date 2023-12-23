@@ -1,7 +1,7 @@
 import React from "react";
 import "./Item.css";
 import { Link } from "react-router-dom";
-import { renderImage, numberFormat } from "../../util";
+import { renderImage } from "../../util";
 
 const Item = (props) => {
   // console.log(process.env.BEURL);
@@ -15,7 +15,7 @@ const Item = (props) => {
         />
       </Link>
       <p>{props.name}</p>
-      <div className="item-new-price">{numberFormat(props.price)}</div>
+      <div className="item-new-price">{props.price}</div>
       {props.category}
     </div>
   );
