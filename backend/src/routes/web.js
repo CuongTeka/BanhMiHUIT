@@ -70,6 +70,8 @@ router.post(
   productController.handleResImageUpload
 );
 
-router.get("/send", homeController.handleTestEmail);
+router.get("/send/", homeController.handleSendEmail);
+router.post("/check-otp", homeController.handleCheckOTP);
+router.post("/forget-change", homeController.handleChangePassForget);
 
 module.exports = router;

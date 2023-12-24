@@ -75,6 +75,18 @@ const handleGetImage = (imageName) => {
 //   const res = await axios.post(`api/user/delete-many`);
 // }
 
+const handleSendEmail = (email) => {
+  return axios.get(`/api/send/`, { params: { email } });
+};
+
+const handleChangePassForget = (email, pass) => {
+  return axios.post(`/api/forget-change/`, { email, pass });
+};
+
+const handleCheckOTP = (email, otp) => {
+  return axios.post("/api/check-otp", { email, otp });
+};
+
 export {
   handleLoginApi,
   handleRegisterApi,
@@ -87,4 +99,7 @@ export {
   handleChangeUserPass,
   handleChangeUserInfo,
   handleGetImage,
+  handleSendEmail,
+  handleCheckOTP,
+  handleChangePassForget,
 };

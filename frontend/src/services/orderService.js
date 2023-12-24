@@ -17,13 +17,14 @@ const handleGetOrderByCustomerName = (name) => {
 }; // truyền id vào
 
 const handleCreateOrder = (data) => {
-  const { customer, item, note, payment, shipping, total } = data;
+  const { customer, item, note, payment, deliTime, deliLocation, total } = data;
   return axios.post("/api/create-order", {
     customer,
     item,
     total,
     payment,
-    shipping,
+    deliTime,
+    deliLocation,
     note,
   });
 }; //truyền dữ liệu vào
@@ -35,7 +36,8 @@ const handleUpdateOrder = (
   total,
   payment,
   status,
-  shipping,
+  deliTime,
+  deliLocation,
   note
 ) => {
   return axios.put(`/api/update-order/${id}`, {
@@ -44,7 +46,8 @@ const handleUpdateOrder = (
     total,
     payment,
     status,
-    shipping,
+    deliTime,
+    deliLocation,
     note,
   });
 }; //truyền vào dữ liệu

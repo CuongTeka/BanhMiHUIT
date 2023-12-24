@@ -1,6 +1,9 @@
 const userModel = require("../models/userModel");
+const otpModel = require("../models/otpModel");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
+
+const MAX_OTP_AGE = 30 * 60 * 1000;
 
 let handleLogin = (email, pass) => {
   return new Promise(async (resolve, reject) => {
@@ -59,6 +62,64 @@ let checkEmail = (email) => {
   });
 };
 
+let checkOTP = async (mail, otp) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const storedOTP = await otpModel.findOne({ mail, otp });
+      if (storedOTP) {
+        const otpAge = Date.now() - storedOTP.timestamp;
+
+        if (otpAge <= MAX_OTP_AGE) {
+          resolve({
+            errCode: 0,
+            message: "OTP hợp lệ",
+          }); //otp hợp lệ
+        } else {
+          deleteOTP(mail);
+          resolve({
+            errCode: 1,
+            message: "OTP đã hết hạn",
+          }); //otp hết hạn
+        }
+      } else {
+        deleteOTP(mail);
+        resolve({
+          errCode: 2,
+          message: "OTP không hợp lệ",
+        }); //không tìm thấy otp trong db
+      }
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  });
+};
+
+const deleteOTP = (mail) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkOTP = await otpModel.findOne({
+        mail: mail,
+      });
+      if (checkOTP === null) {
+        resolve({
+          errCode: 1,
+          message: "Không tìm thấy OTP",
+        });
+      }
+
+      await otpModel.findOneAndDelete(mail);
+      resolve({
+        errCode: 0,
+        message: "Đã xóa OTP",
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   handleLogin,
+  checkOTP,
 };

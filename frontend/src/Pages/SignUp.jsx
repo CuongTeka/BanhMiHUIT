@@ -2,11 +2,17 @@ import React from "react";
 import "./CSS/Loginsignup.css";
 import { Link, useNavigate } from "react-router-dom";
 import { handleRegister } from "../services/userServices";
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input, notification, Alert } from "antd";
+
+notification.config({
+  placement: "top",
+  stack: 1,
+});
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [errMessage, setMessage] = React.useState("");
 
   const onFinish = async (value) => {
     try {
@@ -18,7 +24,6 @@ const SignUp = () => {
         phone: value.phone,
       };
       const create = await handleRegister(signupData);
-      // console.log(create.message);
       if (create.errCode === 0) {
         // message.success("Tạo tài khoản thành công");
         notification.success({
@@ -28,19 +33,21 @@ const SignUp = () => {
         form.resetFields();
         navigate("/signin");
       } else {
-        notification.error({
-          message: "Tạo tài khoản thất bại",
-          description: create.message,
-        });
+        setMessage(create.message);
+        // notification.error({
+        //   message: "Tạo tài khoản thất bại",
+        //   description: create.message,
+        // });
       }
     } catch (error) {
       if (error.response) {
         if (error.response.data) {
           // message.error("Lỗi: " + error.response.data.message);
-          notification.error({
-            message: "Tạo tài khoản thất bại",
-            description: error.response.data.message,
-          });
+          // notification.error({
+          //   message: "Tạo tài khoản thất bại",
+          //   description: error.response.data.message,
+          // });
+          setMessage(error.response.data.message);
         }
       }
     }
@@ -57,7 +64,7 @@ const SignUp = () => {
           wrapperCol={{ span: 160 }}
           style={{ maxWidth: 1000 }}
           onFinish={onFinish}
-          autoComplete="off"
+          autoComplete="on"
         >
           <Form.Item
             // label="Họ tên"
@@ -94,7 +101,6 @@ const SignUp = () => {
             name="phone"
             rules={[
               { required: true, message: "Số điện thoại không được để trống!" },
-              { min: 10, message: "Số điện phải có ít nhất 10 ký tự" },
               {
                 pattern:
                   /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
@@ -142,6 +148,18 @@ const SignUp = () => {
               style={{ fontSize: "20px" }}
             />
           </Form.Item>
+          {errMessage && (
+            <Alert
+              description={<div style={{ color: "red" }}>{errMessage}</div>}
+              type="error"
+              showIcon
+              style={{
+                textAlign: "center",
+                marginBottom: "16px",
+                color: "red",
+              }}
+            />
+          )}
           <Form.Item
             wrapperCol={{
               span: 100,

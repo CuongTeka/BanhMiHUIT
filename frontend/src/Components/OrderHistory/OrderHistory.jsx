@@ -86,6 +86,27 @@ const OrderHistory = () => {
         }),
     },
     {
+      title: "TG giao",
+      dataIndex: "deliTime",
+      key: "deliTime",
+      render: (text) =>
+        new Date(text).toLocaleDateString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      sorter: (a, b) => new Date(a.date_create) - new Date(b.date_create),
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Địa điểm giao",
+      dataIndex: "deliLocation",
+      key: "deliLocation",
+      render: (text) => <span>{renderLocation(text)}</span>,
+      sorter: (a, b) => a.deliLocation.localeCompare(b.deliLocation),
+      sortDirections: ["descend", "ascend"],
+    },
+    {
       title: "Ghi chú",
       dataIndex: "note",
       key: "note",
@@ -242,6 +263,22 @@ const OrderHistory = () => {
       return "Tiền mặt";
     } else {
       return text;
+    }
+  };
+
+  const renderLocation = (text) => {
+    if (text === "0") {
+      return "Căn tin trường";
+    } else if (text === "1") {
+      return "Sảnh A";
+    } else if (text === "2") {
+      return "Sảnh B";
+    } else if (text === "3") {
+      return "Sảnh AB";
+    } else if (text === "4") {
+      return "Cổng trước";
+    } else if (text === "5") {
+      return "Cổng phụ";
     }
   };
 

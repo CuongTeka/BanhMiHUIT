@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8080;
 const oneYear = 1000 * 60 * 60 * 3600;
 
 const corsOptions = {
-  origin: process.env.FEURL,
+  origin: process.env.FEURL || "http://localhost:3000",
   credentials: true,
 };
 app.use(cors(corsOptions));

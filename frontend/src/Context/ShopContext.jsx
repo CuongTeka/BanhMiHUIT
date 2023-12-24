@@ -6,6 +6,9 @@ const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deliveryTime, setDeliveryTime] = useState(null);
+  const [deliveryLocation, setDeliveryLocation] = useState(null);
+  const [notes, setNotes] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +57,12 @@ const ShopContextProvider = (props) => {
     error,
     products,
     cartItems,
+    deliveryTime,
+    setDeliveryTime,
+    deliveryLocation,
+    setDeliveryLocation,
+    notes,
+    setNotes,
     addToCart: (itemId) => {
       setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1 }));
     },

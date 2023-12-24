@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/PaymentPage.css";
 import { ShopContext } from "../Context/ShopContext";
-import { numberFormat } from "../util";
+import { numberFormat, renderImage } from "../util";
 import QRCodePopup from "../Components/QRCodePopup/QRCodePopup";
 import Cookies from "js-cookie";
 import { handleCreateOrder } from "../services/orderService";
@@ -14,15 +14,21 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const [paymentConfirmed, setPaymentConfirmed] = useState(false); //theo dõi trạng thái đã xác nhận thanh toán
   const { resetCart } = useContext(ShopContext);
-  const { getTotalCartAmount, products, cartItems } = useContext(ShopContext);
+  const {
+    getTotalCartAmount,
+    products,
+    cartItems,
+    deliveryTime,
+    deliveryLocation,
+    notes,
+  } = useContext(ShopContext);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
-  const [note, setNote] = useState("");
 
   // xu ly phan loai thanh toan
   const handlePayment = () => {
     if (paymentMethod === "cash") {
-      handleCashPayment();
+      handleCreateNewOrder();
     } else if (paymentMethod === "ZaloPay" || paymentMethod === "MoMo") {
       setShowQRCodePopup(true);
     }
@@ -36,7 +42,14 @@ const PaymentPage = () => {
     setPaymentConfirmed(false);
   };
 
-  const formatCartItemsForApi = (cartItems, total, paymentMethod, note) => {
+  const formatCartItemsForApi = (
+    cartItems,
+    total,
+    paymentMethod,
+    deliveryTime,
+    deliveryLocation,
+    notes
+  ) => {
     if (Cookies.get("id") !== undefined) {
       const formattedItems = Object.keys(cartItems)
         .filter((itemId) => cartItems[itemId] > 0)
@@ -52,18 +65,22 @@ const PaymentPage = () => {
         item: formattedItems,
         total: total,
         payment: paymentMethod,
-        note: note,
+        deliTime: deliveryTime,
+        deliLocation: deliveryLocation,
+        note: notes,
       };
     }
   };
 
-  const handleCashPayment = async () => {
+  const handleCreateNewOrder = async () => {
     try {
       const formattedData = formatCartItemsForApi(
         cartItems,
         getTotalCartAmount(),
         paymentMethod,
-        note
+        deliveryTime,
+        deliveryLocation,
+        notes
       );
       console.log(formattedData);
       const create = await handleCreateOrder(formattedData);
@@ -95,10 +112,9 @@ const PaymentPage = () => {
       <div className="paymentcartitems">
         <div className="paymentcartitems-fomart-main">
           <p>Sản Phẩm</p>
+          <p>Hình ảnh</p>
           <p>Giá Tiền</p>
           <p>Số lượng</p>
-          <p>Địa điểm nhận hàng</p>
-          <p>Thời gian nhận hàng</p>
           <p>Tổng</p>
         </div>
         <hr />
@@ -108,10 +124,13 @@ const PaymentPage = () => {
               <div key={e._id}>
                 <div className="paymentcartitems-format paymentcartitems-fomart-main">
                   <p>{e.name}</p>
+                  <img
+                    className="carticon-product-icon"
+                    src={renderImage(e.image)}
+                    alt={e.image}
+                  />
                   <p>{numberFormat(e.price)}</p>
                   <p>{cartItems[e._id]}</p>
-                  <p>Căn tin trường</p>
-                  <p>~3 phút sau khi đặt hàng</p>
                   <p>{numberFormat(e.price * cartItems[e._id])}</p>
                 </div>
                 <hr />

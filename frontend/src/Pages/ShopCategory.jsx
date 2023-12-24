@@ -57,7 +57,10 @@ const ShopCategory = (props) => {
       <div className="shopcategory-indexSort">
         <div className="shopcategory-log">
           <p>
-            <span>Hiển thị 1 - {filteredProducts.slice(0, visibleProducts).length}</span> sản phẩm
+            <span>
+              Hiển thị 1 - {filteredProducts.slice(0, visibleProducts).length}
+            </span>{" "}
+            sản phẩm
           </p>
         </div>
         <div className="searchbar">
@@ -71,7 +74,7 @@ const ShopCategory = (props) => {
           />
         </div>
         <div className="shopcategory-sort">
-          Sort by
+          Sắp xếp theo
           <select
             value={sortBy}
             onChange={(e) => handleSortChange(e.target.value)}
@@ -87,7 +90,7 @@ const ShopCategory = (props) => {
 
       <div className="shopcategory-products">
         {filteredProducts
-          .slice(0, visibleProducts)// cắt mảng filteredProducts từ ptử 0 -> visibleProducts (6)
+          .slice(0, visibleProducts) // cắt mảng filteredProducts từ ptử 0 -> visibleProducts (6)
           .map((item, i) =>
             props.category === null || props.category === item.category_id ? (
               <Item

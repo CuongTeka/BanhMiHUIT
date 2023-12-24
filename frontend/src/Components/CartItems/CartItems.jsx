@@ -5,11 +5,22 @@ import remove_icon from "../Assets/cart_cross_icon.png";
 import { numberFormat, renderImage } from "../../util";
 import { useAuth } from "../../Context/authContext";
 import { Link, useNavigate } from "react-router-dom";
-import { notification } from "antd";
+import { notification, Input, Select, TimePicker } from "antd";
+import dayjs from "dayjs";
+const { Option } = Select;
 
 const CartItems = () => {
-  const { getTotalCartAmount, products, cartItems, removeToCart, addToCart } =
-    useContext(ShopContext);
+  const {
+    getTotalCartAmount,
+    products,
+    cartItems,
+    removeToCart,
+    addToCart,
+    setDeliveryTime,
+    setDeliveryLocation,
+    setNotes,
+  } = useContext(ShopContext);
+  const defaultTime = dayjs().add(30, "minutes");
 
   const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
@@ -19,6 +30,7 @@ const CartItems = () => {
       notification.error({
         message: "Lỗi",
         description: "Vui lòng thêm sản phẩm vào giỏ hàng",
+        placement: "top",
       });
 
       return;
@@ -31,6 +43,39 @@ const CartItems = () => {
       // User chua dang nhap, chuyen huong ve trang login
       login(() => navigate("/payment"));
     }
+  };
+
+  const handleTimeChange = (value) => {
+    setDeliveryTime(value);
+  };
+
+  const disabledHours = () => {
+    return Array.from({ length: dayjs().hour() + 1 }, (_, index) => index);
+  }; //disable tiếng nếu =< tiếng hiện tại
+
+  const disabledMinutes = (selectedHour) => {
+    if (selectedHour === dayjs().hour()) {
+      return Array.from({ length: dayjs().minute() + 1 }, (_, index) => index);
+    }
+    return [];
+  }; //như trên nhưng là phút
+
+  const disabledSeconds = (selectedHour, selectedMinute) => {
+    if (
+      selectedHour === dayjs().hour() &&
+      selectedMinute === dayjs().minute()
+    ) {
+      return Array.from({ length: dayjs().second() + 1 }, (_, index) => index);
+    }
+    return [];
+  }; //như trên nhưng là giây
+
+  const handleLocationChange = (value) => {
+    setDeliveryLocation(value);
+  };
+
+  const handleNotesChange = (e) => {
+    setNotes(e.target.value);
   };
 
   const isCartEmpty = () =>
@@ -104,10 +149,53 @@ const CartItems = () => {
             )}
           </div>
           <div className="cartitems-promocode">
-            <p>Nếu bạn có mã giảm giá, Điền tại đây !</p>
+            {/* <p>Nếu bạn có mã giảm giá, Điền tại đây !</p>
             <div className="cartitems-promobox">
               <input type=" " placeholder="Nhập mã giảm giá" />
               <button>Gửi Mã</button>
+            </div> */}
+            <div className="promocode-section">
+              <p>
+                Thời gian giao hàng:&nbsp;
+                <TimePicker
+                  defaultValue={defaultTime}
+                  className="timepicker"
+                  onChange={handleTimeChange}
+                  disabledHours={disabledHours}
+                  disabledMinutes={disabledMinutes}
+                  disabledSeconds={disabledSeconds}
+                />
+              </p>
+            </div>
+            <div className="promocode-section">
+              <p>
+                Địa điểm giao hàng:&nbsp;
+                <Select
+                  placeholder="Chọn địa điểm"
+                  defaultValue="0"
+                  className="select"
+                  onChange={handleLocationChange}
+                >
+                  <Option value="0">Căn tin trường</Option>
+                  <Option value="1">Sảnh A</Option>
+                  <Option value="2">Sảnh B</Option>
+                  <Option value="3">Sảnh AB</Option>
+                  <Option value="4">Cổng trước</Option>
+                  <Option value="5">Cổng phụ</Option>
+                </Select>
+              </p>
+            </div>
+            <div className="promocode-section">
+              <p>
+                Ghi chú:&nbsp;
+                <Input.TextArea
+                  showCount
+                  maxLength={600}
+                  placeholder="Ghi chú..."
+                  rows={6}
+                  onChange={handleNotesChange}
+                />
+              </p>
             </div>
           </div>
         </div>

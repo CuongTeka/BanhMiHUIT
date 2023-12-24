@@ -47,8 +47,6 @@ const Adminuser = () => {
             year: "numeric",
           })
           .toLowerCase();
-
-        // Partial matching for formatted date (e.g., "19/12" matches "19/12/2023")
         return columnValue.includes(lowerSearchText);
       } else if (searchColumn === "customer.name") {
         // Handle nested property
@@ -73,6 +71,8 @@ const Adminuser = () => {
       title: "ID",
       dataIndex: "_id",
       key: "id",
+      sorter: (a, b) => a._id.localeCompare(b._id),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Khách hàng",
@@ -87,12 +87,17 @@ const Adminuser = () => {
       key: "total",
       render: (text) => <span>{numberFormat(text)}</span>,
       responsive: ["sm"],
+      sorter: (a, b) => a.total - b.total,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Phương thức thanh toán",
       dataIndex: "payment",
       key: "payment",
       responsive: ["sm"],
+      render: (text) => <span>{renderCash(text)}</span>,
+      sorter: (a, b) => a.payment.localeCompare(b.payment),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Trạng thái",
@@ -100,6 +105,8 @@ const Adminuser = () => {
       key: "status",
       render: (text) => <span>{renderStatus(text)}</span>,
       responsive: ["sm"],
+      sorter: (a, b) => a.status.localeCompare(b.status),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Thanh toán",
@@ -128,10 +135,39 @@ const Adminuser = () => {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
         }),
       responsive: ["sm"],
       sorter: (a, b) => new Date(a.date_create) - new Date(b.date_create),
       sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "TG giao",
+      dataIndex: "deliTime",
+      key: "deliTime",
+      render: (text) =>
+        new Date(text).toLocaleDateString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      sorter: (a, b) => new Date(a.date_create) - new Date(b.date_create),
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Địa điểm giao",
+      dataIndex: "deliLocation",
+      key: "deliLocation",
+      render: (text) => <span>{renderLocation(text)}</span>,
+      sorter: (a, b) => a.deliLocation.localeCompare(b.deliLocation),
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Ghi chú",
+      dataIndex: "note",
+      key: "note",
     },
     {
       title: "Chi tiết đơn hàng",
@@ -348,6 +384,30 @@ const Adminuser = () => {
     }
   }; //render trạng thái 4 mức
 
+  const renderCash = (text) => {
+    if (text && text === "cash") {
+      return "Tiền mặt";
+    } else {
+      return text;
+    }
+  };
+
+  const renderLocation = (text) => {
+    if (text === "0") {
+      return "Căn tin trường";
+    } else if (text === "1") {
+      return "Sảnh A";
+    } else if (text === "2") {
+      return "Sảnh B";
+    } else if (text === "3") {
+      return "Sảnh AB";
+    } else if (text === "4") {
+      return "Cổng trước";
+    } else if (text === "5") {
+      return "Cổng phụ";
+    }
+  };
+
   // const Detaildata = [
   //   {
   //     item: singleOrder.item,
@@ -406,14 +466,7 @@ const Adminuser = () => {
             Đặt lại
           </Button>
         </div>
-        <Table
-          rowSelection={{
-            selectedRowKeys,
-            onChange: (keys) => setSelectedRowKeys(keys),
-          }}
-          columns={columns}
-          dataSource={filteredData}
-        />
+        <Table columns={columns} dataSource={filteredData} />
         {selectedRowKeys.length > 0 && (
           <div
             style={{

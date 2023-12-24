@@ -93,7 +93,7 @@ const updateProduct = (id, data) => {
         discount,
         detail,
         image: image.name,
-        date_create: Date.now(),
+        date_edit: Date.now(),
         is_active,
       });
       if (updatedProduct) {

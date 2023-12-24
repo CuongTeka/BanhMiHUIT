@@ -20,6 +20,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import * as proService from "../../../services/productService";
 import { numberFormat, renderImage } from "../../../util";
 const { Option } = Select;
+const { Search } = Input;
 
 const Adminproduct = () => {
   const [modalCreate, setModalCreate] = useState(false);
@@ -30,12 +31,17 @@ const Adminproduct = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [productData, setProductData] = useState([]);
   const [singleData, setSingleData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [searchColumn, setSearchColumn] = useState("name");
+  const [filteredData, setFilteredData] = useState(productData);
 
   const columns = [
     {
       title: "ID",
       dataIndex: "_id",
       key: "id",
+      sorter: (a, b) => a._id.localeCompare(b._id),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Tên sản phẩm",
@@ -70,6 +76,8 @@ const Adminproduct = () => {
       dataIndex: "discount",
       key: "discount",
       render: (text) => <span>{text} %</span>,
+      sorter: (a, b) => a.discount - b.discount,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "hình ảnh",
@@ -92,6 +100,8 @@ const Adminproduct = () => {
           month: "2-digit",
           year: "numeric",
         }),
+      sorter: (a, b) => new Date(a.date_create) - new Date(b.date_create),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Ngày chỉnh sửa",
@@ -102,6 +112,8 @@ const Adminproduct = () => {
           month: "2-digit",
           year: "numeric",
         }),
+      sorter: (a, b) => new Date(a.date_edit) - new Date(b.date_edit),
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Hiển thị",
@@ -165,7 +177,48 @@ const Adminproduct = () => {
         },
       ]);
     }
-  }, [singleData]);
+    setFilteredData(productData);
+  }, [singleData, productData]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchText, searchColumn, productData]);
+
+  const handleSearch = () => {
+    const lowerSearchText = searchText.toLowerCase();
+    const filtered = productData.filter((record) => {
+      if (
+        searchColumn === "_id" ||
+        searchColumn === "name" ||
+        searchColumn === "price"
+      ) {
+        const columnValue =
+          (record.hasOwnProperty(searchColumn) &&
+            record[searchColumn]?.toString()) ||
+          "";
+        return columnValue.toLowerCase().includes(lowerSearchText);
+      } else if (
+        searchColumn === "date_create" ||
+        searchColumn === "date_edit"
+      ) {
+        const columnValue = new Date(record[searchColumn])
+          .toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })
+          .toLowerCase();
+        return columnValue.includes(lowerSearchText);
+      }
+      return false;
+    });
+    setFilteredData(filtered);
+  };
+
+  const handleReset = () => {
+    setSearchText("");
+    setFilteredData(productData);
+  };
 
   const handleSwitchChange = async (id, checked) => {
     try {
@@ -375,6 +428,30 @@ const Adminproduct = () => {
         <PlusSquareTwoTone />
         <i class="fa-solid fa-plus fa-2xl"></i>
       </Button>
+      <div style={{ textAlign: "center" }}>
+        <Search
+          placeholder={`Tìm kiếm theo ${searchColumn}`}
+          enterButton
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          onSearch={handleSearch}
+          style={{ width: 400, marginRight: 8 }}
+        />
+        <Select
+          defaultValue="name"
+          style={{ width: 200 }}
+          onChange={(value) => setSearchColumn(value)}
+        >
+          <Option value="_id">ID Sản phẩm</Option>
+          <Option value="name">Tên sản phẩm</Option>
+          <Option value="price">Đơn giá</Option>
+          <Option value="date_create">Ngày tạo</Option>
+          <Option value="date_edit">Ngày chỉnh sửa</Option>
+        </Select>
+        <Button onClick={handleReset} style={{ marginLeft: 8 }}>
+          Đặt lại
+        </Button>
+      </div>
       <div style={{ marginTop: "50px" }}>
         <Table
           rowSelection={{
@@ -382,7 +459,7 @@ const Adminproduct = () => {
             onChange: (keys) => setSelectedRowKeys(keys),
           }}
           columns={columns}
-          dataSource={productData}
+          dataSource={filteredData}
         />
         {selectedRowKeys.length > 0 && (
           <div

@@ -84,15 +84,30 @@
 }
 
 .cartitems-promocode {
-
+  display: flex;
+  flex-direction: column;
   margin-left: auto;
   margin-right: auto;
+}
+
+.promocode-section {
+  margin-bottom: 16px;
+  width: 500px;
+}
+
+.timepicker{
+  width: 200px;
+}
+
+.select{
+  width: 200px;
 }
 
 .cartitems-promocode p {
   color: #555;
   text-align: left;
 }
+
 
 .cartitems-promobox {
   max-width: 300px;
@@ -140,5 +155,18 @@
   .cartitems-promocode{
     margin:  20px 0 15px 0;
 
+  }
+
+  .promocode-section {
+    margin-bottom: 16px;
+    width: auto;
+  }
+
+  .timepicker{
+    width: 200px auto;
+  }
+  
+  .select{
+    width: 200px auto;
   }
 }
