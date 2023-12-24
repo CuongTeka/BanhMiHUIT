@@ -1,0 +1,12 @@
+.feedback {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 60vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-container {
+  padding: 20px;
+}

@@ -1,61 +1,62 @@
 /* Common styles for all screen sizes */
 .signin {
+  display: flex;
   box-sizing: border-box;
   width: 100%;
-  min-height: 100vh;
   background: #fce3fe;
-  padding-top: 50px; /* Adjust as needed */
+  min-height: 80vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .signin-container {
-  width: 100%;
+  width: 580px;
   max-width: 580px;
   height: auto;
   background: white;
-  margin: auto;
-  padding: 40px 20px; /* Adjust padding for smaller screens */
-  box-sizing: border-box;
+  padding: 40px 20px;
+  
 }
 
 .signin-container h1 {
   margin: 20px 0;
-  font-size: 24px; /* Adjust as needed */
+  font-size: 24px; 
 }
 
 .signin-fields {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Adjust as needed */
-  margin-top: 20px; /* Adjust as needed */
+  gap: 20px; 
+  margin-top: 20px; 
 }
 
 .signin-fields input {
-  height: 40px; /* Adjust as needed */
+  height: 40px;
   width: 100%;
   padding: 10px;
   border: 1px solid #c9c9c9;
   outline: none;
   color: #5c5c5c;
-  font-size: 16px; /* Adjust as needed */
+  font-size: 16px;
   box-sizing: border-box;
 }
 
 .signin-container button {
   width: 100%;
-  height: 50px; /* Adjust as needed */
+  height: 50px;
   color: white;
   background-color: tomato;
-  font-size: 18px; /* Adjust as needed */
-  margin-top: 20px; /* Adjust as needed */
+  font-size: 18px;
+  margin-top: 20px;
   border: none;
   font-weight: 500;
   cursor: pointer;
 }
 
 .signin-login {
-  margin-top: 20px; /* Adjust as needed */
+  margin-top: 20px;
   color: #5c5c5c;
-  font-size: 16px; /* Adjust as needed */
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -67,15 +68,18 @@
 .signin-agree {
   display: flex;
   align-items: center;
-  margin-top: 15px; /* Adjust as needed */
-  gap: 10px; /* Adjust as needed */
+  margin-top: 15px;
+  gap: 10px;
   color: #5c5c5c;
-  font-size: 14px; /* Adjust as needed */
+  font-size: 14px;
   font-weight: 500;
 }
 
 /* Media queries for responsiveness */
 @media screen and (max-width: 768px) {
+  .signin{
+    width: 100%;
+  }
   .signin-container {
     padding: 40px 20px;
   }
