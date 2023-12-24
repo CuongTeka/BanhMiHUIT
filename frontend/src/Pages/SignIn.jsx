@@ -228,9 +228,9 @@ const SignIn = () => {
               }}
             />
           )}
-          <Form.Item wrapperCol={{ offset: 16 }}>
+          <Form.Item style={{ textAlign: "right" }}>
             <Link
-              style={{ fontSize: "16px", marginRight: "8px" }}
+              style={{ fontSize: "16px" }}
               onClick={() => setModalForget(true)}
             >
               Quên mật khẩu?
@@ -269,9 +269,8 @@ const SignIn = () => {
         <Form
           form={formF}
           name="forget"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 160 }}
-          style={{ maxWidth: 600 }}
+          labelCol={{ span: 8 }}   
+          style={{ maxWidth: 400 }}
           onFinish={onForget}
           autoComplete="off"
           preserve={false}

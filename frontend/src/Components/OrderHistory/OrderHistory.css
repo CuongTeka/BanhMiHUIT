@@ -1,15 +1,14 @@
 .orderhistory{
   display: flex;
-  box-sizing: border-box;
+  
   width: 100%;
   background: #fce3fe;
-  min-height: 80vh;
+ 
   align-items: center;
 }
 
 .orderhistory-container {
   padding: 20px;
-  height: 300px;
  
 }
 
