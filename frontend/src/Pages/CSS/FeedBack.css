@@ -1,5 +1,5 @@
 .feedback {
-  display: flex;
+  display: none;
   box-sizing: border-box;
   width: 100%;
   min-height: 60vh;

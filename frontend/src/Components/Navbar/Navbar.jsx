@@ -111,7 +111,9 @@ const Navbar = () => {
             </Link>
             {menu === "shop" ? <hr /> : <></>}
           </li>
-          <div className="mobile-hr"><hr /> </div>
+          <div className="mobile-hr">
+            <hr />{" "}
+          </div>
           <div className="dropdown">
             <button
               className="dropbtn"
@@ -172,8 +174,10 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="mobile-hr"><hr /> </div>
-        
+          <div className="mobile-hr">
+            <hr />{" "}
+          </div>
+
           <li
             onClick={() => {
               SetMenu("aboutus");
@@ -184,8 +188,10 @@ const Navbar = () => {
             </Link>
             {menu === "aboutus" ? <hr /> : <></>}
           </li>
-          <div className="mobile-hr"><hr /> </div>
-          <li
+          <div className="mobile-hr">
+            <hr />{" "}
+          </div>
+          {/* <li
             onClick={() => {
               SetMenu("feedback");
             }}
@@ -194,8 +200,10 @@ const Navbar = () => {
               PHẢN HỒI
             </Link>
             {menu === "feedback" ? <hr /> : <></>}
-          </li>
-          <div className="mobile-hr"><hr /> </div>
+          </li> */}
+          <div className="mobile-hr">
+            <hr />{" "}
+          </div>
           <li className="signin-mobile">
             {isLoggedIn ? (
               <>
