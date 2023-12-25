@@ -375,7 +375,6 @@ const Adminproduct = () => {
   }; //static cố định vì chỉ bán 3 loại thôi
 
   const beforeUpload = (file) => {
-    // Your validation logic here
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       message.error("You can only upload JPG/PNG images!");
@@ -388,6 +387,7 @@ const Adminproduct = () => {
     console.log(file);
     // Return false to prevent automatic upload if validation fails
     return isJpgOrPng && isLt2M;
+    // return false;
   };
 
   const handleImageChange = ({ fileList }) => {
