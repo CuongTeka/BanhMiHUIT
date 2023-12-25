@@ -185,6 +185,17 @@ const Navbar = () => {
             {menu === "aboutus" ? <hr /> : <></>}
           </li>
           <div className="mobile-hr"><hr /> </div>
+          <li
+            onClick={() => {
+              SetMenu("feedback");
+            }}
+          >
+            <Link style={{ textDecoration: "none" }} to="/feedback">
+              PHẢN HỒI
+            </Link>
+            {menu === "feedback" ? <hr /> : <></>}
+          </li>
+          <div className="mobile-hr"><hr /> </div>
           <li className="signin-mobile">
             {isLoggedIn ? (
               <>

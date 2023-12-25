@@ -283,66 +283,70 @@ const OrderHistory = () => {
   };
 
   return (
-    <div>
-      <h1>Lịch sử mua hàng</h1>
+    <div className="orderhistory">
+      <div className="orderhistory-container">
+        <h1>Lịch sử mua hàng</h1>
 
-      <div style={{ textAlign: "left", marginLeft: "30px" }}>
-        <h2>Tổng số đơn hàng: {orderData.length}</h2>
+        <div style={{ textAlign: "left", marginLeft: "30px" }}>
+          <h2>Tổng số đơn hàng: {orderData.length}</h2>
+        </div>
+
+        <Table dataSource={orderData} columns={columns}  />
+
+        <Modal
+          title="Chi tiết đơn hàng"
+          open={modalDetail}
+          onCancel={() => setModalDetail(false)}
+          footer={null}
+          destroyOnClose={true}
+          width={1000}
+        >
+          <Table
+            columns={detailColumn}
+            dataSource={singleOrder.item}
+            rowKey={(record) => record._id}
+          />
+        </Modal>
+        <Modal
+          open={modalSuccess}
+          onCancel={() => setModalSuccess(false)}
+          onOk={() => setModalSuccess(false)}
+        >
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{ color: "green", fontSize: "48px", marginBottom: "20px" }}
+            >
+              <i className="fa-regular fa-circle-check fa-2x"></i>
+            </div>
+            <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+              GỬI YÊU CẦU THÀNH CÔNG
+            </h1>
+            <p style={{ fontSize: "16px" }}>
+              Chúng tôi sẽ xử lý yêu cầu của bạn ngay lập tức.
+            </p>
+          </div>
+        </Modal>
+
+        <Modal
+          open={modalError}
+          onCancel={() => setModalError(false)}
+          onOk={() => setModalError(false)}
+        >
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{ color: "red", fontSize: "48px", marginBottom: "20px" }}
+            >
+              <i className="fa-regular fa-circle-xmark fa-2x"></i>
+            </div>
+            <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+              GỬI YÊU CẦU THẤT BẠI
+            </h1>
+            <p style={{ fontSize: "16px" }}>
+              Có vẻ như đã xảy ra trục trặc, xin hãy thử lại sau ít phút
+            </p>
+          </div>
+        </Modal>
       </div>
-
-      <Table dataSource={orderData} columns={columns} />
-
-      <Modal
-        title="Chi tiết đơn hàng"
-        open={modalDetail}
-        onCancel={() => setModalDetail(false)}
-        footer={null}
-        destroyOnClose={true}
-        width={1000}
-      >
-        <Table
-          columns={detailColumn}
-          dataSource={singleOrder.item}
-          rowKey={(record) => record._id}
-        />
-      </Modal>
-      <Modal
-        open={modalSuccess}
-        onCancel={() => setModalSuccess(false)}
-        onOk={() => setModalSuccess(false)}
-      >
-        <div style={{ textAlign: "center" }}>
-          <div
-            style={{ color: "green", fontSize: "48px", marginBottom: "20px" }}
-          >
-            <i className="fa-regular fa-circle-check fa-2x"></i>
-          </div>
-          <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
-            GỬI YÊU CẦU THÀNH CÔNG
-          </h1>
-          <p style={{ fontSize: "16px" }}>
-            Chúng tôi sẽ xử lý yêu cầu của bạn ngay lập tức.
-          </p>
-        </div>
-      </Modal>
-
-      <Modal
-        open={modalError}
-        onCancel={() => setModalError(false)}
-        onOk={() => setModalError(false)}
-      >
-        <div style={{ textAlign: "center" }}>
-          <div style={{ color: "red", fontSize: "48px", marginBottom: "20px" }}>
-            <i className="fa-regular fa-circle-xmark fa-2x"></i>
-          </div>
-          <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
-            GỬI YÊU CẦU THẤT BẠI
-          </h1>
-          <p style={{ fontSize: "16px" }}>
-            Có vẻ như đã xảy ra trục trặc, xin hãy thử lại sau ít phút
-          </p>
-        </div>
-      </Modal>
     </div>
   );
 };

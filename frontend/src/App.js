@@ -20,6 +20,7 @@ import { useAuth } from "./Context/authContext";
 import Headeradmin from "./Components/Admin/Headeradmin/Headeradmin";
 import ProfileUser from "./Pages/ProfileUser";
 import Order from "./Components/OrderHistory/OrderHistory";
+import FeedBack from "./Pages/FeedBack";
 // import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/orderhistory" element={<Order />} />
+            <Route path="/feedback" element={<FeedBack />} />
             <Route path="*" element={<Failpage />} />
           </Routes>
           <Footer />
