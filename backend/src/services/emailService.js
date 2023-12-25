@@ -17,6 +17,7 @@ const createNewOTP = async (mail, otp) => {
       const existingOTP = await otpModel.findOne({ mail });
       if (existingOTP) {
         existingOTP.otp = otp;
+        existingOTP.timestamp = Date.now();
         await existingOTP.save();
         resolve({
           errCode: 0,
